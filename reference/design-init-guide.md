@@ -76,7 +76,7 @@ Three dimensions to decide:
 
 For non-shadcn projects, skip this step — the equivalent decisions are encoded directly in the theme file.
 
-## Typography
+## Typography Scale
 
 Ask the user if they have brand fonts first. If they do, use those.
 
@@ -87,6 +87,34 @@ If not, pick a display font + body font pairing that matches the direction. Read
 Pick two: one display font (headings, hero text) and one body font (paragraphs, UI labels). They should contrast in character but share similar x-height.
 
 If references included typography patterns, use them as starting points.
+
+Then expand from font choice to a full type scale. Define every level from Display through Mono: size, weight, line height, tracking, and usage. Eight levels is typical. The scale should produce three clearly distinguishable hierarchy tiers (primary, secondary, tertiary) through weight and size alone. Apply the hierarchy test: strip color from the page. If primary, secondary, and tertiary content are still visually distinct, the scale works. If hierarchy collapses without color, add more size or weight contrast between levels.
+
+## Layout Architecture
+
+Define the spatial structure of the product. Decisions flow from IA: data tables need full width, forms need constraints, dashboards need flexibility.
+
+**Grid:** column count, gutter size, system. Not every product needs 12 columns. A text-heavy tool might use 8. A dashboard might use a flexible grid with named areas.
+
+**Breakpoints:** define the breakpoints where layout changes. Include pixel values and what shifts at each.
+
+**Container:** max-width strategy. Some screens (dashboards, tables) should be fluid. Others (forms, settings, long text) need constraints to stay readable. Define both.
+
+**Page patterns:** document the 3-5 recurring layout structures. Sidebar + content, full-width table, split panel, constrained form, card grid. Each pattern maps to specific screen types from the IA.
+
+## Composition Rules
+
+Define the structural relationships that make the interface feel composed rather than assembled. These five decisions sit between layout (where things go) and tokens (how things look).
+
+**Hierarchy:** how primary, secondary, and tertiary content are distinguished. Size, weight, color, space, and position all contribute. Document the specific combination. Must produce three clearly distinguishable levels that work without color.
+
+**Density map:** not every zone of the interface should feel the same. Tables are dense. Key metrics get breathing room. Settings are medium. Document which zones are dense, which are generous, and why. The density should match the task: scanning 30 items needs density, understanding one metric needs space.
+
+**Section rhythm:** three numbers. Spacing between major sections, between groups within a section, between items within a group. These three values create a visual cadence across every screen. Consistent rhythm is what makes an interface feel designed.
+
+**Proportion:** the size relationship between the focal point and supporting content. If the focal element is the same size as everything else, there is no focal point. Define the ratio.
+
+**Whitespace:** page margins, breathing room around focal elements, grouping gaps vs separating gaps. Grouping gaps must be visibly smaller than separating gaps. This is how spatial composition communicates structure without borders.
 
 ## Token Generation
 

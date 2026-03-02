@@ -27,6 +27,40 @@ Primary input happens outside the interface: drivers send WhatsApp voice notes a
 - One click: context — history tabs, trend charts, timelines, comparisons that explain the current state
 - Deep: configuration — enrichment sources, inference prompts, alert rules, delivery channels, user roles, cron schedules
 
+## Layout
+**Grid:** 12-column on lg+ (1024px), single column on sm. 16px gutter, 24px on lg+.
+**Breakpoints:** sm 640px, md 768px, lg 1024px, xl 1280px
+**Container:** fluid with 16px edge padding. No max-width on dashboard screens. 720px max for forms and settings.
+**Page patterns:**
+
+| Pattern | Structure | Used on |
+|---------|-----------|---------|
+| Sidebar + content | 240px fixed sidebar, fluid content area | All screens |
+| Full-width table | Content fills available width, horizontal scroll on sm | Fleet Overview, Alerts |
+| Split panel | 60/40 split, master list left, detail right | Vehicle Detail |
+| Constrained form | Centered 720px max, generous vertical spacing | Settings |
+| Dashboard grid | 2-3 column card grid on lg, stacked on sm | Reports |
+
+## Typography Scale
+
+| Level | Size | Weight | Line Height | Tracking | Usage |
+|-------|------|--------|-------------|----------|-------|
+| Display | 36px | 600 | 1.1 | -0.02em | Page heroes, fleet health score |
+| H1 | 24px | 600 | 1.2 | -0.01em | Page titles |
+| H2 | 18px | 600 | 1.3 | 0 | Section headings |
+| H3 | 15px | 500 | 1.4 | 0 | Card titles, group labels |
+| Body | 14px | 400 | 1.5 | 0 | Default text, descriptions |
+| Small | 13px | 400 | 1.4 | 0 | Secondary text, table cells |
+| Caption | 11px | 500 | 1.3 | 0.02em | Labels, metadata, timestamps |
+| Mono | 13px | 400 | 1.4 | 0 | Vehicle IDs, mileage, fuel numbers |
+
+## Composition
+**Hierarchy:** three weight levels — 600 for primary (page title, focal metric), 500 for secondary (section heads, card titles), 400 for tertiary (body, metadata). Size reinforces: primary is 24-36px, secondary 15-18px, tertiary 11-14px. Hierarchy reads without color.
+**Density map:** tables and fleet lists are dense (36px rows, 8px cell padding). Key metrics are generous (48px vertical padding around the attention count). Settings forms are medium (16px between fields, 32px between groups).
+**Section rhythm:** 32px between major sections, 16px between groups within a section, 8px between items within a group.
+**Proportion:** focal element (attention count, fleet health score) is 2-3x the size of supporting content. Dashboard cards are equal weight to each other but subordinate to the focal metric.
+**Whitespace:** 16px page margins (24px on lg+). Grouping gaps (8px) are visibly smaller than separating gaps (32px). No section runs edge-to-edge except the sidebar.
+
 ## Tokens
 **Spacing base:** 4px
 **Scale:** 4, 8, 12, 16, 24, 32

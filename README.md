@@ -105,7 +105,7 @@ Two concerns, two places.
 **`.superskills/`** contains volatile findings:
 - `report.md` — security, design, performance, test findings. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns across reviews.
 - `decisions.md` — architecture decisions log. Append-only. Updated by `/super:strategy` review, `/super:review`, and `/super:design` redesign mode.
-- `design-system.md` — design direction, references, tokens, component patterns. Updated by `/super:design` as the system evolves.
+- `design-system.md` — design direction, references, information architecture, layout, typography scale, composition, tokens, component patterns. Updated by `/super:design` as the system evolves.
 
 Commands **read** CLAUDE.md for context and **write** to `.superskills/`. This follows the same pattern as Anthropic's code-review plugin (reads CLAUDE.md, writes findings elsewhere) and Trail of Bits skills (standalone report files).
 
@@ -169,7 +169,7 @@ The approach lives inside each EIID layer, not in a separate section, because th
 
 `/super:design` has three modes:
 
-**Init mode** explores the product's world, collects references (URLs, screenshots, Figma files, brand assets), defines information architecture grounded in the EIID mapping, and generates a token-based design system.
+**Init mode** explores the product's world, collects references (URLs, screenshots, Figma files, brand assets), defines information architecture grounded in the EIID mapping, defines layout architecture (grid, breakpoints, page patterns), builds a typography scale, establishes composition rules (hierarchy, density, rhythm, proportion, whitespace), and generates a token-based design system.
 
 **Redesign mode** activates when a specific target is provided (file path, screenshot, URL). It loads whatever design context exists (SuperSkills-managed or extracted from code), runs a strategic critique (six layers: strategic alignment, composition, craft, content, structure, identity), collects screen-specific references, proposes changes, and implements approved changes. Works on any project with a design system, not just SuperSkills projects.
 

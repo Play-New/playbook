@@ -74,15 +74,23 @@ Do not proceed to style direction until IA is defined and confirmed.
 
 Follow `reference/design-init-guide.md` — Style Direction section. Three dimensions: density, shape, weight.
 
-### 6. Choose Typography
+### 6. Define Typography Scale
 
-Follow `reference/design-init-guide.md` — Typography section. Brand fonts first. If none, pick display + body pairing that matches the direction.
+Follow `reference/design-init-guide.md` — Typography Scale section. Brand fonts first. If none, pick display + body pairing that matches the direction. Then expand to full scale: all levels from Display through Mono with size, weight, line height, tracking, and usage.
 
-### 7. Generate Token Layer
+### 7. Define Layout Architecture
+
+Follow `reference/design-init-guide.md` — Layout Architecture section. Grid, breakpoints, container strategy, page patterns. Decisions flow from IA.
+
+### 8. Define Composition Rules
+
+Follow `reference/design-init-guide.md` — Composition Rules section. Hierarchy, density map, section rhythm, proportion, whitespace. These bridge layout and tokens.
+
+### 9. Generate Token Layer
 
 Follow `reference/design-init-guide.md` — Token Generation section. Extract before propose: scan existing code for repeated values, formalize the most common ones. Framework-specific instructions in the guide.
 
-### 8. Write Design Configuration
+### 10. Write Design Configuration
 
 Follow `reference/design-system-template.md` for structure. Read `reference/examples/design-system-saas.md` for tone.
 
@@ -90,7 +98,7 @@ Write to two places:
 
 **CLAUDE.md** — Design System section (framework, style, token source, direction, navigation, typography, color character, signature).
 
-**`.superskills/design-system.md`** — full design decisions: direction, references, information architecture, tokens, component patterns, decisions log.
+**`.superskills/design-system.md`** — full design decisions: direction, references, information architecture, layout, typography scale, composition, tokens, component patterns, decisions log.
 
 ---
 
@@ -102,7 +110,7 @@ Takes a specific screen or component and makes it better. Not a consistency audi
 
 Read whatever design context exists, in priority order:
 
-**If `.superskills/design-system.md` exists** (SuperSkills-managed): read it for direction, tokens, component patterns, references. Full context available.
+**If `.superskills/design-system.md` exists** (SuperSkills-managed): read it for direction, references, information architecture, layout, typography scale, composition, tokens, component patterns. Full context available.
 
 **If not, extract from code:** scan globals.css / theme.ts / tailwind.config / components.json for the existing token set. Scan 5-10 component files for repeated values (spacing, colors, radius, heights). Build a working picture of the current design system from code evidence.
 
@@ -196,6 +204,13 @@ Read `.superskills/design-system.md` for the IA section. If no IA is documented,
 2. **Focal point:** compare actual visual weight against documented focal points
 3. **Content depth:** check tier violations (enrichment config on surface, delivery outputs buried deep)
 4. **Screen coverage:** compare implemented screens against documented screen map
+
+### Design System Compliance (blocking if widespread)
+
+If `.superskills/design-system.md` has Layout, Typography Scale, and Composition sections, check compliance:
+1. **Layout:** components use documented grid, breakpoints, container strategy, and page patterns. Flag undocumented breakpoints or layouts that bypass the grid.
+2. **Typography:** text elements use levels from the documented scale. Flag sizes or weights not in the scale.
+3. **Composition:** density zones match the documented density map. Section spacing matches the documented rhythm. Flag uniform spacing where the map says it should vary.
 
 ### Cross-File Consistency (blocking if widespread)
 

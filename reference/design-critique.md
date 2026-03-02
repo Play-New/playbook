@@ -17,11 +17,14 @@ If strategic alignment issues exist, they override all other critique layers. Fi
 
 ## 1. Composition
 
-Rhythm, proportion, focal points.
+Rhythm, proportion, focal points. If `.superskills/design-system.md` has Layout, Typography Scale, and Composition sections, use them as the baseline. Deviations from documented layout patterns, type scale levels, density zones, and section rhythm are the first things to check.
 
+- Does the layout follow the documented page patterns and grid? If a Layout section exists, components should use the documented grid, breakpoints, and container strategy. Undocumented patterns are drift.
+- Does text use levels from the documented Typography Scale? Sizes or weights outside the scale break the type system.
 - Does the layout have visual weight hierarchy, or is everything the same size and emphasis?
-- Is spacing varied intentionally (dense data area, breathing space around key actions), or uniform everywhere?
-- Is there a focal point on each screen? Where does the eye land first? Is that the right place given the EIID mapping?
+- Is spacing varied intentionally (dense data area, breathing space around key actions), or uniform everywhere? If a Composition section documents a density map, check that dense zones are actually dense and generous zones actually breathe.
+- Does section spacing match the documented rhythm? Three numbers (major sections / groups / items) should be consistent across screens.
+- Is there a focal point on each screen? Where does the eye land first? Is that the right place given the EIID mapping? Does the focal element match the documented proportion?
 - Does the page use the full canvas, or is everything centered in a narrow column by default?
 - Does spatial composition support the information architecture? Surface-tier content gets prime real estate. Deep-tier content gets compact treatment.
 
