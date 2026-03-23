@@ -1,39 +1,95 @@
 # RecipeBox — Build Plan
 
-Mixed modality consumer product. Agents + workflows. WhatsApp is primary. Web is archive.
+The plan is the tests. Written from the vision conversation, before any product code.
 
-## What This Product Needs (derived from strategy)
+## Vision Summary
 
-- **Auth:** yes — users have saved recipes and preferences
-- **Schema:** yes — users, recipes, ingredients, pantry_items, collections. Minimal: what the product actually queries.
-- **Layout shell:** yes, but minimal — top bar, 3 items, 640px constrained. This is not a dashboard.
-- **Settings:** yes — dietary preferences, notification timing, prompt management (the agent's behavior is shaped by prompts the user should see and adjust).
-- **Visual surfaces:** yes, but secondary — the web archive is for browsing saved recipes, not primary interaction.
-- **Agent runtime:** yes — the conversational recipe agent IS the product. WhatsApp-native.
+A home cook takes a photo of their grocery receipt on WhatsApp. Within a minute, they get back recipe suggestions matched to what they just bought, adjusted for their dietary preferences. The conversation is warm, specific, helpful — like a knowledgeable friend, not a search engine. The web archive is for browsing saved recipes later, not for primary interaction. The product lives where the user already is: their phone, their messaging app.
 
-## What This Product Does NOT Need
+## What We Would NOT Build
 
 - Recipe creation UI. Users don't create recipes — the system matches them.
 - Complex filtering on the web. Three ways to browse: recent, collections, search. That's it.
 - Admin panel. Solo developer product. No roles, no multi-tenancy.
 - Real-time updates on the web. The web is an archive. Static read.
-- Notification settings per channel. WhatsApp is primary, email is weekly summary. Fixed.
+- Notification settings per channel. WhatsApp is primary, email is weekly. Fixed.
 
-## Build Order
+## Test Suite
 
-1. **Scaffold + schema** — users, recipes, ingredients, pantry_items, collections. Lean. No table for "categories" or "tags" — the agent classifies on the fly.
-2. **Auth** — Supabase Auth. Simple email login. The web archive is behind auth. WhatsApp is connected to the user account.
-3. **Enrichment** — WhatsApp webhook (photo intake), OCR receipt parsing, pantry image recognition. The entry point of the whole product.
-4. **Inference** — recipe matching workflow: parse receipt → extract ingredients → score against recipe DB. Fixed sequence, LLM in individual nodes.
-5. **Agent** — tools first: get_recipe, search_pantry, update_preference, save_recipe, get_substitution. Then the orchestration. Prompts in dedicated files, not inline. Follows agent interaction patterns from design system.
-6. **Delivery** — WhatsApp recipe cards + confirmations (agent handles this). Email weekly summary via Resend.
-7. **Layout + web archive** — top bar (Recipes, Collections, Settings). Single column, 640px. Recipe cards with the availability badge (signature). Warm, generous, editorial.
-8. **Settings** — dietary preferences, connected accounts, prompt inspector. The user can see what the agent is instructed to do and adjust cuisine preferences, dietary constraints, tone.
+Tests installed: vitest (integration for agent/workflow/enrichment), Playwright (e2e for web archive).
 
-## Key Design Decisions in Build
+### Conversational Tests (vitest — agent interaction)
 
-- The availability badge ("8/10 ingredients") is built with the recipe card component, not added later. It's the signature.
-- 18px body text. Users read at arm's length in a kitchen. This is a design decision from the design system, embedded in the type scale from the first component.
-- No multi-column layouts. Recipe reading is linear. The design system says single column, constrained.
-- The agent's tone matches the design direction: warm, specific, helpful. Not terse, not chatty. "Based on your pantry, Thai works best" — clarification with default, from the agent interaction patterns.
-- Prompts are in `/prompts/` directory, each with a comment explaining its purpose. Settings UI shows a readable version.
+```
+// Core flow — the reason the product exists
+test('user sends receipt photo, receives recipe suggestions within 60 seconds')
+test('recipe suggestions match ingredients from the receipt, not random recipes')
+test('suggestions respect dietary preferences without the user repeating them')
+
+// Agent personality
+test('agent response leads with the recipe name and match score, not with explanation')
+test('agent uses warm, specific language — "Thai basil chicken works with 8 of your 10 ingredients" not "Based on your input, I found matches"')
+test('when user asks to substitute, agent responds with the alternative and the adjusted recipe in one message')
+test('agent asks clarification with a default — "Spicy ok? I will assume yes" not "What spice level do you prefer?"')
+
+// Edge cases the user will notice
+test('when receipt photo is blurry, agent says what it could read and asks about the rest — no silent failure')
+test('when no good recipe matches, agent suggests what to add — not "no results found"')
+test('agent never asks "is there anything else?" — the conversation ends when the user stops talking')
+
+// Delivery
+test('weekly email summary groups saved recipes by cuisine, most recent first')
+test('email and WhatsApp use the same recipe names and terminology')
+```
+
+### E2E Tests (Playwright — web archive)
+
+```
+// Web archive — secondary surface
+test('recipe archive shows saved recipes as cards with the availability badge')
+test('availability badge shows ingredient match — "8/10 ingredients" — the signature')
+test('search finds recipes by name, ingredient, or cuisine')
+test('recipe detail shows full recipe with substitution notes from the agent conversation')
+
+// Character
+test('body text is 18px — kitchen reading distance')
+test('single column layout, no multi-column grids')
+test('recipe cards feel warm and generous — photos are large, text is readable')
+
+// Settings
+test('settings shows dietary preferences, connected accounts, and prompt inspector')
+test('prompt inspector shows what the agent is instructed to do, in readable language')
+```
+
+### Integration Tests (vitest — enrichment/inference)
+
+```
+// Enrichment
+test('receipt OCR extracts ingredient names and quantities from a photo')
+test('pantry photo recognition identifies items on a shelf')
+
+// Inference
+test('recipe matching scores recipes against current pantry, sorted by match percentage')
+test('matching penalizes missing key ingredients more than missing garnishes')
+
+// Graduation marker
+test('recipe parser handles the standard formats without LLM call — reserved for unusual layouts')
+```
+
+## Build Order (derived from test dependencies)
+
+1. Schema + auth (users, recipes, ingredients, pantry_items, collections)
+2. Enrichment (WhatsApp webhook, OCR, pantry recognition — unblocks everything)
+3. Inference (recipe matching workflow — unblocks agent tests)
+4. Agent (tools first, then orchestration, prompts in dedicated files)
+5. Delivery (WhatsApp handling via agent, email weekly summary)
+6. Web archive (layout, recipe cards with availability badge, search, settings)
+
+## Key Design Decisions
+
+- The availability badge ("8/10 ingredients") is built with the recipe component, not added later. It's the signature.
+- 18px body text. Kitchen reading distance. From the type scale, embedded from the first component.
+- No multi-column layouts. Recipe reading is linear.
+- The agent's tone matches the design direction: warm, specific, helpful. Not terse, not chatty.
+- Prompts live in `/prompts/`, each with a comment explaining its purpose. Settings UI shows a readable version.
+- WhatsApp is the primary surface. The web archive exists because message history is not a good recipe book.

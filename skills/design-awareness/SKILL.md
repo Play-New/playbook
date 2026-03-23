@@ -19,7 +19,7 @@ When planning changes to any code that produces something a user perceives — U
 
 5b. **Agent interaction check:** if the change involves agent-generated output visible to users, check: is the agent's tone consistent with the design direction? Does the agent communicate what it's doing (transparency)? Are error messages actionable, not raw?
 
-6. **Component discovery:** before building any custom component, search for existing implementations. Check shadcn registries and community registries. If a component exists, install it instead of building custom.
+6. **Component discovery:** before building any custom component, search for existing implementations in the project's component library and its registries. If a component exists, install it instead of building custom.
 
 7. **Direction check:** does this change carry the product's character? Not "are the colors right" — does it feel like this product? A fleet dashboard component should feel dense and operational. A recipe component should feel warm and generous. Flag output that feels generic or templated.
 

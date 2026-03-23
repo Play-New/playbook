@@ -108,7 +108,7 @@ Four commands, three advisory skills, two hooks. The commands run the lifecycle.
 |---------|------|
 | `/super:strategy` | Scans the folder, asks seven questions, researches the problem space, produces the EIID mapping with strategic classification and implementation levels. If any component needs an agent, adds agent architecture. Outputs CLAUDE.md and `.superskills/`. With context about what changed: refresh mode. |
 | `/super:design` | For each EIID layer: determines if it needs a visual surface, conversational interface, notification channel, or none. Defines experience patterns across all modalities. For visual layers: direction, IA, typography, tokens, component patterns. With a target: redesign mode. |
-| `/super:build` | Reads the EIID mapping, checks readiness, decomposes the project into buildable pieces, constructs each with a test-first loop. Fully autonomous after plan approval. With a target: extend mode. |
+| `/super:build` | Asks what the product should do and when it's perfect. Challenges the vision, proposes the experience, writes tests that encode it, then builds autonomously until every test passes. With a target: extend mode. |
 | `/super:review` | Eight-domain audit: tests (blocking), security, build quality, strategy alignment, experience, design, performance, agent architecture. |
 
 Each command detects whether setup exists and routes accordingly. Strategy must exist before design. Design must exist before build. Review can run anytime.
@@ -144,12 +144,12 @@ your-project/
     ├── report.md            volatile findings (replaced each audit)
     ├── decisions.md         architecture log (append-only)
     ├── design-system.md     direction + tokens + patterns
-    └── build-plan.md        approved build plan (replaced each build)
+    └── build-plan.md        test suite from the vision (replaced each build)
 ```
 
 **CLAUDE.md** contains the EIID mapping with strategic approach and implementation level per layer, technology constraints, design system config. Claude reads it at session start. It changes rarely.
 
-**`.superskills/`** contains volatile findings that accumulate across sessions. Commands read CLAUDE.md for context and write to `.superskills/`. The build plan is approved once, then the build runs autonomously from it.
+**`.superskills/`** contains volatile findings that accumulate across sessions. Commands read CLAUDE.md for context and write to `.superskills/`. The build plan contains the test suite derived from the vision conversation — tests are the spec, the progress tracker, and the quality gate.
 
 ---
 
@@ -169,17 +169,9 @@ Each example includes: CLAUDE.md, design-system.md, decisions.md, and build-plan
 
 ## Stack
 
-`/super:strategy` recommends a stack for new projects based on the EIID mapping. For existing projects, it detects what's installed and adapts.
+`/super:strategy` identifies which roles the project needs (framework, database, hosting, background jobs, component library) and recommends tools for each based on the EIID mapping, the team's context, and current ecosystem. For existing projects, it detects what's installed and adapts.
 
-| Role | Default | Why |
-|------|---------|-----|
-| Database + auth | Supabase | Managed, RLS, realtime |
-| Hosting | Vercel | Edge, preview deployments |
-| Workflows | Inngest | Scheduled jobs, retry, events |
-| Frontend | Next.js | SSR, streaming |
-| UI components | shadcn + Tailwind | Registry-based, token-driven |
-
-Delivery channels and enrichment tools are added when the EIID mapping calls for them. Defaults are suggestions — the plugin adapts to any stack.
+Not every project needs every role. A CLI tool needs none of these. A WhatsApp bot needs a messaging library and a database but no frontend framework. Strategy derives the roles from the EIID mapping, then researches what fits.
 
 ---
 
@@ -193,7 +185,7 @@ superskills/                             the plugin
 ├── commands/
 │   ├── strategy.md                     EIID mapping, classification, implementation levels
 │   ├── design.md                       modality assessment, experience, visual execution
-│   ├── build.md                        autonomous construction with quality gates
+│   ├── build.md                        vision, tests, autonomous construction
 │   └── review.md                       eight-domain audit
 ├── skills/
 │   ├── eiid-awareness/SKILL.md          strategic alignment (advisory, during planning)

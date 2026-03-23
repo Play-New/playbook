@@ -6,18 +6,15 @@ Full performance checklist for the review command. Init mode establishes baselin
 
 When `.superskills/report.md` has no Performance Budget section, establish the baseline.
 
-1. Set targets:
-   - LCP < 2.5s
-   - Bundle < 200KB gzipped
-   - API response < 500ms
-   - CLS < 0.1
-   - INP < 200ms
+**Derive targets from the product's context.** Not every product has the same performance needs:
+- A visual SaaS used daily needs tight Core Web Vitals (LCP, CLS, INP) because users notice lag on pages they visit hundreds of times.
+- A CLI tool cares about execution time and output speed, not web vitals.
+- A conversational product cares about response latency — how fast the agent or workflow returns an answer.
+- A background workflow cares about throughput and cost, not user-facing latency.
 
-2. Configure bundle analysis: add the framework's bundle analyzer to devDependencies, add an `analyze` script to package.json.
+For products with visual surfaces, use Google's Core Web Vitals thresholds as starting points (LCP < 2.5s, CLS < 0.1, INP < 200ms) and set bundle and API response targets based on the product's complexity. For non-visual products, define equivalent targets: CLI execution time, agent response time, workflow throughput.
 
-3. Set up Web Vitals reporting in the root layout.
-
-4. Write budget to `.superskills/report.md` Performance Budget section.
+Configure the appropriate measurement tools for the stack. Write the budget to `.superskills/report.md` Performance Budget section.
 
 ## Review Mode
 

@@ -80,18 +80,9 @@ Read `reference/examples/design-system-consumer.md` for tone.
 
 Only execute if the modality assessment identified layers requiring a visual surface. If no visual layers, write the design system with steps 1-5 complete and skip to step 13.
 
-Read package.json. Identify the UI framework:
+Read package.json. Identify the UI framework and component library from installed dependencies. Look for CSS frameworks, component libraries, and design system tooling. Understanding what's installed determines how tokens, components, and themes are managed in steps 7-12.
 
-| Framework | Detection |
-|-----------|-----------|
-| shadcn + Tailwind | `tailwindcss` + `components.json` or `@radix-ui/*` |
-| Chakra UI | `@chakra-ui/react` |
-| MUI | `@mui/material` |
-| Mantine | `@mantine/core` |
-| Tailwind only | `tailwindcss` without component library |
-| None detected | no UI deps |
-
-If none detected, ask the user what UI framework they prefer.
+If no UI framework is detected, ask the user what they prefer.
 
 ---
 
@@ -219,10 +210,7 @@ Present the full proposal. Wait for user confirmation before implementing.
 
 ### 6. Implement
 
-Apply approved changes. Use existing design tokens. Follow framework conventions:
-- **shadcn + Tailwind:** semantic tokens only, `gap-*` for spacing, CVA for variants, `data-slot` attributes, search registries before building custom
-- **Chakra/MUI/Mantine:** all changes through theme and framework APIs
-- **Tailwind only:** utility classes, no arbitrary values
+Apply approved changes. Use existing design tokens. Follow the framework's conventions — every framework has its own way of managing tokens, variants, and component APIs. The principle: changes flow through the design system, not around it. Use semantic tokens, not raw values. Search for existing components before building custom ones.
 
 After implementation: update `.superskills/design-system.md` component patterns if new patterns were established. Log the decision to `.superskills/decisions.md`.
 

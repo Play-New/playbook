@@ -131,28 +131,18 @@ For components classified via agent, workflow, or LLM call:
 
 For existing projects, confirm detected stack and adapt recommendations.
 
-For new projects, identify the roles that need filling based on the EIID mapping. Not every project needs every role. Only suggest roles the project actually requires.
+For new projects, derive from the EIID mapping which roles need filling. Not every project needs every role. A CLI tool needs no framework, no hosting, no component library. A WhatsApp-only product needs a messaging library and a database but no frontend. A visual SaaS needs most roles. The mapping tells you.
 
-| Role | Description |
-|------|-------------|
-| Full-stack framework | Server-rendered pages, API routes, routing |
-| Database with auth | Data persistence, authentication, access control |
-| Background job runner | Scheduled tasks, retry logic, event-driven workflows |
-| Hosting with CI/CD | Deployment, CDN, preview environments |
-| Component library | Pre-built accessible components, design token integration |
+**Common roles** (only when the product needs them):
+- Full-stack framework — when the product has visual surfaces with server-rendered pages and API routes
+- Database with auth — when the product persists user data
+- Background job runner — when the product has scheduled tasks, retries, or event-driven workflows
+- Hosting with CI/CD — when the product needs deployment and preview environments
+- Component library — when visual surfaces need pre-built accessible components
+- Messaging library — when delivery uses WhatsApp, Telegram, or similar channels
+- Agent runtime — when components classified as "agent" need memory, scheduling, and channel access
 
-| Conditional Role | When |
-|-------------------|------|
-| Email/SMS delivery | Delivery layer uses email or SMS channels |
-| Messaging library | Delivery layer uses WhatsApp, Telegram, or similar |
-| Web scraping tool | Enrichment layer needs external data collection |
-| Agent runtime | Components classified as "agent" in the EIID mapping need a runtime with memory, scheduling, and channel access |
-
-For each role, research and recommend the best fit for the project's context. Consider: team familiarity, ecosystem maturity, integration with other chosen tools, pricing at projected scale. If the EIID mapping classified components as "agent", recommend an agent runtime that supports the required channels and scheduling.
-
-> **Recommended stack** (for projects without existing constraints): Next.js, Supabase, Inngest, Vercel, shadcn + Tailwind. This combination is tested together and has strong AI coding support. Present it as a starting point, not a mandate. The user may prefer a different tool for any role.
-
-If the user prefers a different tool for any role, use it. Generate technology constraints from whatever stack is chosen.
+For each role the product needs, research and recommend the best fit for the project's context. Consider: team familiarity, ecosystem maturity, integration with other chosen tools, pricing at projected scale, and how well the tool supports AI-assisted development. Present recommendations with reasoning, not as mandates. The user may prefer a different tool for any role — use it and generate technology constraints accordingly.
 
 ### 7. Set Priorities
 

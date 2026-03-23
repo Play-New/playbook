@@ -23,27 +23,23 @@ Check for vitest.config.ts OR a `test` script in package.json. If found, run **v
 
 ### Init
 
-1. **Install test runner and E2E framework.** Detect if the project already uses a test runner (jest, vitest, mocha). If not, install vitest as dev dependency. Install @playwright/test for E2E and install Playwright browsers.
+Read the EIID mapping and the stack from CLAUDE.md. The product's shape determines what testing infrastructure it needs.
 
-2. **Configure test runner.** Create or update the config file. Set up test directory structure: `tests/unit/`, `tests/e2e/`.
+**Derive what to install.** Not every product needs the same tools:
+- Products with visual surfaces need a browser-based test runner (Playwright or equivalent) to verify what the user sees.
+- Products with API routes, business logic, or agent behavior need a unit/integration runner (vitest, jest, or whatever the project already uses).
+- CLI products need a way to test command output and exit codes.
+- Conversational products need a way to test message structure and agent responses.
 
-3. **Add test scripts to package.json.** Three scripts: run tests once, run in watch mode, run E2E tests.
+Install only what this product requires. Detect existing test infrastructure first — don't replace what works.
 
-4. **Configure Playwright.** Create the config file with local dev server and base URL.
+**Configure and verify.** Set up the runner, add scripts to package.json, write one smoke test per test type to confirm the infrastructure works. Run them.
 
-5. **Stack-adaptive setup.** Detect the project's stack from package.json. For each significant dependency, identify its test utilities and mocking patterns. Database clients need mocked clients for unit tests. Workflow engines often provide test harnesses. Frameworks need request mocking for API route tests.
-
-6. **Write smoke tests:** unit smoke test (core utilities work), E2E smoke test (home page loads and renders).
-
-7. **Run tests to verify:** `npm test`
+**Stack-adaptive setup.** For each significant dependency, identify its test utilities and mocking patterns. Database clients need mocked clients for unit tests. Workflow engines often provide test harnesses. Frameworks need request mocking for API route tests.
 
 ### Verify
 
-Run in sequence:
-
-1. `npm test` (add `-- --run` for vitest, `-- --watchAll=false` for jest)
-2. If Playwright configured: `npx playwright test`
-3. `npx tsc --noEmit`
+Run all configured test suites in sequence: unit/integration tests, then browser tests if configured, then type checking. Use whatever commands the project has set up — read package.json scripts, detect the test runner, and run accordingly.
 
 ### Gate
 
@@ -215,11 +211,9 @@ Compare across all component files:
 3. **Surface treatment:** same card styles, same border usage, same shadow levels
 4. **Color usage:** same semantic colors for same purposes
 
-### Framework Rules
+### Framework Conventions
 
-- **shadcn + Tailwind:** semantic tokens only (no raw hex/rgb), `gap-*` for containers, `data-slot` attributes, CVA for variants, spacing matches style preset, search registries before building custom
-- **Chakra/MUI/Mantine:** all styling through framework APIs, theme overrides in theme file
-- **Tailwind only:** utility classes only, no arbitrary values
+Detect the UI framework from package.json. Verify that the project follows the framework's conventions for token management, component APIs, and styling. The principle: all styling flows through the design system — semantic tokens, not raw values. Framework APIs and theme overrides, not inline escapes. Search for existing components before building custom ones. Flag deviations.
 
 ### Signature Element (advisory)
 

@@ -9,9 +9,9 @@ Test verification gate. Run before task completion.
 
 ## Steps
 
-1. Run `npm test -- --run`.
-2. If Playwright tests exist in tests/e2e/ or e2e/, run `npx playwright test`.
-3. Run `npx tsc --noEmit` for type checking.
+1. Read package.json to detect the test runner and available test scripts. Run the project's unit/integration test suite.
+2. Detect if browser-based tests exist (Playwright, Cypress, or equivalent). If present, run them.
+3. If the project uses TypeScript, run type checking.
 4. Write results to `.superskills/report.md` — **replace** the "## Test Report" section. Keep the last 3 runs for trend visibility. Drop older entries. Update status counts at the top of report.md.
 
 ## Output Format

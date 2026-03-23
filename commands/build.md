@@ -1,5 +1,5 @@
 ---
-description: Autonomous build from strategy and design. Plan once, approve, then fully autonomous construction with design-first principles. Stops only on hard failure.
+description: Autonomous build from strategy and design. Vision conversation, then tests that encode the vision, then autonomous construction until the tests pass. Stops only on hard failure.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebSearch, WebFetch
 ---
 
@@ -33,9 +33,64 @@ Rule zero overrides all other build decisions. When in doubt, build less.
 
 ## Init Mode
 
-### 1. Readiness
+### 1. Vision
 
-Read CLAUDE.md, `.superskills/design-system.md`, `.superskills/decisions.md`, `.superskills/report.md` (if it exists — review findings inform what to fix or avoid).
+Before anything technical, have a conversation. Ask the user:
+
+**"Describe what this product should do. Not features — the experience. What does the user see, feel, do? When is this product perfect? Use your own words. Examples, references, screenshots, links — anything that helps me see what you see."**
+
+Do not interrupt with technical questions. Do not ask about frameworks, databases, or architecture — the strategy already covers that. This is about the experience.
+
+Collect everything the user shares:
+- Descriptions in their own words
+- Examples of products they admire (and what specifically they admire)
+- Screenshots, Figma links, references
+- User flows described as stories ("the user opens the app, sees X, does Y, then Z happens")
+- What "perfect" means to them — the bar, not the floor
+- What they explicitly do not want
+
+**But do not just listen. Challenge.** As the user describes their vision, push back where it matters:
+
+- **Complexity that doesn't serve the user.** The user described a flow with 4 steps? Maybe 2 would work. They want a dashboard? Maybe a single notification at the right moment delivers the same value. They described a settings page? Maybe the behavior can be inferred from usage.
+- **Missing pieces.** What happens when something fails? What does the first experience look like with no data? What about the user who doesn't speak the primary language? These are moments the user will notice — propose how to handle them.
+- **Better patterns.** The user described a visual surface, but the EIID mapping shows conversational delivery. Maybe a WhatsApp message at the right time beats a dashboard the user checks once a week. Or the user described a chatbot, but the real value is a single well-timed notification.
+- **Contradictions.** They want it minimal but described 6 different surfaces. They want it fast but described a complex agent loop. Which matters more?
+- **Things they take for granted.** What does "good" mean for an agent response? How should errors feel? What's the voice? These are design decisions, not afterthoughts.
+
+The goal is not to override the user's vision. The goal is to make the vision sharper. The user brings the intent and the taste. Build brings the critical eye and the experience of what works.
+
+When the conversation reaches alignment: "Anything else, or should I show you what I'd build?"
+
+### 2. Experience Proposal
+
+Show the user what you understood. Not a technical plan — a description of the experience you will build.
+
+**For each touchpoint the user encounters** — a screen, a conversation, a CLI command, a notification, an agent interaction, a workflow output:
+- What the user perceives when they arrive
+- What they can do
+- How it feels — density, pace, character, tone
+- The shape of the interaction: if visual, what's where and what's prominent. If conversational, how the exchange flows. If CLI, what the output looks like. If notification, what it says and when.
+
+**For each flow the product has:**
+- Step by step, what happens from the user's perspective
+- Where intelligence shows up (LLM calls, agents, workflows) and how the user perceives it
+- Waiting moments, transitions, feedback — described as experience, not as components
+
+**For what you would NOT build:**
+- Surfaces the user might expect but that aren't needed
+- Settings that can be inferred
+- Features that don't trace to EIID
+
+**For the signature:**
+- The one thing that makes this product recognizable and different from a generic version of the same idea
+
+Write this as a narrative, not as a bulleted plan. The user should be able to read it and say "yes, that's what I want" or "no, you missed the point."
+
+The user corrects, adds, removes. Iterate until they say it's right. **This is the creative checkpoint.** Everything after this is autonomous.
+
+### 3. Readiness
+
+Now check the technical foundation. Read CLAUDE.md, `.superskills/design-system.md`, `.superskills/decisions.md`, `.superskills/report.md` (if they exist).
 
 Three gates:
 
@@ -50,80 +105,87 @@ Fail → tell the user what's missing and which command to run. Stop.
 - Service credentials in `.env.local` for each service in the EIID mapping (database, APIs, LLM provider)
 - Missing? Tell the user what to set up. Don't proceed without it.
 
-### 2. Derive What This Project Needs
+### 4. Tests First
 
-Do not apply a fixed list of building blocks. Read the strategy and derive what THIS project requires.
+Before writing a single line of product code, write the complete test suite that encodes the vision.
 
-**From the EIID mapping, determine:**
+**Install what the project needs.** Read the EIID mapping and the experience proposal. The product's shape determines the testing infrastructure:
+- Visual surfaces need browser-based tests that verify what the user sees and does.
+- API routes, business logic, and data pipelines need integration tests that verify behavior.
+- Agent and LLM behavior needs tests that verify response structure, tone, and content — not prompt internals.
+- CLI products need tests that verify output format, exit codes, and cross-channel consistency.
+- Conversational products need tests that verify message structure, timing, and interaction flow.
 
-- Does this product have users who log in? → it needs auth. Many products do, but a CLI tool or a cron pipeline doesn't.
-- Does this product persist data? → it needs a schema. But a stateless webhook processor doesn't.
-- Does this product have visual surfaces? → it needs a layout shell. But a WhatsApp-only or CLI product doesn't.
-- Does this product have user-configurable behavior? → it needs settings. But a fixed-behavior tool doesn't.
-- Does this product use LLM calls, workflows, or agents? → prompts must be discoverable and inspectable. The intelligence layer is not a black box.
+Detect existing test infrastructure first. Install only what's missing. Use whatever test runners fit the project's stack.
 
-**From the design system, determine the product's character:**
+**Write tests from the experience proposal, not from implementation plans.** Each test describes what the user experiences — across any modality:
 
-- What's the target feeling? Read it from CLAUDE.md. This is the emotional benchmark — every visible element, every interaction, every transition either contributes to this feeling or undermines it.
-- What are the experience patterns? Read them from `.superskills/design-system.md`. These are the concrete behaviors (micro-interactions, transitions, gratification moments, restraint patterns) that produce the target feeling. Build them INTO the code from the start, not as a polish pass later.
-- What's the signature? The one thing that makes this product recognizable. It should be present from the first build, not added later.
-- What did the design explicitly reject? Don't build toward those defaults.
+```
+// Visual product — test the experience, not the component
+test('user arrives at fleet overview, sees vehicles sorted by urgency, most critical first')
+test('when no vehicles need attention, the overview says so clearly — no empty table')
 
-**Apply rule zero to the derivation itself.** Challenge every piece: does this product really need a settings page, or can preferences be inferred? Does it need a dashboard, or is the insight delivered conversationally? Does it need a database table for X, or is that data derived on the fly?
+// Conversational product — test the interaction, not the prompt
+test('user sends a pantry photo, receives recipe suggestions within 30 seconds')
+test('user asks to substitute an ingredient, agent responds with alternative and adjusted recipe')
+test('agent response leads with the recommendation, not with an explanation')
 
-### 3. Plan
+// CLI product — test the output and behavior, not the internals
+test('scan command outputs risk table sorted by severity, fits in 80 columns')
+test('when no breaking changes found, exits with code 0 and a single line confirmation')
 
-Produce the build plan. Each piece:
+// Bad: tests the implementation
+test('VehicleTable component renders with sorting prop')
+test('API returns 200 with vehicle array')
+test('prompt includes system message with role definition')
+```
 
-- **What:** concrete, tied to EIID
-- **Why:** which user need it serves
-- **How:** implementation level from the mapping (code/buy/LLM call/workflow/agent)
-- **Acceptance criteria:** 2-4 concrete, testable outcomes. These come from the strategy and user need, not from the implementation approach. "Fleet overview shows vehicles that need attention sorted by urgency" — not "renders a table with sorting." The criteria become the tests in the build loop.
-- **Depends on:** prerequisite pieces
+The tests are the contract. They encode everything the user described in the vision phase. Every flow, every touchpoint, every interaction that matters. If a test doesn't trace to something the user said in the vision conversation, it doesn't belong.
 
-Order by dependency. Infrastructure before intelligence. Intelligence before surfaces.
+**Run the tests.** They should all fail. This is correct — the product doesn't exist yet. But they must be syntactically valid and structurally sound. Fix any test that fails for the wrong reason (import errors, config issues, bad selectors).
 
-Present the plan. The user approves, reorders, removes, or adds. **This is the only checkpoint.** After approval, write the plan to `.superskills/build-plan.md` — this is the ground truth for the build loop and future sessions. Then the build is autonomous until completion or hard failure.
+Write the test plan to `.superskills/build-plan.md` — this is the ground truth. The plan is the tests.
 
-### 4. Build Loop (autonomous)
+### 5. Build Loop (autonomous)
 
-For each piece in the approved plan:
+The tests define the work. Build until they pass. All of them.
 
-Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop. They are advisory — the build incorporates their feedback automatically and logs observations, but does not stop for them. Only hard failures (tests, types) stop the loop.
+Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop. They are advisory — the build incorporates their feedback automatically and logs observations, but does not stop for them. Only hard failures stop the loop.
 
-**Test → Build → Verify → Next.**
+**Order:** infrastructure → intelligence → surfaces. Build the foundation first, then the smart parts, then what the user sees. But always with the end experience in mind — the infrastructure exists to serve the surface, not the other way around.
 
-**Test:** write acceptance tests from the plan's criteria, not from the implementation you're about to write. The plan (approved by the user) defines what each piece must DO. Tests encode those criteria. If you write the test and the code in the same mental pass, the test validates your approach, not the spec — this is the universal failure mode of AI test-first development. Read the plan. Write tests that would pass for ANY correct implementation, not just yours.
+**For each piece of the product:**
 
-**Build:** implement. Follow the approach from the EIID mapping. For visual surfaces, build with the design system — tokens, typography, composition, the direction's character. Every visual element must earn its place. If a screen has 8 cards, ask: can it be 3? If a form has 10 fields, ask: which 4 actually matter?
+1. **Build** with the full context: EIID mapping, design system, experience proposal, target feeling. For visual surfaces, build with the design tokens, typography, composition, the direction's character from line one. Every visual element earns its place.
 
-**Verify:**
-1. Acceptance tests pass
-2. Full test suite passes (no regression)
-3. Types check (`npx tsc --noEmit`)
-4. If visual: structural verification — are the right tokens, components, and layout patterns used? Does the code match the design direction? Note: the build loop cannot render pages or see visual output. Structural checks (correct classes, tokens, component usage, layout patterns) are the proxy. True visual verification requires the user to see the running product. Flag screens that need visual review in the report.
-5. **Feeling check:** read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For every touchpoint the user perceives — a screen, an agent response, a prompt output, a notification, a CLI message, a workflow status:
-   - Are the experience patterns present? Feedback on actions, appropriate pacing, loading/processing that communicates work?
-   - Does the voice match? Same tone and terminology across all surfaces?
-   - Has the absence test been applied? For every element the user perceives across any modality, would the target feeling survive without it? If yes, remove it.
-   - Does this touchpoint feel like the same product as every other touchpoint?
+2. **Run the full test suite** after each piece. Track which tests flip from failing to passing. This is the progress indicator.
 
-**On regression:** if verify step 2 (full test suite) fails on tests from earlier pieces, the current piece broke something. Revert the current piece's changes, analyze why the regression happened, and try a different approach. This counts toward the 5-iteration limit. If all 5 iterations regress earlier pieces, skip and report — do not leave a regression in place.
+3. **On regression** (a previously passing test breaks): revert, analyze, try a different approach. Maximum 5 attempts. If all 5 regress, skip the piece and report. Never leave a regression in place.
 
-**On failure (no regression, current piece fails):** iterate on implementation, not tests. Maximum 5 iterations. If still failing, log what happened and skip to next piece. Continue building — don't stop the whole loop for one piece. Report all skipped pieces at the end.
+4. **On stuck** (a test won't pass after 5 iterations): log what was tried, skip to the next piece. The build continues.
 
-**On success:** log to `.superskills/decisions.md`. Read the log — if previous pieces had issues or patterns, use that context to inform the next piece's approach. Then continue.
+5. **Verify beyond tests:**
+   - Types check (`npx tsc --noEmit`)
+   - If visual: structural verification — correct tokens, components, layout patterns. Flag screens that need the user to see the running product.
+   - **Feeling check:** re-read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For every touchpoint the user perceives, does it carry the product's character? Would removing any element hurt the experience? If not, remove it.
 
-### 5. Report
+6. **Log** to `.superskills/decisions.md`. Re-read the log before the next piece — if earlier pieces had issues or patterns, use that context.
 
-After all pieces, present the report to the user and write the Build Progress section to `.superskills/report.md` (append or replace the existing Build Progress section):
+**The loop does not stop until:**
+- All tests pass, OR
+- All remaining failing tests have been attempted 5 times each
+
+**Context drift is real.** On builds with 5+ pieces, re-read the experience proposal, CLAUDE.md, and `.superskills/design-system.md` before each piece. For very long builds, consider splitting into independent sessions per piece: each session reads from disk, builds one piece, commits, exits. The filesystem is the memory, not the conversation.
+
+### 6. Report
+
+After all tests pass (or all skipped pieces are logged), present the report and write it to `.superskills/report.md`:
 
 ```
 ## Build Report
 
-Built: [count] pieces
-Skipped: [count] (with reasons)
 Tests: [pass]/[total]
+Skipped: [count] (with reasons)
 EIID coverage: [which layers are implemented]
 Visual review needed: [list screens that need the user to see the running product]
 
@@ -137,41 +199,54 @@ Skipped pieces:
 
 Add a feature or implement a piece on top of existing code.
 
-### 1. Context
+### 1. Vision
 
-Read CLAUDE.md, `.superskills/decisions.md`, `.superskills/design-system.md`, `.superskills/report.md` (if it exists). Understand what exists and what review flagged — don't repeat mistakes review already caught.
+Same conversation as init mode, but scoped. Ask the user:
 
-### 2. Map to EIID
+**"Describe what this change should do. What does the user experience today, and what should they experience after? When is this change perfect?"**
 
-Which layer(s) does the target touch? What's the approach? What depends on it?
+Collect their description, examples, references. Challenge the same way as init mode: is this the simplest path? Are there missing edge cases? Is there a better experience pattern? Push back where it makes the change sharper. Confirm understanding when aligned.
 
-If the target doesn't trace to any EIID layer, flag it. Don't build scope creep silently.
+### 2. Context
 
-### 3. Plan
+Read CLAUDE.md, `.superskills/decisions.md`, `.superskills/design-system.md`, `.superskills/report.md` (if they exist). Understand what exists and what review flagged.
 
-Rule zero first: is this the simplest way to deliver this value? Can the target be achieved with less? Fewer new screens, fewer new tables, fewer new endpoints. Challenge the scope before committing to it.
+Map the target to EIID. If it doesn't trace to any layer, flag it. Don't build scope creep silently.
 
-Then produce a plan. Same format as init mode: what, why, how, acceptance criteria, depends on. Show what will change in existing code and what will be new.
+### 3. Experience Proposal
 
-**Present the plan. The user approves before building.** Extending existing code is higher risk than starting fresh — a bad extension can break working features. The plan is the checkpoint. After approval, write (or update) `.superskills/build-plan.md`.
+Show what you'd change. Not a diff — a description of the new experience. What the user will see differently. What stays the same. What you'd remove.
 
-### 4. Build
+Rule zero: is this the simplest way to deliver this value? Challenge the scope before committing.
 
-Same loop as init mode (test → build → verify → next). Same autonomy after plan approval. Same rollback rules for regressions.
+The user approves before building.
 
-### 5. Integration
+### 4. Tests First
 
-Full test suite. Log to `.superskills/decisions.md`. Report.
+Write new e2e and integration tests that encode the change. Run the full existing suite to confirm it passes before you start — establish the baseline.
+
+Write (or update) `.superskills/build-plan.md`.
+
+### 5. Build
+
+Same loop as init mode. Same autonomy. Same rollback rules. Build until the new tests pass and no old tests break.
+
+### 6. Report
+
+Full test suite results. Log to `.superskills/decisions.md`. Report.
 
 ---
 
 ## Rules
 
 - **Rule zero above all.** Build less. Every piece earns its place.
-- **Tests define outcomes.** Write them first. They describe what the piece does, not how.
-- **Autonomous after plan approval.** No checkpoints. Log, don't ask.
+- **Vision before plan.** The user describes perfection in their own words. Build understands it before proposing anything.
+- **Tests are the plan.** The experience proposal becomes e2e tests. The tests are the spec, the progress tracker, and the quality gate. All in one.
+- **Install what you need.** Browser tests, integration tests, CLI tests — whatever this product requires. The test infrastructure is not optional — set it up automatically.
+- **Autonomous after vision approval.** No checkpoints during the build. Log, don't ask.
+- **Don't stop until it's right.** The build loop runs until all tests pass. Not "mostly pass." All of them.
 - **Five iterations max per piece.** Then skip and report. Don't block the whole build.
 - **The strategy is truth.** If what you're building contradicts CLAUDE.md, stop and report. Don't deviate silently.
-- **Design is not decoration.** The direction, the signature, the character — these are present in every piece, not applied at the end. A fleet dashboard feels like a control room from line one. A recipe app feels warm from line one.
+- **Design is not decoration.** The direction, the signature, the character — present in every piece from line one.
 - **Prompts are visible.** Every LLM prompt is discoverable, inspectable, and if user-facing, editable. No buried prompts in business logic.
-- **Context drift is real.** On builds with 5+ pieces, the agent's context window fills and earlier instructions get compressed. The plan, CLAUDE.md, and `.superskills/design-system.md` are the ground truth — re-read them before each piece, not once at the start. For very long builds, consider splitting into independent sessions per piece: each session reads from disk (plan, strategy, design system), builds one piece, commits, exits. The filesystem is the memory, not the conversation.
+- **The vision is the bar.** Not "it works." Not "it's close." The result matches what the user described — whether that's a screen, a conversation, a CLI output, or an agent interaction. If it doesn't, iterate until it does or report why it can't.

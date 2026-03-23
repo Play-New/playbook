@@ -37,14 +37,15 @@ Structure for `.superskills/report.md`. This file is volatile — replaced on ea
 ## Build Progress
 [empty — populated by /super:build]
 
-Tracks what has been built and what remains:
+Tracks test suite progress from the vision:
 
-| Piece | Status | EIID Layer | Tests |
-|-------|--------|------------|-------|
-| [piece name] | built/partial/pending | [layer] | [pass count]/[total] |
-
-**Coverage:** [which EIID layers are implemented, which are pending]
+**Tests:** [pass]/[total]
+**Skipped:** [count] (with reasons)
+**EIID coverage:** [which layers are implemented, which are pending]
 **Deviations:** [any departures from the strategy, with rationale]
+
+Skipped tests:
+- [test]: [what failed, what was tried, proposed fix]
 
 ## Project Profile
 **EIID Balance:** [which layers have the most code, which are underdeveloped]

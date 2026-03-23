@@ -20,6 +20,10 @@ The best products do fewer things, better. Every screen, endpoint, table, compon
 - Dashboard with 8 cards when 2 carry 90% of the insight. Let the focal point breathe.
 - Schema with tables for every noun in the domain. Build tables for what the product actually stores and queries.
 - API routes for operations nobody calls. Build endpoints for real interactions.
+- Agent that explains its reasoning before answering. Lead with the answer.
+- Prompt with 30 clauses when 5 produce the same output. Every clause that doesn't change the result is noise.
+- Workflow with 8 steps when 3 would deliver the same value. Fewer steps, fewer failure points.
+- Notifications for every event when the user only cares about 2 types. Silence is a feature.
 
 Minimal surface is not "build an MVP." It's "build the complete product with nothing unnecessary." The product should feel finished AND simple.
 

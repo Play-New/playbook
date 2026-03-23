@@ -1,37 +1,87 @@
 # FleetPulse — Build Plan
 
-Visual-heavy SaaS. All code/buy. Dense operational product.
+The plan is the tests. Written from the vision conversation, before any product code.
 
-## What This Product Needs (derived from strategy)
+## Vision Summary
 
-- **Auth:** yes — fleet managers log in, drivers contribute via WhatsApp (no login)
-- **Schema:** yes — vehicles, alerts, maintenance records. Four core tables matching the IA.
-- **Layout shell:** yes — sidebar with 5 nav items. Dense, operational feel from line one.
-- **Settings:** yes — polling frequency, alert thresholds, notification channels. Compact, deep.
-- **Visual surfaces:** yes — the web interface is where fleet managers see what WhatsApp can't show: maps, charts, trends.
-- **Prompt management:** no — no LLM calls in this product.
+A fleet manager glances at one screen and knows if anything needs attention. Vehicles sorted by urgency. The attention count in the header is the heartbeat of the product. Dense, operational, calm. WhatsApp for drivers to report, email for daily summaries. The web surface shows what messages cannot: maps, trends, timelines.
 
-## What This Product Does NOT Need
+## What We Would NOT Build
 
-- User onboarding wizard. Fleet managers are set up by admin. One config, done.
-- Dashboard builder / customization. The attention count and fleet map are fixed. They work because the design chose them, not because the user arranges widgets.
-- Export as a feature. It's a button on Reports, not a screen.
-- Notification preferences page. Thresholds and channels are in Settings. One place.
+- Onboarding wizard. Fleet managers are set up by admin. One config, done.
+- Dashboard builder. The attention count and fleet map are fixed. They work because the design chose them.
+- Export page. A button on Reports, not a screen.
+- Notification preferences page. Thresholds and channels live in Settings. One place.
 
-## Build Order
+## Test Suite
 
-1. **Scaffold + schema** — 4 tables: vehicles, alerts, maintenance_records, routes. RLS per fleet. Types generated.
-2. **Auth + layout** — Supabase Auth, middleware, 240px sidebar. The attention count (signature) is in the header from day one.
-3. **Enrichment** — telematics polling (Inngest cron), email receipt parsing, WhatsApp media intake. Three connectors, each independent.
-4. **Inference** — fuel baseline calculation, maintenance prediction, idle detection. Pure code, no agents.
-5. **Interpretation** — insight formatting: comparison to fleet average, 4-week trend, recommended action. Output is structured data, not natural language.
-6. **Delivery** — WhatsApp alerts (business hours), email daily summary. Both follow conversational patterns from design system.
-7. **Visual surfaces** — Fleet Overview (attention count, map, vehicle list), Vehicle Detail, Alerts, Maintenance, Reports. Each screen has one focal point. Dense tables, amber sparks, the control room feel.
-8. **Settings** — polling config, alert thresholds, user roles. Constrained form, deep nav.
+Tests installed: Playwright (e2e for visual flows), vitest (integration for enrichment/inference).
 
-## Key Design Decisions in Build
+### E2E Tests (Playwright)
 
-- The attention count appears before any other screen is built. It's the signature — present from the first commit.
-- Table rows are 36px, not 48px. This is a dense product. The design system says so.
-- No card-heavy dashboard. The IA says Fleet Overview's focal point is the attention count + map. Not 6 equal cards.
-- Amber for "needs attention", not red. Red is reserved for emergencies. This distinction is baked into every component.
+```
+// Fleet Overview — the primary screen
+test('fleet overview shows attention count in the header, visible without scrolling')
+test('vehicles sorted by urgency — most critical first, not alphabetical')
+test('clicking a vehicle navigates to detail with history and current status in one view')
+test('when no vehicles need attention, the overview says "all clear" — no empty table')
+test('attention count updates within 60 seconds of a new alert')
+
+// Signature — attention count
+test('attention count is amber when vehicles need attention, neutral when all clear')
+test('attention count is visible on every page, not just the overview')
+
+// Density
+test('table rows are compact — the manager sees 20+ vehicles without scrolling')
+test('fleet map shows vehicle positions with status indicators, not generic pins')
+
+// Settings
+test('settings page has polling frequency, alert thresholds, notification channels — nothing else')
+
+// Responsive
+test('fleet overview is usable on a tablet in landscape — the field use case')
+```
+
+### Integration Tests (vitest)
+
+```
+// Enrichment
+test('telematics polling normalizes GPS, fuel, speed into vehicle state')
+test('email receipt parser extracts maintenance records from forwarded shop emails')
+test('WhatsApp media intake processes driver photos and attaches to vehicle record')
+
+// Inference
+test('fuel baseline flags vehicles deviating more than 15% from their historical average')
+test('maintenance prediction identifies vehicles approaching service threshold')
+test('idle detection flags vehicles stationary for more than configured threshold')
+
+// Interpretation
+test('insight includes comparison to fleet average, not just the raw number')
+test('insight includes 4-week trend direction')
+test('recommended action is specific — "schedule maintenance" not "review vehicle"')
+
+// Delivery
+test('WhatsApp alert sent only during business hours, queued otherwise')
+test('daily email summary groups by urgency, most critical first — same order as the overview')
+test('email and WhatsApp use the same terminology for vehicle status')
+```
+
+## Build Order (derived from test dependencies)
+
+Infrastructure → intelligence → surfaces. The tests define what each piece must do.
+
+1. Schema + auth (unblocks everything)
+2. Enrichment connectors (telematics, email, WhatsApp — unblocks inference tests)
+3. Inference analyzers (fuel, maintenance, idle — unblocks interpretation tests)
+4. Interpretation formatting (unblocks delivery and visual tests)
+5. Delivery (WhatsApp alerts, email summary)
+6. Visual surfaces (overview with attention count first, then detail, then the rest)
+7. Settings
+
+## Key Design Decisions
+
+- The attention count appears before any other surface is built. It's the signature.
+- Table rows are 36px, not 48px. Dense product. The design system says so.
+- No card-heavy dashboard. The overview's focal point is the attention count + map.
+- Amber for "needs attention", not red. Red is reserved for emergencies.
+- WhatsApp and email use the same voice as the web surface. Same product, different channel.

@@ -140,14 +140,13 @@ Define the structure of the visual interface. Start from the EIID Interface Map 
 
 ### Style Direction
 
-For shadcn projects, run `npx shadcn@latest init` to see available styles. Pick the one that matches the product's character. Present the recommendation to the user with reasoning.
+The product's character determines its visual shape. Three dimensions to decide:
 
-Three dimensions to decide:
-- **Density:** tight (data-heavy, admin) vs. generous (consumer, editorial)
-- **Shape:** sharp/boxy (technical) vs. rounded/pill (approachable)
-- **Weight:** compact (efficiency-first) vs. spacious (comfort-first)
+- **Density:** tight (data-heavy, admin) vs. generous (consumer, editorial). The user's task frequency and data volume determine this.
+- **Shape:** sharp/boxy (technical) vs. rounded/pill (approachable). The product's temperature determines this.
+- **Weight:** compact (efficiency-first) vs. spacious (comfort-first). The user's time pressure determines this.
 
-For non-shadcn projects, skip this step — the equivalent decisions are encoded directly in the theme file.
+For projects using a component library with style presets (shadcn, etc.), pick the preset that matches these dimensions and present the recommendation with reasoning. For projects without presets, encode these decisions directly in the theme file.
 
 ### Typography Scale
 
@@ -184,15 +183,10 @@ All aesthetic choices become design tokens. No creative decision lives in compon
 
 **Extract before propose:** if existing UI code is present, scan for repeated values first. Count occurrences, propose a token set that formalizes them. Ask the user to confirm.
 
-**For shadcn + Tailwind:**
-- CSS custom properties in OKLCH (Tailwind v4) or HSL. Both `:root` and `.dark`
-- Token names should evoke the product's world
-- Set up cn() utility: `npm install clsx tailwind-merge`
-- Initialize: `npx shadcn init`
-- Add only the components this product actually needs (derived from IA and screen map)
-
-**For Chakra/MUI/Mantine:** Create theme.ts with full token set. Wrap app in the framework's provider.
-
-**For Tailwind only:** Create globals.css with CSS variables. Configure tailwind.config.ts extending from variables.
+**Derive the token strategy from the framework.** Every UI framework has its own way of managing tokens — CSS custom properties, theme objects, config files. Use the framework's native approach. The principle is the same regardless of tooling:
+- Tokens define the aesthetic: colors, spacing, typography, radius, depth
+- Token names should evoke the product's world, not be generic
+- Dark mode tokens exist alongside light tokens
+- Only install components the product actually needs (derived from IA and screen map)
 
 **Key rule:** the token file IS the aesthetic. Strip all components and rebuild from tokens alone — the product should still look the same.
