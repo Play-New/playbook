@@ -169,25 +169,24 @@ Code Architecture in CLAUDE.md gains five EIID-gated principles: parity, tool gr
 
 `/super:design` is not only about craft. It is the full design system, from the first architectural question (does this layer need a visual surface at all?) through information architecture, direction, tokens, and interaction patterns for every channel.
 
-**Init mode** runs 13 steps:
+**Init mode** runs 13 steps in two phases:
 
-1. **Interface Modality Assessment** — for each EIID layer, determine: visual, conversational, notification, embedded, or none. Produce the EIID Interface Map. If no layers need a visual surface, write message structure, channel formatting, and agent interaction patterns only. Done.
-2. **Detect UI Framework** — only if visual layers exist.
-3. **Explore the Product's World** — domain concepts, color world, signature, defaults to reject.
-4. **Direction Assessment** — references, anti-references, existing assets, constraints.
-5. **Information Architecture** — core objects, navigation budget, screen map, focal points, content depth tiers. Before any visual decisions.
-6. **Style Direction** — density, shape, weight.
-7. **Typography Scale** — display through mono, with size, weight, line height, tracking.
-8. **Layout Architecture** — grid, breakpoints, container strategy, page patterns.
-9. **Composition Rules** — hierarchy, density map, section rhythm, proportion, whitespace.
-10. **Experience Patterns** — translate the target feeling into concrete behaviors: micro-interactions, transitions, gratification moments, restraint patterns, the absence test.
-11. **Token Layer** — extract before propose (scan code for repeated values, formalize).
-12. **Interaction Patterns for Non-Visual Layers** — conversational craft (message structure, density per channel, timing) and agent interaction craft (transparency, clarification with defaults, handoff to visual, error communication).
+**Problem-solving (steps 1-6, ALL products):**
+1. **Interface Modality Assessment** — for each EIID layer, determine: visual, conversational, notification, embedded, or none. Produce the EIID Interface Map.
+2. **Explore the Product's World** — domain concepts, signature, defaults to reject. ALL products, not just visual.
+3. **Direction Assessment** — references (visual and non-visual), anti-references, existing assets, constraints.
+4. **Experience Patterns** — translate the target feeling into concrete behaviors for every modality: feedback, pacing, voice, gratification, restraint, the absence test.
+5. **Interaction Patterns for Non-Visual Layers** — conversational craft, agent interaction craft.
+6. **Detect UI Framework** — only if visual layers exist. Non-visual products are done here.
+
+**Visual execution (steps 7-12, only visual products):**
+7. **Information Architecture** — core objects, navigation budget, screen map, focal points.
+8-12. Style direction, typography, layout, composition, tokens.
 13. **Write Design Configuration** — to CLAUDE.md and `.superskills/design-system.md`.
 
 **Redesign mode** takes a target (file, screenshot, URL), runs a 6-layer strategic critique (alignment, composition, craft, content, structure, identity), applies craft dimensions grounded in the design system.
 
-**Craft** covers 11 dimensions: direction spectrum, spatial composition, typography character, visual identity, subtle layering, atmosphere, motion, color intent, experience craft (micro-interactions, transitions, gratification, restraint), conversational/notification craft, agent interaction craft.
+**Craft** is split into two parts. Part 1 (all modalities): experience craft (feedback, pacing, voice, gratification, restraint), direction spectrum, conversational/notification craft, agent interaction craft. Part 2 (visual only): spatial composition, typography, identity, layering, atmosphere, motion, color.
 
 ## Build
 

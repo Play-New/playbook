@@ -1,8 +1,8 @@
 # Design Critique
 
-Six layers. Work through each in order. The first build was the draft. The critique is the design.
+Six layers. Layer 0 (strategy, feeling, experience) is the most important and applies to ALL modalities — screens, agents, prompts, notifications, CLI, workflows. Layers 1-5 are primarily visual execution. If layer 0 has issues, they override everything else. Fix alignment and feeling first.
 
-Before starting: read CLAUDE.md for the EIID mapping, user context, and business context. Read `.superskills/design-system.md` for the design direction, information architecture, and tokens. Every observation below is evaluated against what the product is for and who uses it. A beautiful interface that misaligns with the strategy is a failure. A functional interface that ignores its user's context is a failure.
+Before starting: read CLAUDE.md for the EIID mapping, target feeling, and user context. Read `.superskills/design-system.md` for direction, experience patterns, information architecture, and tokens. Every observation is evaluated against what the product is for, who uses it, and how they should feel. A beautiful interface that misaligns with the strategy is a failure. A functional product that is experientially dead is a failure.
 
 ## 0. Strategic Alignment
 

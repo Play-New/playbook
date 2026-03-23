@@ -2,6 +2,8 @@
 
 Detailed process for each step of `/super:design` init mode. The command file defines the flow. This file defines the execution.
 
+Steps 1-5 are problem-solving. They apply to ALL products. Steps 7-12 are visual execution and apply only to visual layers.
+
 ## Interface Modality Assessment
 
 Read the EIID mapping from CLAUDE.md. For each layer, determine the interface modality:
@@ -17,7 +19,7 @@ Read the EIID mapping from CLAUDE.md. For each layer, determine the interface mo
 Produce the EIID Interface Map table (see `reference/design-system-template.md`).
 
 **Routing:**
-- If ALL layers are conversational, notification, or embedded: no graphical interface is needed. Skip visual design steps entirely. Write a design system covering message structure and channel formatting only. This is a valid, complete outcome.
+- If ALL layers are conversational, notification, or embedded: no graphical interface is needed. Steps 7-12 are skipped entirely. The design system covers experience patterns, message structure, channel formatting, and agent interaction patterns. This is a valid, complete outcome.
 - If SOME layers need a visual surface: proceed with visual design steps, scoped to those layers only.
 - If ALL layers need a visual surface: proceed with the full visual design process.
 
@@ -55,22 +57,22 @@ Do not propose a direction until domain concepts, signature, and defaults to rej
 Present findings from the exploration to the user. Then collect input in a single block. The user answers what they want, skips what they don't.
 
 **References:**
-"Any visual references? URLs of sites you admire, screenshots, Figma files, brand names, designers, or design studios. Even from different domains, as long as something about them feels right for this product."
+"Any references for how this product should feel? URLs of products you admire, screenshots, brand names, designers, or design studios. These can be non-visual too: 'the tone of Stripe's error messages', 'the pacing of GitHub Copilot's suggestions.' Even from different domains, as long as something about them feels right for this product."
 
 For each reference provided:
-- URLs: fetch the page, analyze layout density, palette, typography, spacing rhythm, atmosphere, navigation pattern
+- URLs: fetch the page, analyze the relevant patterns (visual: layout density, palette, typography; conversational: message structure, tone, pacing; CLI: output format, information density)
 - Screenshots/images: view the image, same analysis
 - Figma URLs: get design context via Figma tools, same analysis
-- Brand names: search for the brand's visual identity, then analyze
+- Brand names: search for the brand's identity and communication style, then analyze
 - Designers or design studios: research their body of work, philosophy, signature patterns, and decision-making principles. Apply their perspective as a lens throughout the design process. Not "copy their style" but "how would they approach this problem for this product."
 
 **Anti-references:**
-"Anything you've seen and actively don't want? Sites, styles, or patterns that would be wrong here."
+"Anything you've seen and actively don't want? Products, styles, tones, or patterns that would be wrong here."
 
 **Existing assets:**
 "Any brand material? Logo, colors, fonts, illustration style, tone guide. Even a rough sketch."
 
-For existing assets: analyze and incorporate as constraints. Brand colors become the palette foundation. Brand fonts skip the typography selection step. A logo's character informs the direction.
+For existing assets: analyze and incorporate as constraints. Brand colors become the palette foundation. Brand fonts skip the typography selection step. A logo's character informs the direction. A tone guide constrains the voice.
 
 **Direction check:**
 "The exploration produced this direction: [summary]. Does this match? Anything to push further, pull back, or change entirely?"
@@ -79,18 +81,24 @@ For existing assets: analyze and incorporate as constraints. Brand colors become
 "Hard constraints? Required colors, mandated fonts, accessibility targets beyond AA, platform requirements."
 
 Process all inputs. For each reference and anti-reference, extract concrete patterns:
-- What to borrow: specific and named ("the tight sidebar density from Linear", "the amber-on-dark palette from that dashboard screenshot")
-- What to avoid: specific and named ("the generic card grid from that SaaS site", "the low-contrast gray text")
+- What to borrow: specific and named ("the tight sidebar density from Linear", "the conversational pacing from Notion AI")
+- What to avoid: specific and named ("the generic card grid from that SaaS site", "the explanation dumps from ChatGPT")
 
-Produce a reference summary: 3-7 distilled patterns across all references. Not "modern and clean" but "tight 8px grid, monochrome surfaces, single accent color for CTAs, generous whitespace between sections."
+Produce a reference summary: 3-7 distilled patterns across all references.
 
 Revise the direction based on assessment answers. If the user provided nothing, proceed with the exploration direction as-is.
 
 Store the reference summary in `.superskills/design-system.md` under a References section.
 
+---
+
+## Visual Execution Steps (7-12)
+
+> These steps apply only to layers mapped to a visual modality. Skip all for non-visual products. The problem-solving is done — steps 1-5 defined what the product needs, how it should feel, and how it speaks. These steps define how it looks.
+
 ## Style Direction
 
-For shadcn projects, run `npx shadcn@latest init` to see available styles. Pick the one that matches the product's character. The style determines spacing rhythm, border radius, and component density. Present the recommendation to the user with reasoning.
+For shadcn projects, run `npx shadcn@latest init` to see available styles. Pick the one that matches the product's character. Present the recommendation to the user with reasoning.
 
 Three dimensions to decide:
 - **Density:** tight (data-heavy, admin) vs. generous (consumer, editorial)
@@ -103,71 +111,46 @@ For non-shadcn projects, skip this step — the equivalent decisions are encoded
 
 Ask the user if they have brand fonts first. If they do, use those.
 
-If not, pick a display font + body font pairing that matches the direction. Read `reference/design-craft.md` for the Typography Character section. Search for fonts that match the direction. Browse foundries (Google Fonts, Fontshare, Atipo, fonts.bunny.net) for options. Choose based on the product's character, not popularity.
+If not, read `reference/design-craft.md` Typography Character section. Choose based on the product's character, not popularity. **The default test:** if the font ships with the framework, it's not a design decision.
 
-**The default test:** if the font is what the framework installs by default, or what most AI-generated projects use, it's not a design decision. Choose intentionally. A fleet management dashboard and a children's reading app should not share the same typeface.
+Determine how many type voices this product needs. Some products need one font at different weights. Some need a display font + body font pair. Some need three (display, body, mono). The number of typefaces is a design decision, not a rule.
 
-Determine how many type voices this product needs. Some products need one font at different weights. Some need a display font + body font pair. Some need three (display, body, mono). The number of typefaces is a design decision, not a rule. If two fonts are chosen, they should contrast in character but share similar x-height.
-
-If references included typography patterns, use them as starting points.
-
-Then expand from font choice to a full type scale. Define every level from Display through Mono: size, weight, line height, tracking, and usage. The scale should produce three clearly distinguishable hierarchy tiers (primary, secondary, tertiary) through weight and size alone. Apply the hierarchy test: strip color from the page. If primary, secondary, and tertiary content are still visually distinct, the scale works. If hierarchy collapses without color, add more size or weight contrast between levels.
+Expand from font choice to a full type scale. Define every level from Display through Mono: size, weight, line height, tracking, and usage. Apply the hierarchy test: strip color. If hierarchy collapses, add more size or weight contrast.
 
 ## Layout Architecture
 
-Define the spatial structure of the product. Decisions flow from IA: data tables need full width, forms need constraints, dashboards need flexibility.
+Define the spatial structure. Decisions flow from IA.
 
-**Grid:** column count, gutter size, system. Not every product needs 12 columns. A text-heavy tool might use 8. A dashboard might use a flexible grid with named areas.
-
-**Breakpoints:** define the breakpoints where layout changes. Include pixel values and what shifts at each.
-
-**Container:** max-width strategy. Some screens (dashboards, tables) should be fluid. Others (forms, settings, long text) need constraints to stay readable. Define both.
-
-**Page patterns:** document the 3-5 recurring layout structures. Sidebar + content, full-width table, split panel, constrained form, card grid. Each pattern maps to specific screen types from the IA.
+**Grid:** column count, gutter size, system. Not every product needs 12 columns.
+**Breakpoints:** pixel values and what shifts at each.
+**Container:** max-width strategy for different screen types.
+**Page patterns:** 3-5 recurring layout structures, each mapped to screen types from the IA.
 
 ## Composition Rules
 
-Define the structural relationships that make the interface feel composed rather than assembled. These five decisions sit between layout (where things go) and tokens (how things look).
+Five decisions between layout and tokens:
 
-**Hierarchy:** how primary, secondary, and tertiary content are distinguished. Size, weight, color, space, and position all contribute. Document the specific combination. Must produce three clearly distinguishable levels that work without color.
-
-**Density map:** not every zone of the interface should feel the same. Tables are dense. Key metrics get breathing room. Settings are medium. Document which zones are dense, which are generous, and why. The density should match the task: scanning 30 items needs density, understanding one metric needs space.
-
-**Section rhythm:** three numbers. Spacing between major sections, between groups within a section, between items within a group. These three values create a visual cadence across every screen. Consistent rhythm is what makes an interface feel designed.
-
-**Proportion:** the size relationship between the focal point and supporting content. If the focal element is the same size as everything else, there is no focal point. Define the ratio.
-
-**Whitespace:** page margins, breathing room around focal elements, grouping gaps vs separating gaps. Grouping gaps must be visibly smaller than separating gaps. This is how spatial composition communicates structure without borders.
+**Hierarchy:** how primary/secondary/tertiary are distinguished. Must work without color.
+**Density map:** which zones are dense, which are generous, why.
+**Section rhythm:** three numbers (major sections / groups / items).
+**Proportion:** focal point vs supporting content size.
+**Whitespace:** page margins, breathing room, grouping vs separating gaps.
 
 ## Token Generation
 
 All aesthetic choices become design tokens. No creative decision lives in component code.
 
-**Extract before propose:** if existing UI code is present, discover the system already embedded in the code before proposing anything new.
-
-1. Scan all .tsx/.jsx/.vue/.svelte files for repeated CSS values: padding, margin, gap, border-radius, height, font-size, color, box-shadow
-2. Count occurrences. Group by property. Sort by frequency.
-3. Present findings: "36px height used in 7 of 8 buttons. 16px padding in 12 components. border-radius 8px in 9 places, 4px in 3."
-4. Propose a token set that formalizes the most common values. Flag outliers as candidates for consolidation.
-5. Ask the user to confirm before writing tokens. The existing code is evidence. Respect it.
-
-If no existing UI code is found, skip extraction and propose tokens from the direction.
+**Extract before propose:** if existing UI code is present, scan for repeated values first. Count occurrences, propose a token set that formalizes them. Ask the user to confirm.
 
 **For shadcn + Tailwind:**
-- Run `npx shadcn@latest create` with the chosen style, or generate `globals.css` manually
 - CSS custom properties in OKLCH (Tailwind v4) or HSL. Both `:root` and `.dark`
-- Variables for: colors (background, foreground, card, primary, secondary, accent, muted, destructive, border, ring), `--radius`, `--font-display`, `--font-body`, spacing scale, shadow scale, transition durations
-- Token names should evoke the product's world — not just `--gray-700` but names that someone reading only the tokens could guess what product this is
+- Token names should evoke the product's world
 - Set up cn() utility: `npm install clsx tailwind-merge`
 - Initialize: `npx shadcn init`
-- Add only the components this product actually needs (derived from the IA and screen map). Do not install a fixed list — a CLI tool needs none, a dashboard needs table and card, a form-heavy app needs input and label.
+- Add only the components this product actually needs (derived from IA and screen map)
 
-**For Chakra/MUI/Mantine:**
-- Create theme.ts with full token set: colors, fonts (display + body), spacing, radii, shadows
-- Wrap app in the framework's provider
+**For Chakra/MUI/Mantine:** Create theme.ts with full token set. Wrap app in the framework's provider.
 
-**For Tailwind only:**
-- Create globals.css with the same CSS variable set
-- Configure tailwind.config.ts extending from variables
+**For Tailwind only:** Create globals.css with CSS variables. Configure tailwind.config.ts extending from variables.
 
 **Key rule:** the token file IS the aesthetic. Strip all components and rebuild from tokens alone — the product should still look the same.
