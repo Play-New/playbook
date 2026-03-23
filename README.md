@@ -62,7 +62,7 @@ Add the marketplace and pre-enable the plugin in `.claude/settings.json` so new 
 
 ## What it does
 
-Run `/super:strategy`. It scans the folder, detects the stack, asks six questions, researches the problem space, and produces an EIID mapping with strategic classification and implementation levels. If any component uses agent, workflow, or LLM call, it adds an agent architecture step. Output: CLAUDE.md (stable instructions) and `.superskills/` (volatile findings).
+Run `/super:strategy`. It scans the folder, detects the stack, asks seven questions (including "how should they feel?" — the emotional benchmark for all design and build decisions), researches the problem space, and produces an EIID mapping with strategic classification, implementation levels, and a target feeling. If any component uses agent, workflow, or LLM call, it adds an agent architecture step. Output: CLAUDE.md (stable instructions) and `.superskills/` (volatile findings).
 
 From that point: the secrets guard watches file writes, two skills advise during planning, four commands handle specific domains, and findings accumulate in `.superskills/`.
 
@@ -73,7 +73,7 @@ From that point: the secrets guard watches file writes, two skills advise during
 | `/super:strategy` | Assessment, EIID mapping, implementation levels, agent architecture, scaffolding. Refresh mode when context changes |
 | `/super:design` | Init: modality assessment, direction, IA, tokens, interaction patterns. Redesign: single-screen craft improvement |
 | `/super:build` | Autonomous construction from strategy and design. Readiness check, decomposition, build loop with quality gates. Extend mode for adding features |
-| `/super:review` | Full audit: tests, security, strategy, design, performance, agent architecture |
+| `/super:review` | Full audit: tests, security, build quality, strategy, experience, design, performance, agent architecture |
 
 Each command detects whether setup exists. `/super:strategy` with context about what changed triggers refresh mode. `/super:design` with a target (file path, screenshot, URL) triggers redesign mode. `/super:build` with a target (feature, EIID layer, component) triggers extend mode.
 
@@ -169,7 +169,7 @@ Code Architecture in CLAUDE.md gains five EIID-gated principles: parity, tool gr
 
 `/super:design` is not only about craft. It is the full design system, from the first architectural question (does this layer need a visual surface at all?) through information architecture, direction, tokens, and interaction patterns for every channel.
 
-**Init mode** runs 12 steps:
+**Init mode** runs 13 steps:
 
 1. **Interface Modality Assessment** — for each EIID layer, determine: visual, conversational, notification, embedded, or none. Produce the EIID Interface Map. If no layers need a visual surface, write message structure, channel formatting, and agent interaction patterns only. Done.
 2. **Detect UI Framework** — only if visual layers exist.
@@ -180,13 +180,14 @@ Code Architecture in CLAUDE.md gains five EIID-gated principles: parity, tool gr
 7. **Typography Scale** — display through mono, with size, weight, line height, tracking.
 8. **Layout Architecture** — grid, breakpoints, container strategy, page patterns.
 9. **Composition Rules** — hierarchy, density map, section rhythm, proportion, whitespace.
-10. **Token Layer** — extract before propose (scan code for repeated values, formalize).
-11. **Interaction Patterns for Non-Visual Layers** — conversational craft (message structure, density per channel, timing) and agent interaction craft (transparency, clarification with defaults, handoff to visual, error communication).
-12. **Write Design Configuration** — to CLAUDE.md and `.superskills/design-system.md`.
+10. **Experience Patterns** — translate the target feeling into concrete behaviors: micro-interactions, transitions, gratification moments, restraint patterns, the absence test.
+11. **Token Layer** — extract before propose (scan code for repeated values, formalize).
+12. **Interaction Patterns for Non-Visual Layers** — conversational craft (message structure, density per channel, timing) and agent interaction craft (transparency, clarification with defaults, handoff to visual, error communication).
+13. **Write Design Configuration** — to CLAUDE.md and `.superskills/design-system.md`.
 
 **Redesign mode** takes a target (file, screenshot, URL), runs a 6-layer strategic critique (alignment, composition, craft, content, structure, identity), applies craft dimensions grounded in the design system.
 
-**Craft** covers 10 dimensions: direction spectrum, spatial composition, typography character, visual identity, subtle layering, atmosphere, motion, color intent, conversational/notification craft, agent interaction craft.
+**Craft** covers 11 dimensions: direction spectrum, spatial composition, typography character, visual identity, subtle layering, atmosphere, motion, color intent, experience craft (micro-interactions, transitions, gratification, restraint), conversational/notification craft, agent interaction craft.
 
 ## Build
 
@@ -204,7 +205,7 @@ The loop per piece: test → build → verify → next. Fully autonomous after p
 
 ## Review
 
-Seven audits. Tests run first (broken code makes other audits unreliable). The remaining six run in parallel when agent teams are available.
+Eight audits. Tests run first (broken code makes other audits unreliable). The remaining seven run in parallel when agent teams are available.
 
 | Audit | Severity | Scope |
 |-------|----------|-------|
@@ -212,6 +213,7 @@ Seven audits. Tests run first (broken code makes other audits unreliable). The r
 | **Security** | Blocking on critical | OWASP Top 10, GDPR, secrets, stack-adaptive checks |
 | **Build quality** | Blocking on security | Minimal surface, design through the stack, security posture, intelligence transparency |
 | **Strategy** | Advisory | EIID alignment per file, scope creep, 11-question opportunity scan |
+| **Experience** | Advisory, high-impact blocks | Feeling alignment, experience pattern compliance, responsive experience |
 | **Design** | Blocking if widespread | Accessibility, IA, design system compliance, conversational/agent pattern compliance, consistency, framework rules, craft |
 | **Performance** | Blocking on regression | Bundle, Core Web Vitals, N+1 queries, API costs |
 | **Agent architecture** | Blocking on parity gaps | Implementation level, graduation readiness, tool quality, testing, feedback loop |
@@ -235,7 +237,7 @@ Agent architecture is skipped entirely if no EIID component uses agent, workflow
 **`.superskills/`** contains volatile findings:
 - `report.md`: test results, security, build quality, design, performance, agent architecture findings. Build progress tracking. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns.
 - `decisions.md`: architecture decisions log. Append-only. Updated by `/super:strategy` refresh, `/super:review`, and `/super:design` redesign.
-- `design-system.md`: EIID Interface Map, direction, references, IA, layout, typography scale, composition, tokens, component patterns, conversational patterns, agent interaction patterns. Updated by `/super:design` as the system evolves.
+- `design-system.md`: EIID Interface Map, direction, experience patterns, references, IA, layout, typography scale, composition, tokens, component patterns, conversational patterns, agent interaction patterns. Updated by `/super:design` as the system evolves.
 
 Commands **read** CLAUDE.md for context and **write** to `.superskills/`.
 
@@ -266,9 +268,9 @@ superskills/                             the plugin
 │   └── pre-commit                      auto-version on commit
 ├── commands/
 │   ├── strategy.md                     assessment, EIID, implementation levels, agent architecture
-│   ├── design.md                       12-step design system + redesign
+│   ├── design.md                       13-step design system + redesign
 │   ├── build.md                        autonomous build loop + extend mode
-│   └── review.md                       six-domain audit
+│   └── review.md                       eight-domain audit
 ├── skills/
 │   ├── eiid-awareness/SKILL.md          strategic alignment during planning
 │   ├── design-awareness/SKILL.md        design compliance during planning

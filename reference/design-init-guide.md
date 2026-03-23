@@ -27,11 +27,13 @@ Produce the EIID Interface Map table (see `reference/design-system-template.md`)
 
 Read CLAUDE.md for business context and EIID mapping. Before choosing any visual direction, explore:
 
+**How should they feel?** This is the foundational question. Read the target feeling from CLAUDE.md (set during strategy). Everything that follows — every direction choice, every token, every interaction pattern — serves this feeling. If strategy defined "calm control", every design decision is tested against: does this contribute to calm control, or does it create noise?
+
 **Who opens this interface?** Not "users" — the actual person. Where are they? What's on their mind? A teacher at 7am with coffee is not a developer debugging at midnight.
 
 **What must they accomplish?** The verb. Grade submissions. Find the broken deployment. Approve the payment.
 
-**What should this feel like?** Say it in words that mean something. "Clean and modern" means nothing. Warm like a notebook? Cold like a terminal? Dense like a trading floor? Calm like a reading app?
+**What should this feel like?** Translate the target feeling into sensory terms. "Clean and modern" means nothing. Warm like a notebook? Cold like a terminal? Dense like a trading floor? Calm like a reading app? The sensory description bridges the abstract feeling to concrete design choices.
 
 Then produce:
 

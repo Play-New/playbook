@@ -8,6 +8,7 @@ When planning changes to the codebase:
 
 1. Read CLAUDE.md for the EIID mapping and user need. Read `.superskills/report.md` for the Project Profile (if it exists).
 2. **User need check:** does this change trace back to the user need defined in CLAUDE.md? If not, why are we building it?
+2b. **Feeling check:** if CLAUDE.md defines a target feeling, does this change serve or undermine it? A new feature that adds visual noise to a product targeting "calm control" is scope creep even if it traces to a valid EIID layer.
 3. **EIID layer:** which layer does it support? (enrichment / inference / interpretation / delivery / none). No layer? Potential scope creep. Flag it.
 4. **Evolution check:** is this component commodity (automate — don't build what you can buy), judgment-dependent (differentiate — enhance with better information), or new coordination (innovate — build it)? Check the Approach field: if it says "via agent", building coded infrastructure may be premature. If it says "via code", an agent-based approach may not meet volume or determinism requirements.
 4b. **Implementation level check:** does the implementation match the classified level? An LLM call that uses tool loops is under-classified (should be workflow or agent). An agent that never iterates is over-classified (should be LLM call or workflow). Flag mismatches.

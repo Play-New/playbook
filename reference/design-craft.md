@@ -107,6 +107,35 @@ Every color has a job. Document the job, not just the value. A color palette is 
 
 **Rule:** if two elements use the same color for different purposes, one of them needs a new token.
 
+## Experience Craft
+
+The difference between a product that works and a product that feels right. This section exists because AI-generated interfaces are functionally correct and experientially dead. They lack the micro-decisions that make software feel crafted: the transitions, the feedback, the gratification moments, the deliberate absences.
+
+Experience craft is not decoration applied after construction. It is the WHY behind every behavior pattern. A 200ms ease-out transition exists because the product should feel gentle. A 100ms snap exists because the product should feel precise. The timing IS the feeling.
+
+**Micro-interaction principles:**
+- Every user action gets feedback within 100ms. Button press, form submit, toggle, swipe. The type of feedback matches the feeling: a subtle scale for calm products, a crisp color change for precise products.
+- Loading states are specific, not generic. "Checking 3 sources..." not a spinner. The loading state communicates work, which builds trust and tolerance for latency.
+- Success states are proportional to achievement. Saving a form is a subtle check. Completing an onboarding flow is a moment. Hitting a milestone is a celebration. Most AI-built products treat all successes the same.
+
+**Transition principles:**
+- Content enters with direction and purpose. Staggered fade-in with slight vertical shift creates the feeling of content assembling itself. Instant pop-in feels mechanical.
+- State changes are smooth, not binary. A toggle doesn't jump — it slides. A panel doesn't appear — it expands. The animation duration matches the product's energy: fast for operational tools, gentle for reflective tools.
+- Page transitions create continuity. The user should feel like they're moving through a space, not jumping between disconnected views.
+
+**Gratification principles:**
+- Non-functional delight earns its place when it reinforces the target feeling. A progress ring that fills smoothly when a fleet is all-green says "everything is fine" more powerfully than text.
+- Empty states have personality. The first thing a new user sees should embody the product's character, not a gray "no data" message.
+- Discovery rewards: small, unexpected touches that reward exploration. A keyboard shortcut hint that appears once. A subtle animation on first use of a feature. These create the sense that someone cared.
+
+**Restraint principles:**
+- For every element, try removing it. If the feeling survives without it, remove it. This applies to animations too — don't animate what the user sees 50 times a day.
+- Silence is a pattern. Not every action needs a toast. Not every state needs an indicator. The product should be quiet when nothing requires attention.
+- Undo over confirmation. A 3-second undo window is faster and calmer than a "Are you sure?" dialog. Confirmation dialogs say "we don't trust you." Undo says "we've got you."
+- Whitespace as luxury. Generous spacing around the focal point says "this matters." Tight spacing in data tables says "scan this efficiently." The contrast between them IS the hierarchy.
+
+**The feeling test:** After building a screen, close your eyes and reopen. What do you feel in the first 500ms? Before you read any text, before you identify any element — what's the sensation? If it doesn't match the target feeling, something is wrong. This is the test that separates designed from generated.
+
 ## Conversational and Notification Craft
 
 Skip this section if all EIID layers use visual or automated modality.

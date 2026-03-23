@@ -19,7 +19,12 @@ Structure for `.superskills/report.md`. This file is volatile — replaced on ea
 ## Build Quality
 [empty — populated by /super:review]
 
-Minimal surface, design through the stack, security posture, intelligence transparency.
+Minimal surface, design through the stack, security posture, intelligence transparency, feeling.
+
+## Experience
+[empty — populated by /super:review]
+
+Feeling alignment, experience pattern compliance, responsive experience.
 
 ## Design Findings
 [empty — populated by /super:review]

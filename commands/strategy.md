@@ -38,14 +38,15 @@ Read package.json if it exists.
 
 ### 3. Assessment
 
-Six questions. Ask one at a time. Wait for each answer before asking the next. If the folder scan already surfaced relevant context, reference it in the question ("I see a Supabase setup and what looks like order data — who is this for?").
+Seven questions. Ask one at a time. Wait for each answer before asking the next. If the folder scan already surfaced relevant context, reference it in the question ("I see a Supabase setup and what looks like order data — who is this for?").
 
 1. **Who is this for?** You, your company, or a client? What do they do, where?
 2. **Who will use it?** Who will be the end user of your product?
 3. **How do they work today?** What tools are on their desk? Where do they communicate (email, WhatsApp, Slack, phone)? How do they currently manage the data this product will use? What does a typical day look like? The intelligence layer wraps around existing behavior — this determines where enrichment collects and delivery returns.
 4. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
-5. **What's needed to deliver that value?** Tools, services, other products, skills.
-6. **What exists already?** What data and tools do you have access to?
+5. **How should they feel?** When this product works perfectly — what's the emotional state? Not "satisfied" or "happy." Specific: in control? Relieved? Empowered? Calm? Delighted? This answer shapes every design and build decision. The feeling is the product. Everything else is implementation.
+6. **What's needed to deliver that value?** Tools, services, other products, skills.
+7. **What exists already?** What data and tools do you have access to?
 
 If documents from the folder scan add information the user didn't mention, incorporate it. If they contradict the user's answers, ask to clarify.
 
@@ -85,6 +86,8 @@ From the folder scan, stack detection, user context, and research, build the val
 **Graduation pattern:** start from the simplest level that works. An LLM call that covers 90% of cases beats an agent that covers 100% at 10x the cost. Graduate up (LLM call → workflow → agent) when edge cases justify the complexity. Graduate down (agent → workflow → code) when patterns stabilize and volume demands it.
 
 Record the implementation level in each EIID layer's Approach field: `via [LLM call / workflow / agent / code / buy]`. Graduation trigger is optional: "Innovate via workflow. Graduate to code when recipe DB > 10k" or "Automate via buy, commodity auth service."
+
+**Record the target feeling** in the EIID mapping header. This is the emotional benchmark for every decision that follows: design direction, experience patterns, build verification. Example: "Target feeling: calm control — the fleet manager glances and knows everything is fine."
 
 **Map to four layers:**
 

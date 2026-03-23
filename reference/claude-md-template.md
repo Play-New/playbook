@@ -14,6 +14,7 @@ The plugin generates this file via `/super:strategy`. It contains stable project
 ## User
 **End user:** [role, daily context]
 **Need:** [outcome, not feature]
+**Target feeling:** [the emotional state when the product works perfectly — e.g. "calm control", "warm discovery", "precise confidence"]
 
 ## Stack
 [detected or recommended, with rationale]

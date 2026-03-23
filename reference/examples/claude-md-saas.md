@@ -7,6 +7,7 @@
 ## User
 **End user:** Fleet manager, 30-80 vehicles, receives alerts on WhatsApp between site visits, uses web interface for fleet visualizations and configuration
 **Need:** Know which vehicles need attention before breakdowns happen, not after
+**Target feeling:** Calm control — a glance at the dashboard and the manager knows everything is fine, or knows exactly what needs attention. No anxiety, no information overload, no hunting.
 
 ## Stack
 Next.js 15 (App Router), Supabase (database + auth + realtime), Inngest (scheduled jobs), Vercel (hosting), shadcn + Tailwind v4

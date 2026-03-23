@@ -92,11 +92,25 @@ Follow `reference/design-init-guide.md` — Layout Architecture section. Grid, b
 
 Follow `reference/design-init-guide.md` — Composition Rules section. Hierarchy, density map, section rhythm, proportion, whitespace. These bridge layout and tokens.
 
-### 10. Generate Token Layer
+### 10. Define Experience Patterns
+
+Translate the target feeling (from CLAUDE.md strategy) into concrete, observable behaviors. These patterns make the feeling executable — an AI can verify their presence or absence.
+
+Read the target feeling from CLAUDE.md. Read the direction from step 3. For this product's feeling and direction, define:
+
+- **Micro-interactions:** feedback on every user action. What happens on click, hover, complete, error? Not "add hover states" — specific: timing, easing, visual change. A fleet dashboard might have crisp 100ms transitions (control). A recipe app might have gentle 200ms ease-outs (warmth).
+- **Transitions:** how content enters, exits, changes state. Staggered fade-in or instant? Spring easing or linear? The transition rhythm IS the product's pace.
+- **Gratification moments:** the non-functional delights. What happens when a user completes something meaningful? Not a generic toast — something that reinforces the feeling. These moments are what users remember.
+- **Restraint patterns:** what you deliberately don't do. No confirmation modals for reversible actions (undo instead). No toast storms. No animation on elements the user sees 50 times a day. Restraint is the hardest pattern to execute because AI defaults to adding, not removing.
+- **The absence test:** for every element, try removing it. If the target feeling survives, remove it.
+
+Write to `.superskills/design-system.md` under Experience Patterns section. Follow `reference/design-system-template.md` format.
+
+### 11. Generate Token Layer
 
 Follow `reference/design-init-guide.md` — Token Generation section. Extract before propose: scan existing code for repeated values, formalize the most common ones. Framework-specific instructions in the guide.
 
-### 11. Define Interaction Patterns for Non-Visual Layers
+### 12. Define Interaction Patterns for Non-Visual Layers
 
 For EIID layers mapped to conversational, notification, or embedded modality in the Interface Map:
 
@@ -106,7 +120,7 @@ If any EIID component has a user-facing agent, apply `reference/design-craft.md`
 
 Read `reference/examples/design-system-consumer.md` for tone: the Conversational Patterns and Agent Interaction Patterns sections show the level of specificity.
 
-### 12. Write Design Configuration
+### 13. Write Design Configuration
 
 Follow `reference/design-system-template.md` for structure. Read `reference/examples/design-system-saas.md` for tone.
 
@@ -114,7 +128,7 @@ Write to two places:
 
 **CLAUDE.md** — Design System section (framework, style, token source, direction, navigation, typography, color character, signature).
 
-**`.superskills/design-system.md`** — full design decisions: EIID Interface Map, direction, references, information architecture, layout, typography scale, composition, tokens, component patterns, conversational patterns, agent interaction patterns, decisions log. Include the EIID Interface Map section from step 1.
+**`.superskills/design-system.md`** — full design decisions: EIID Interface Map, direction, experience patterns, references, information architecture, layout, typography scale, composition, tokens, component patterns, conversational patterns, agent interaction patterns, decisions log. Include the EIID Interface Map section from step 1.
 
 ---
 

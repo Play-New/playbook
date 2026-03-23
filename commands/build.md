@@ -64,7 +64,8 @@ Do not apply a fixed list of building blocks. Read the strategy and derive what 
 
 **From the design system, determine the product's character:**
 
-- What's the feel? The design direction determines how every surface is built — not just colors and fonts, but information density, interaction patterns, the rhythm of the experience.
+- What's the target feeling? Read it from CLAUDE.md. This is the emotional benchmark — every visible element, every interaction, every transition either contributes to this feeling or undermines it.
+- What are the experience patterns? Read them from `.superskills/design-system.md`. These are the concrete behaviors (micro-interactions, transitions, gratification moments, restraint patterns) that produce the target feeling. Build them INTO the code from the start, not as a polish pass later.
 - What's the signature? The one thing that makes this product recognizable. It should be present from the first build, not added later.
 - What did the design explicitly reject? Don't build toward those defaults.
 
@@ -100,6 +101,11 @@ Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop.
 2. Full test suite passes (no regression)
 3. Types check (`npx tsc --noEmit`)
 4. If visual: does this follow the design direction? Not just token compliance — does it feel like the same product? Does the signature come through?
+5. **Feeling check:** read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For anything the user sees or interacts with:
+   - Are the experience patterns present? Micro-interactions on actions, appropriate transitions, loading states that communicate work?
+   - Are gratification moments in place for meaningful completions?
+   - Has the absence test been applied? For every visible element, would the feeling survive without it?
+   - Does the overall sensation match the target feeling? A product targeting "calm control" should not have toast storms, competing animations, or noisy empty states.
 
 **On failure:** iterate on implementation, not tests. Maximum 5 iterations. If still failing, log what happened and skip to next piece. Continue building — don't stop the whole loop for one piece. Report all skipped pieces at the end.
 

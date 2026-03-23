@@ -1,11 +1,11 @@
 ---
-description: Full quality audit. Tests, security, build standards, strategy, design, performance, agent architecture. All at once.
+description: Full quality audit. Tests, security, build standards, strategy, experience, design, performance, agent architecture. All at once.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
 # Review
 
-Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining six domains. If agent teams are available, run the remaining six in parallel. Otherwise, run everything sequentially.
+Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining seven domains. If agent teams are available, run the remaining seven in parallel. Otherwise, run everything sequentially.
 
 ## Prerequisites
 
@@ -119,7 +119,38 @@ Run the opportunity scan:
 
 ---
 
-## 5. Design
+## 5. Experience
+
+Severity: advisory, but high-impact findings can block.
+
+Read CLAUDE.md for the target feeling. Read `.superskills/design-system.md` for experience patterns. If neither exists, skip.
+
+### Feeling Alignment
+
+For each screen or user-facing component:
+1. **First impression test:** what sensation does the screen produce in the first 500ms, before reading any text? Does it match the target feeling?
+2. **Absence audit:** for each visible element, would the target feeling survive without it? Flag candidates for removal.
+3. **Noise audit:** are there competing animations, toast storms, unnecessary indicators, or visual clutter that undermine the feeling?
+
+### Experience Pattern Compliance
+
+If `.superskills/design-system.md` has an Experience Patterns section:
+1. **Micro-interactions:** does every user action get feedback? Is the feedback type and timing appropriate for the target feeling?
+2. **Transitions:** does content enter/exit with appropriate motion? Are state changes smooth, not binary?
+3. **Loading states:** are they specific ("Checking 3 sources...") or generic (spinner)? Generic loading states undermine transparency.
+4. **Gratification moments:** are meaningful completions marked with proportional feedback? Is mundane interaction appropriately quiet?
+5. **Restraint:** are confirmation dialogs used where undo would be better? Are there animations on high-frequency elements?
+6. **Empty states:** do they have personality that matches the direction, or are they generic "no data" messages?
+
+### Responsive Experience
+
+1. **Touch targets:** 44x44px minimum on mobile, appropriate spacing to prevent mis-taps
+2. **Layout adaptation:** does the feeling survive across breakpoints? A calm desktop experience that becomes cramped on mobile has lost the feeling.
+3. **Interaction adaptation:** hover patterns on desktop need touch equivalents on mobile. The experience patterns must work across devices.
+
+---
+
+## 6. Design
 
 Read CLAUDE.md and `.superskills/design-system.md` for context. Read `reference/design-critique.md` for the full critique framework. Work through all six layers (0 through 5).
 
@@ -193,7 +224,7 @@ Apply all six critique layers from `reference/design-critique.md`, evaluating cr
 
 ---
 
-## 6. Performance
+## 7. Performance
 
 Severity: blocking on regressions beyond budget, advisory otherwise.
 
@@ -201,7 +232,7 @@ Read `reference/review-performance-guide.md` for the full performance audit chec
 
 ---
 
-## 7. Agent Architecture
+## 8. Agent Architecture
 
 Skip this section entirely if no EIID component uses agent, workflow, or LLM call.
 
@@ -256,6 +287,7 @@ Write all findings to `.superskills/`:
 - Security findings → **replace** Security Findings section in `.superskills/report.md`
 - Build quality findings → **replace** Build Quality section in `.superskills/report.md`
 - Strategy findings → **append** to `.superskills/decisions.md`
+- Experience findings → **replace** Experience section in `.superskills/report.md`
 - Design findings → **replace** Design Findings section in `.superskills/report.md`
 - Performance findings → **replace** Performance Budget section in `.superskills/report.md`
 - Agent architecture findings → **replace** Agent Architecture section in `.superskills/report.md`
@@ -273,6 +305,7 @@ Tests:        [passed/failed/skipped]
 Security:     [blocking count] blocking, [high count] high
 Build:        [surface count] excess, [security count] security issues
 Strategy:     [scope-creep count] scope creep, [opportunity count] opportunities
+Experience:   [feeling issues] feeling, [pattern issues] patterns, [responsive issues] responsive
 Design:       [violation count] violations
 Performance:  [issue count] issues
 Agent:        [issue count] issues (or "skipped — no agent components")

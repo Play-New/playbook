@@ -59,20 +59,24 @@ Not a checklist — a posture. The build assumes hostile input on every boundary
 
 **Validate at boundaries.** User input, API responses, webhook payloads, agent outputs. Trust nothing from outside. Use schema validation (zod or equivalent). Inside the boundary, trust the types.
 
-## 5. The Product Comes First
+## 5. The Feeling Is the Product
 
-The build is not an exercise in engineering excellence. It's a tool that produces a product a human will use. Every engineering decision serves the experience.
+Before "does it work?" ask "how does it feel?" The target feeling (defined in strategy, refined in design) is the ultimate measure of every visible piece. A product that is functionally correct and experientially dead has failed.
+
+**Experience patterns are not polish.** Micro-interactions, transitions, gratification moments, restraint — these are built into the code from the first component, not applied as a final pass. A loading state that says "Checking 3 sources..." is built alongside the API call, not added later. A success animation on task completion is part of the task component, not a separate ticket.
+
+**The absence test runs continuously.** For every element on screen: would the target feeling survive without it? If yes, remove it. This applies to animations too — don't animate what the user sees 50 times a day. Restraint is harder than addition, and more important.
+
+**Gratification earns its place.** Not every action gets a celebration. Saving a form is a subtle check. Completing onboarding is a moment. Hitting a milestone is a delight. The scale of feedback matches the significance of the achievement.
 
 **The user sees:**
 - Screens that feel intentional, not generated
-- Responses that feel human, not templated
-- Errors that help, not confuse
+- Feedback that responds to their actions with appropriate weight
+- Transitions that create continuity, not jumps
+- Silence when nothing requires attention
 - Speed that respects their time
 
 **The user never sees:**
-- The directory structure
-- The test suite
-- The logging format
-- The migration files
+- The directory structure, the test suite, the logging format, the migration files
 
-Build the invisible parts to be correct and reliable. Build the visible parts to be exceptional. Put the craft where the user is.
+Build the invisible parts to be correct. Build the visible parts to be felt.

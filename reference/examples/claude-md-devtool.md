@@ -7,6 +7,7 @@
 ## User
 **End user:** Senior developer maintaining 5+ repositories, lives in terminal and Slack, checks dependencies weekly
 **Need:** Know which dependency updates will break things before merging, not after
+**Target feeling:** Precise confidence — the developer trusts the output immediately. No second-guessing, no "let me check manually anyway."
 
 ## Stack
 Node.js CLI tool. GitHub API (repo scanning), npm/yarn registry APIs (version data), Slack Web API (notifications). No frontend framework. No database. Reads repo state on demand.
