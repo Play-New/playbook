@@ -29,7 +29,7 @@ Each entry follows this format:
 **Type:** decision | alignment-check | drift-warning | opportunity | build | research
 **Status:** active | archived
 **Summary:** one sentence
-**EIID Layer:** enrichment | inference | interpretation | delivery | none
+**EIID Layer:** Enrichment | Inference | Interpretation | Delivery | none
 **Action:** what was done (or "None needed, aligned")
 **Archived:** [date, reason] (only if status is archived)
 ```

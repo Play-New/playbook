@@ -186,7 +186,7 @@ For each reference provided:
 - Figma URLs: get design context, extract relevant patterns
 - Designers or design studios: research their approach to this type of screen or problem. Apply their perspective, not just their aesthetic.
 
-**Priority:** What matters most — feeling, usability, density, craft, or structure?
+**Priority:** What matters most — experience, usability, density, craft, or structure?
 
 Skip questions the user already answered in their initial request.
 

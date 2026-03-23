@@ -148,7 +148,7 @@ For new projects, identify the roles that need filling based on the EIID mapping
 
 For each role, research and recommend the best fit for the project's context. Consider: team familiarity, ecosystem maturity, integration with other chosen tools, pricing at projected scale. If the EIID mapping classified components as "agent", recommend an agent runtime that supports the required channels and scheduling.
 
-> **Play New preferred stack** (for projects without existing constraints): Next.js, Supabase, Inngest, Vercel, shadcn + Tailwind. This combination is tested together and has strong AI coding support. Present it as a starting point, not a mandate. The user may prefer a different tool for any role.
+> **Recommended stack** (for projects without existing constraints): Next.js, Supabase, Inngest, Vercel, shadcn + Tailwind. This combination is tested together and has strong AI coding support. Present it as a starting point, not a mandate. The user may prefer a different tool for any role.
 
 If the user prefers a different tool for any role, use it. Generate technology constraints from whatever stack is chosen.
 

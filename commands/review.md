@@ -5,7 +5,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 
 # Review
 
-Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining seven domains. If agent teams are available, run the remaining seven in parallel. Otherwise, run everything sequentially.
+Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining seven domains sequentially.
 
 ## Prerequisites
 
@@ -125,7 +125,7 @@ Severity: advisory, but high-impact findings can block.
 
 Read CLAUDE.md for the target feeling. Read `.superskills/design-system.md` for experience patterns. If neither exists, skip.
 
-### Feeling Alignment
+### Experience Alignment
 
 For each touchpoint the user perceives — screens, agent responses, notifications, prompts, CLI output, workflow messages, emails:
 1. **First impression test:** what sensation does this touchpoint produce? Does it match the target feeling?
@@ -145,7 +145,7 @@ If `.superskills/design-system.md` has an Experience Patterns section:
 
 1. **Same product test:** if a user interacts via dashboard, then via WhatsApp, then reads an email — do all three feel like the same product?
 2. **Terminology match:** same terms, same framing, same units across all surfaces.
-3. **If visual surfaces exist:** touch targets 44x44px minimum, feeling survives across breakpoints, hover patterns have touch equivalents.
+3. **If visual surfaces exist:** touch targets 44x44px minimum, experience survives across breakpoints, hover patterns have touch equivalents.
 
 ---
 
@@ -213,7 +213,7 @@ Compare across all component files:
 
 ### Framework Rules
 
-- **shadcn + Tailwind:** utility classes only, `gap-*` for containers, semantic tokens only, `data-slot` attributes, CVA for variants, spacing matches style preset
+- **shadcn + Tailwind:** semantic tokens only (no raw hex/rgb), `gap-*` for containers, `data-slot` attributes, CVA for variants, spacing matches style preset, search registries before building custom
 - **Chakra/MUI/Mantine:** all styling through framework APIs, theme overrides in theme file
 - **Tailwind only:** utility classes only, no arbitrary values
 
