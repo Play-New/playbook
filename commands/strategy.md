@@ -62,7 +62,7 @@ Search the web close to the user's problem, not just the industry. Three focused
 
 Use the research and your own knowledge to classify each component's evolution stage in step 5. What's commodity (multiple providers, standardized)? What requires human judgment? Where are new connections possible that were previously too expensive? The classification comes from informed judgment, not from separate searches.
 
-**Reference seeds for design.** From the research, note 2-3 products with interfaces worth studying — not necessarily competitors, but products whose users have similar contexts (same urgency, same density needs, same device usage). Pass these to `/super:design` step 4 as suggested references. Record them in the research summary so they're available when the user runs design later.
+**Reference seeds for design.** From the research, note 2-3 products with interfaces worth studying — not necessarily competitors, but products whose users have similar contexts (same urgency, same density needs, same device usage). Write these to `.superskills/decisions.md` as a decision entry (type: `research`, EIID Layer: `interpretation`) so they persist and `/super:design` step 4 can read them.
 
 ### 5. EIID Mapping
 

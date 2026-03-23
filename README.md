@@ -286,7 +286,6 @@ superskills/                             the plugin
 │   ├── design-craft.md                 10 craft dimensions
 │   ├── design-init-guide.md            modality assessment through tokens
 │   ├── build-principles.md             design principles for construction
-│   ├── build-readiness-guide.md        readiness gates for /super:build
 │   ├── review-security-guide.md        security checklist
 │   ├── review-performance-guide.md     performance checklist
 │   └── examples/
@@ -312,7 +311,7 @@ your-project/                            what gets generated
     └── design-system.md                 design direction + tokens + patterns
 ```
 
-4 commands, 3 skills, 1 agent, 1 hook. 31 markdown files, 3 JSON. Three examples demonstrate the spectrum: FleetPulse (visual-heavy SaaS, all code/buy), RecipeBox (mixed modality consumer, agents and workflows with graduation), DepWatch (no-visual devtool, single LLM call with graduation to template).
+4 commands, 3 skills, 1 agent, 1 hook. 30 markdown files, 3 JSON. Three examples demonstrate the spectrum: FleetPulse (visual-heavy SaaS, all code/buy), RecipeBox (mixed modality consumer, agents and workflows with graduation), DepWatch (no-visual devtool, single LLM call with graduation to template).
 
 ## References
 

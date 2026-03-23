@@ -57,6 +57,8 @@ Follow `reference/design-init-guide.md` — Explore section. Produce domain conc
 
 ### 4. Direction Assessment
 
+Read `.superskills/decisions.md` for research reference seeds from `/super:strategy` (type: `research`). These are starting points — present them to the user alongside the collection step.
+
 Follow `reference/design-init-guide.md` — Direction Assessment section. Collect references (URLs, screenshots, Figma, brand names, designers, studios), anti-references, existing assets, constraints. Process all inputs and produce a reference summary.
 
 ### 5. Define Information Architecture

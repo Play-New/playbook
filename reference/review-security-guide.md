@@ -27,7 +27,9 @@ For each item: PASS or FAIL with file:line.
 
 ## GDPR Compliance
 
-Six checks:
+**Applicability gate:** Does this product collect or process personal data of individuals? If the product has no user accounts, no PII in any data flow, and no EU users, skip this section entirely. An internal CLI tool with no user data has no GDPR obligation.
+
+If applicable, six checks:
 1. Consent mechanism present before collecting personal data?
 2. Data export capability (user can download their data)?
 3. Data deletion capability (user can request account and data removal)?

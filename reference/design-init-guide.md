@@ -107,7 +107,7 @@ If not, pick a display font + body font pairing that matches the direction. Read
 
 **The default test:** if the font is what the framework installs by default, or what most AI-generated projects use, it's not a design decision. Choose intentionally. A fleet management dashboard and a children's reading app should not share the same typeface.
 
-Pick two: one display font (headings, hero text) and one body font (paragraphs, UI labels). They should contrast in character but share similar x-height.
+Determine how many type voices this product needs. Some products need one font at different weights. Some need a display font + body font pair. Some need three (display, body, mono). The number of typefaces is a design decision, not a rule. If two fonts are chosen, they should contrast in character but share similar x-height.
 
 If references included typography patterns, use them as starting points.
 
@@ -160,7 +160,7 @@ If no existing UI code is found, skip extraction and propose tokens from the dir
 - Token names should evoke the product's world — not just `--gray-700` but names that someone reading only the tokens could guess what product this is
 - Set up cn() utility: `npm install clsx tailwind-merge`
 - Initialize: `npx shadcn init`
-- Add base components: `npx shadcn add button card input label badge dialog dropdown-menu table`
+- Add only the components this product actually needs (derived from the IA and screen map). Do not install a fixed list — a CLI tool needs none, a dashboard needs table and card, a form-heavy app needs input and label.
 
 **For Chakra/MUI/Mantine:**
 - Create theme.ts with full token set: colors, fonts (display + body), spacing, radii, shadows

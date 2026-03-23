@@ -35,7 +35,7 @@ Rule zero overrides all other build decisions. When in doubt, build less.
 
 ### 1. Readiness
 
-Read CLAUDE.md, `.superskills/design-system.md`, `.superskills/decisions.md`.
+Read CLAUDE.md, `.superskills/design-system.md`, `.superskills/decisions.md`, `.superskills/report.md` (if it exists — review findings inform what to fix or avoid).
 
 Three gates:
 
@@ -100,16 +100,18 @@ Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop.
 1. Acceptance tests pass
 2. Full test suite passes (no regression)
 3. Types check (`npx tsc --noEmit`)
-4. If visual: does this follow the design direction? Not just token compliance — does it feel like the same product? Does the signature come through?
+4. If visual: structural verification — are the right tokens, components, and layout patterns used? Does the code match the design direction? Note: the build loop cannot render pages or see visual output. Structural checks (correct classes, tokens, component usage, layout patterns) are the proxy. True visual verification requires the user to see the running product. Flag screens that need visual review in the report.
 5. **Feeling check:** read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For anything the user sees or interacts with:
    - Are the experience patterns present? Micro-interactions on actions, appropriate transitions, loading states that communicate work?
    - Are gratification moments in place for meaningful completions?
    - Has the absence test been applied? For every visible element, would the feeling survive without it?
    - Does the overall sensation match the target feeling? A product targeting "calm control" should not have toast storms, competing animations, or noisy empty states.
 
-**On failure:** iterate on implementation, not tests. Maximum 5 iterations. If still failing, log what happened and skip to next piece. Continue building — don't stop the whole loop for one piece. Report all skipped pieces at the end.
+**On regression:** if verify step 2 (full test suite) fails on tests from earlier pieces, the current piece broke something. Revert the current piece's changes, analyze why the regression happened, and try a different approach. This counts toward the 5-iteration limit. If all 5 iterations regress earlier pieces, skip and report — do not leave a regression in place.
 
-**On success:** log to `.superskills/decisions.md` and continue.
+**On failure (no regression, current piece fails):** iterate on implementation, not tests. Maximum 5 iterations. If still failing, log what happened and skip to next piece. Continue building — don't stop the whole loop for one piece. Report all skipped pieces at the end.
+
+**On success:** log to `.superskills/decisions.md`. Read the log — if previous pieces had issues or patterns, use that context to inform the next piece's approach. Then continue.
 
 ### 5. Report
 
@@ -122,6 +124,7 @@ Built: [count] pieces
 Skipped: [count] (with reasons)
 Tests: [pass]/[total]
 EIID coverage: [which layers are implemented]
+Visual review needed: [list screens that need the user to see the running product]
 
 Skipped pieces:
 - [piece]: [what failed, what was tried, proposed fix]
@@ -135,7 +138,7 @@ Add a feature or implement a piece on top of existing code.
 
 ### 1. Context
 
-Read CLAUDE.md, `.superskills/decisions.md`, `.superskills/design-system.md`. Understand what exists.
+Read CLAUDE.md, `.superskills/decisions.md`, `.superskills/design-system.md`, `.superskills/report.md` (if it exists). Understand what exists and what review flagged — don't repeat mistakes review already caught.
 
 ### 2. Map to EIID
 
@@ -143,13 +146,17 @@ Which layer(s) does the target touch? What's the approach? What depends on it?
 
 If the target doesn't trace to any EIID layer, flag it. Don't build scope creep silently.
 
-### 3. Rule Zero
+### 3. Plan
 
-Before planning the implementation: is this the simplest way to deliver this value? Can the target be achieved with less? Fewer new screens, fewer new tables, fewer new endpoints. Challenge the scope before committing to it.
+Rule zero first: is this the simplest way to deliver this value? Can the target be achieved with less? Fewer new screens, fewer new tables, fewer new endpoints. Challenge the scope before committing to it.
+
+Then produce a plan. Same format as init mode: what, why, how, depends on. Show what will change in existing code and what will be new.
+
+**Present the plan. The user approves before building.** Extending existing code is higher risk than starting fresh — a bad extension can break working features. The plan is the checkpoint.
 
 ### 4. Build
 
-Same loop as init mode (test → build → verify → next). Same autonomy — no checkpoints after initial confirmation.
+Same loop as init mode (test → build → verify → next). Same autonomy after plan approval. Same rollback rules for regressions.
 
 ### 5. Integration
 
