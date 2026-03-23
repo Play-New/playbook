@@ -65,5 +65,11 @@ If EIID mapping includes components via agent, workflow, or LLM call:
 
 ## Design System
 **Framework:** [detected or recommended]
+**Style:** [preset name or custom]
 **Token source:** [globals.css / theme.ts / etc.]
+**Direction:** [brief character description — the feeling made concrete]
+**Navigation:** [structure and primary items]
+**Typography:** [font choices and roles]
+**Color character:** [palette personality — what colors mean in this product]
+**Signature:** [the one element that makes this product recognizable]
 ```

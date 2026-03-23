@@ -9,6 +9,10 @@
 
 A Claude Code plugin that changes the shape of software.
 
+```bash
+claude plugin add --from github:Play-New/superskills
+```
+
 ---
 
 ## The problem
@@ -127,12 +131,13 @@ your-project/
 └── .superskills/
     ├── report.md            volatile findings (replaced each audit)
     ├── decisions.md         architecture log (append-only)
-    └── design-system.md     direction + tokens + patterns
+    ├── design-system.md     direction + tokens + patterns
+    └── build-plan.md        approved build plan (replaced each build)
 ```
 
 **CLAUDE.md** contains the EIID mapping with strategic approach and implementation level per layer, technology constraints, design system config. Claude reads it at session start. It changes rarely.
 
-**`.superskills/`** contains volatile findings that accumulate across sessions. Commands read CLAUDE.md for context and write to `.superskills/`.
+**`.superskills/`** contains volatile findings that accumulate across sessions. Commands read CLAUDE.md for context and write to `.superskills/`. The build plan is approved once, then the build runs autonomously from it.
 
 ---
 
@@ -147,35 +152,6 @@ The `reference/examples/` directory contains complete outputs for three products
 **DepWatch** (DevTool) — dependency update risk analysis. No visual UI at all. CLI only. A single LLM call for interpretation, with a graduation trigger to template when patterns stabilize. Demonstrates that EIID applies to non-visual products: enrichment from package registries, inference via semver analysis, interpretation via LLM, delivery via terminal output.
 
 Each example includes: CLAUDE.md, design-system.md, decisions.md, and build-plan.md.
-
----
-
-## Setup
-
-Install as a Claude Code plugin from the GitHub repository.
-
-### Install
-
-```bash
-claude plugin add --from github:Play-New/superskills
-```
-
-### Team setup
-
-Add to your project's `.claude/settings.json` so every team member gets the plugin:
-
-```json
-{
-  "permissions": {
-    "allow": []
-  },
-  "enabledPlugins": {
-    "super": "github:Play-New/superskills"
-  }
-}
-```
-
-No special flags required. The plugin works with standard Claude Code. Commands declare their own tool permissions in frontmatter (`allowed-tools`), so Claude can use the tools each command needs without manual configuration.
 
 ---
 

@@ -83,7 +83,7 @@ Produce the build plan. Each piece:
 
 Order by dependency. Infrastructure before intelligence. Intelligence before surfaces.
 
-Present the plan. The user approves, reorders, removes, or adds. **This is the only checkpoint.** After approval, the build is autonomous until completion or hard failure.
+Present the plan. The user approves, reorders, removes, or adds. **This is the only checkpoint.** After approval, write the plan to `.superskills/build-plan.md` — this is the ground truth for the build loop and future sessions. Then the build is autonomous until completion or hard failure.
 
 ### 4. Build Loop (autonomous)
 
@@ -153,7 +153,7 @@ Rule zero first: is this the simplest way to deliver this value? Can the target 
 
 Then produce a plan. Same format as init mode: what, why, how, acceptance criteria, depends on. Show what will change in existing code and what will be new.
 
-**Present the plan. The user approves before building.** Extending existing code is higher risk than starting fresh — a bad extension can break working features. The plan is the checkpoint.
+**Present the plan. The user approves before building.** Extending existing code is higher risk than starting fresh — a bad extension can break working features. The plan is the checkpoint. After approval, write (or update) `.superskills/build-plan.md`.
 
 ### 4. Build
 
