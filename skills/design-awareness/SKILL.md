@@ -1,6 +1,6 @@
 ---
 name: design-awareness
-description: Experience and design awareness during planning. Challenges whether changes earn their place, checks feeling alignment across all modalities, then direction, hierarchy, and system compliance.
+description: Experience and design awareness during planning. Challenges whether changes earn their place, checks experience alignment across all modalities, then direction, hierarchy, and system compliance.
 user-invocable: false
 ---
 

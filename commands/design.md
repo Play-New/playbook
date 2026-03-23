@@ -1,5 +1,5 @@
 ---
-description: Design system from feeling through execution. First run determines what needs what surface, defines experience patterns for all modalities, then visual execution for layers that need it. With a target, redesigns it.
+description: Design system from EIID mapping through execution. First run determines what needs what surface, defines experience patterns for all modalities, then visual execution for layers that need it. With a target, redesigns it.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebFetch, WebSearch
 ---
 
@@ -49,7 +49,7 @@ Follow `reference/design-init-guide.md` — Direction Assessment section. Collec
 
 ### 4. Define Experience Patterns
 
-**This is the core design step.** It comes before any visual decisions because the feeling shapes everything that follows. Do not skip this for any product.
+**This is the core design step.** It comes before any visual decisions because experience patterns shape everything that follows. Do not skip this for any product.
 
 Translate the target feeling (from CLAUDE.md strategy) into concrete, observable behaviors for EVERY modality in the EIID Interface Map. These patterns make the feeling executable — an AI can verify their presence or absence.
 

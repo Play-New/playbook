@@ -43,7 +43,7 @@ Experience craft is the WHY behind every behavior pattern. A prompt that leads w
 - In conversation: don't ask "Is there anything else?" after every answer. Don't front-load disclaimers. Don't repeat the question before answering.
 - In prompts: every clause in a system prompt that doesn't change the output should be removed. Prompt bloat produces response bloat.
 
-**The feeling test:** After building any touchpoint — a screen, a prompt, an agent flow, a notification template, a CLI output format — ask: does this feel like the same product? Does it carry the target feeling? A "calm control" product should feel calm in its WhatsApp messages as much as in its dashboard. If any touchpoint breaks the feeling, it breaks the product.
+**Coherence test:** After building any touchpoint — a screen, a prompt, an agent flow, a notification template, a CLI output format — ask: does this feel like the same product? Does it carry the target feeling? A "calm control" product should feel calm in its WhatsApp messages as much as in its dashboard. If any touchpoint breaks the coherence, it breaks the product.
 
 ### Direction Spectrum
 

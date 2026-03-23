@@ -29,7 +29,7 @@ Produce the EIID Interface Map table (see `reference/design-system-template.md`)
 
 Read CLAUDE.md for business context and EIID mapping. Before choosing any direction, explore:
 
-**How should they feel?** This is the foundational question. Read the target feeling from CLAUDE.md (set during strategy). Everything that follows — every direction choice, every token, every message pattern, every prompt, every agent behavior — serves this feeling. If strategy defined "calm control", every design decision is tested against: does this contribute to calm control, or does it create noise?
+**How should they feel?** Read the target feeling from CLAUDE.md (set during strategy). This guides experience decisions — direction, tokens, message patterns, agent behavior. If strategy defined "calm control", every design decision is tested against: does this contribute to calm control, or does it create noise?
 
 **Who interacts with this product?** Not "users" — the actual person. Where are they? What's on their mind? What device, what channel, what moment? A fleet manager getting a WhatsApp alert between site visits is not a developer reading CLI output at their desk.
 

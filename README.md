@@ -212,7 +212,7 @@ Eight audits. Tests run first (broken code makes other audits unreliable). The r
 | **Security** | Blocking on critical | OWASP Top 10, GDPR, secrets, stack-adaptive checks |
 | **Build quality** | Blocking on security | Minimal surface, design through the stack, security posture, intelligence transparency |
 | **Strategy** | Advisory | EIID alignment per file, scope creep, 11-question opportunity scan |
-| **Experience** | Advisory, high-impact blocks | Feeling alignment, experience pattern compliance, responsive experience |
+| **Experience** | Advisory, high-impact blocks | Experience alignment, pattern compliance, responsive experience, coherence |
 | **Design** | Blocking if widespread | Accessibility, IA, design system compliance, conversational/agent pattern compliance, consistency, framework rules, craft |
 | **Performance** | Blocking on regression | Bundle, Core Web Vitals, N+1 queries, API costs |
 | **Agent architecture** | Blocking on parity gaps | Implementation level, graduation readiness, tool quality, testing, feedback loop |

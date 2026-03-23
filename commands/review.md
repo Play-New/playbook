@@ -304,7 +304,7 @@ Tests:        [passed/failed/skipped]
 Security:     [blocking count] blocking, [high count] high
 Build:        [surface count] excess, [security count] security issues
 Strategy:     [scope-creep count] scope creep, [opportunity count] opportunities
-Experience:   [feeling issues] feeling, [pattern issues] patterns, [coherence issues] coherence
+Experience:   [alignment issues] alignment, [pattern issues] patterns, [coherence issues] coherence
 Design:       [violation count] violations
 Performance:  [issue count] issues
 Agent:        [issue count] issues (or "skipped — no agent components")
