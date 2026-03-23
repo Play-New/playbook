@@ -1,11 +1,19 @@
 # Design System
 
 ## Direction
-**Feel:** Warm kitchen table. The product should feel like a knowledgeable friend who cooks, not a database of recipes.
+**Target feeling:** Warm kitchen table. The product should feel like a knowledgeable friend who cooks, not a database of recipes.
 **Domain concepts:** Pantry, ingredient, meal plan, prep time, grocery receipt, collection, availability match
 **Color world:** Cream linen, terracotta clay, olive oil, toasted bread, fresh herb green. The palette of a weekend farmers market.
 **Signature:** The availability percentage on every recipe card. "You have 8 of 10 ingredients" tells you this recipe is within reach. No other recipe tool leads with what you already own.
 **Rejected defaults:** Recipe aggregator grid with ad sidebars, clinical white backgrounds, stock food photography with studio lighting
+
+## Experience Patterns
+
+**Feedback:** WhatsApp — receipt photo acknowledged within 3 seconds ("Reading your receipt... found 12 items"). Web — recipe cards load with a gentle fade, not a hard pop. Saving a recipe shows a brief heart animation. Every action gets a response in the user's current channel.
+**Pacing:** Warm and conversational — context before decision. The agent says "Based on your pantry, you can make 3 recipes tonight" before listing them. Recipe detail pages are unhurried: generous spacing, one section at a time. No rapid-fire information dumps.
+**Voice and tone:** Friendly, knowledgeable, like a friend who cooks. "You have 8 of 10 ingredients — just need coconut milk and lime" not "Ingredient match: 80%. Missing: coconut milk, lime." Same warmth in WhatsApp replies, email summaries, web copy, and error messages. The product never sounds like a database.
+**Gratification:** Proportional to achievement. Logging a receipt: brief confirmation. Cooking a saved recipe and telling the agent: warmer response ("Nice! How did the pad thai turn out?"). Weekly email highlights recipes cooked that week. The web archive shows a gentle counter of recipes saved — quiet accumulation, not gamification.
+**Restraint:** No push notifications for new recipes unless the user asked. No "Is there anything else?" after every WhatsApp response. No onboarding tour — the first interaction IS the onboarding (send a photo, get recipes). Web archive has no promotional banners, no upsell modals. Empty collections say "Save recipes here" — no illustrated empty states with paragraphs of explanation.
 
 ## EIID Interface Map
 

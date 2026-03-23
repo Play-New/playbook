@@ -16,7 +16,7 @@ Two modes. Detection order matters.
 **2. Route:**
 - **No EIID mapping** → run **init mode**
 - **EIID mapping exists + user provided context about what changed** (business pivot, new users, new data sources, new constraints, market shift) → run **refresh mode**
-- **EIID mapping exists + no context** → tell the user: "Strategy already exists. Provide context about what's changed to refresh it. Run `/review` for a full audit including strategy alignment."
+- **EIID mapping exists + no context** → tell the user: "Strategy already exists. Provide context about what's changed to refresh it. Run `/super:review` for a full audit including strategy alignment."
 
 ---
 
@@ -38,24 +38,31 @@ Read package.json if it exists.
 
 ### 3. Assessment
 
-Six questions. Ask one at a time. Wait for each answer before asking the next. If the folder scan already surfaced relevant context, reference it in the question ("I see a Supabase setup and what looks like order data — who is this for?").
+Seven questions. Ask one at a time. Wait for each answer before asking the next. If the folder scan already surfaced relevant context, reference it in the question ("I see a Supabase setup and what looks like order data — who is this for?").
 
 1. **Who is this for?** You, your company, or a client? What do they do, where?
 2. **Who will use it?** Who will be the end user of your product?
 3. **How do they work today?** What tools are on their desk? Where do they communicate (email, WhatsApp, Slack, phone)? How do they currently manage the data this product will use? What does a typical day look like? The intelligence layer wraps around existing behavior — this determines where enrichment collects and delivery returns.
 4. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
-5. **What's needed to deliver that value?** Tools, services, other products, skills.
-6. **What exists already?** What data and tools do you have access to?
+5. **How should they feel?** When this product works perfectly — what's the emotional state? Not "satisfied" or "happy." Specific: in control? Relieved? Empowered? Calm? Delighted? This answer shapes design and build decisions — it's the quality benchmark for how users perceive the product.
+6. **What's needed to deliver that value?** Tools, services, other products, skills.
+7. **What exists already?** What data and tools do you have access to?
 
 If documents from the folder scan add information the user didn't mention, incorporate it. If they contradict the user's answers, ask to clarify.
 
 ### 4. Research
 
-Search the web close to the user's problem, not just the industry. One focused search:
+Search the web close to the user's problem, not just the industry. Three focused searches, each building on the previous:
 
-**How this problem gets solved today.** "[user role] [problem] tools" or "[user need] software" — what products, workflows, and solutions exist? What's good, what's broken, what's missing? This grounds the EIID mapping in reality.
+**Search 1 — How this problem gets solved today.** "[user role] [problem] tools" or "[user need] software" — what products, workflows, and solutions exist? What's good, what's broken, what's missing? This grounds the EIID mapping in reality.
+
+**Search 2 — Who does it well.** From search 1, identify the 2-3 best existing solutions. Search for them specifically: their architecture, pricing, limitations, user complaints. What do they get right? Where do users say they fall short? This reveals where commodity ends and differentiation begins.
+
+**Search 3 — What changed recently.** "[problem domain] AI tools [current year]" or "[industry] automation [current year]" — what's new in this space? What was custom six months ago and is now a service? What services shut down or pivoted? This prevents building something that's already commodity or betting on a dying tool.
 
 Use the research and your own knowledge to classify each component's evolution stage in step 5. What's commodity (multiple providers, standardized)? What requires human judgment? Where are new connections possible that were previously too expensive? The classification comes from informed judgment, not from separate searches.
+
+**Reference seeds for design.** From the research, note 2-3 products with interfaces worth studying — not necessarily competitors, but products whose users have similar contexts (same urgency, same density needs, same device usage). Write these to `.superskills/decisions.md` as a decision entry (type: `research`, EIID Layer: `Interpretation`) so they persist and `/super:design` step 3 can read them.
 
 ### 5. EIID Mapping
 
@@ -79,6 +86,8 @@ From the folder scan, stack detection, user context, and research, build the val
 **Graduation pattern:** start from the simplest level that works. An LLM call that covers 90% of cases beats an agent that covers 100% at 10x the cost. Graduate up (LLM call → workflow → agent) when edge cases justify the complexity. Graduate down (agent → workflow → code) when patterns stabilize and volume demands it.
 
 Record the implementation level in each EIID layer's Approach field: `via [LLM call / workflow / agent / code / buy]`. Graduation trigger is optional: "Innovate via workflow. Graduate to code when recipe DB > 10k" or "Automate via buy, commodity auth service."
+
+**Record the target feeling** in the EIID mapping header. This is the emotional benchmark for every decision that follows: design direction, experience patterns, build verification. Example: "Target feeling: calm control — the fleet manager glances and knows everything is fine."
 
 **Map to four layers:**
 
@@ -139,7 +148,7 @@ For new projects, identify the roles that need filling based on the EIID mapping
 
 For each role, research and recommend the best fit for the project's context. Consider: team familiarity, ecosystem maturity, integration with other chosen tools, pricing at projected scale. If the EIID mapping classified components as "agent", recommend an agent runtime that supports the required channels and scheduling.
 
-> **Play New preferred stack** (for projects without existing constraints): Next.js, Supabase, Inngest, Vercel, shadcn + Tailwind. This combination is tested together and has strong AI coding support. Present it as a starting point, not a mandate. The user may prefer a different tool for any role.
+> **Recommended stack** (for projects without existing constraints): Next.js, Supabase, Inngest, Vercel, shadcn + Tailwind. This combination is tested together and has strong AI coding support. Present it as a starting point, not a mandate. The user may prefer a different tool for any role.
 
 If the user prefers a different tool for any role, use it. Generate technology constraints from whatever stack is chosen.
 
@@ -173,19 +182,21 @@ Add `.superskills/` to the project's `.gitignore` suggestion list. The user deci
 
 Tell the user:
 
-**Next step:** run `/super:design` for design system setup, or `/super:review` for a full quality audit (tests, security, strategy alignment, design consistency, performance).
+**Next step:** run `/super:design` for design system setup, or `/super:build` to start constructing from the strategy. Run `/super:review` for a full quality audit.
 
-Then start building. The plugin watches what you do. When you want a check, run `/super:review` for a full audit — all at once.
+If the research (step 4) identified reference products worth studying for design, mention them: "During research, [Product A] and [Product B] stood out as good design references for [reason]. Consider them when running `/super:design`."
+
+Skills advise as you work. When you want a full check, run `/super:review` for a complete audit — all at once.
 
 ---
 
 ## Refresh Mode
 
-Re-assessment with new context. Something changed in the business, users, data, or market. Consistency audits belong in `/review`.
+Re-assessment with new context. Something changed in the business, users, data, or market. Consistency audits belong in `/super:review`.
 
 ### 1. Load Existing Context
 
-Read CLAUDE.md and `.superskills/decisions.md`. Understand the current EIID mapping, stack, user context, and decision history.
+Read CLAUDE.md and `.superskills/decisions.md`. Understand the current EIID mapping, stack, user context, and decision history. Focus on **Active** decisions — archived decisions are context, not constraints.
 
 ### 2. Change Assessment
 
@@ -221,9 +232,14 @@ Reclassify each EIID element: automate / differentiate / innovate. Set updated p
 
 Follow the same structure as init mode step 8. **Show the full updated CLAUDE.md to the user before writing.** Highlight what changed from the previous version. Ask for confirmation.
 
-### 7. Log Decision
+### 7. Archive and Log
 
-Append to `.superskills/decisions.md`. Follow the format in `reference/examples/decisions-saas.md`.
+**Archive stale decisions.** Scan the Active section of `.superskills/decisions.md`. For each active decision, check: does the context that justified it still hold given the new information? If not, move it to the Archived section with the date and reason. Examples:
+- A "via buy" decision for a service that no longer exists → archive, replace with new decision
+- A "differentiate" classification for something that's now commodity → archive, reclassify
+- A build decision for code that was removed or replaced → archive
+
+**Log the refresh decision.** Append a new entry to the Active section of `.superskills/decisions.md`. Follow the format in `reference/decisions-template.md`. Summarize what changed in this refresh and why.
 
 ---
 

@@ -1,17 +1,20 @@
 # Design Critique
 
-Six layers. Work through each in order. The first build was the draft. The critique is the design.
+Six layers. Layer 0 (strategy alignment, experience patterns) is the most important and applies to ALL modalities — screens, agents, prompts, notifications, CLI, workflows. Layers 1-5 are primarily visual execution. If layer 0 has issues, they override everything else — a beautifully crafted screen that serves the wrong EIID layer is waste.
 
-Before starting: read CLAUDE.md for the EIID mapping, user context, and business context. Read `.superskills/design-system.md` for the design direction, information architecture, and tokens. Every observation below is evaluated against what the product is for and who uses it. A beautiful interface that misaligns with the strategy is a failure. A functional interface that ignores its user's context is a failure.
+Before starting: read CLAUDE.md for the EIID mapping, target feeling, and user context. Read `.superskills/design-system.md` for direction, experience patterns, information architecture, and tokens. Every observation is evaluated against what the product is for, who uses it, and how they should feel. A beautiful interface that misaligns with the strategy is a failure. A functional product that is experientially dead is a failure.
 
 ## 0. Strategic Alignment
 
-Before critiquing pixels, check that the design serves the strategy.
+Before critiquing pixels, check that the design serves the strategy and the target feeling.
 
 - If the design system contains an EIID Interface Map, check whether this screen should exist as visual at all. If content on this screen belongs to a layer mapped to conversational or notification modality, the screen is solving the wrong problem.
 - **EIID priority:** interpretation visualizations should dominate the screen — charts, trends, comparisons, spatial views that don't fit in a message. Inference outputs support them (indicators, alerts, scores). The web interface is not the primary input surface: people feed data through their existing channels (chat, email, voice, photos). Configuration (enrichment sources, inference prompts, delivery rules, user management) should be accessible but visually subordinate. If a configuration screen gets the same visual treatment as an interpretation visualization, the hierarchy is wrong.
 - **Focal point alignment:** the element with the most visual weight on each screen should map to the highest-value EIID layer present on that screen. If a settings toggle has more visual presence than the primary insight, the priorities are inverted.
+- **Experience alignment:** read the target feeling from CLAUDE.md. Does this touchpoint's first impression match? This applies to screens (first 500ms before reading), agent responses (the first line), notifications (the subject line), CLI output (the first line). A touchpoint that is functionally correct but experientially wrong has failed.
 - **User context match:** a fleet manager at 6am scanning 30 vehicles needs density and speed. A teacher reviewing student progress needs warmth and clarity. The design should feel like it was made for the person described in CLAUDE.md, not for a generic "user." Check: does the density match their task complexity? Does the tone match their emotional context? Does the pace match their time pressure?
+- **Experience pattern compliance:** if `.superskills/design-system.md` has Experience Patterns, check across all modalities: feedback on user actions, appropriate pacing, voice consistency, proportional gratification, restraint applied. Has the absence test been applied (every element the user perceives survives removal)?
+- **Cross-modality coherence:** if the product has multiple touchpoints (dashboard + WhatsApp, CLI + email, agent + notification), do they feel like the same product? Same voice, same terminology, same personality.
 - **Value chain visibility:** the most valuable parts of the product (what's built, not bought) should be the most prominent. Commodity features (auth, settings, profile) should be visually subordinate. If the login page has more design attention than the core insight screen, effort is misallocated. If any EIID layer lacks visual representation, confirm whether it needs one before flagging its absence.
 
 If strategic alignment issues exist, they override all other critique layers. Fix alignment first.

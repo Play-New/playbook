@@ -1,11 +1,11 @@
 ---
-description: Full quality audit. Tests, security, strategy, design, performance, agent architecture. All at once.
+description: Full quality audit. Tests, security, build standards, strategy, experience, design, performance, agent architecture. All at once.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
 # Review
 
-Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining five domains. If agent teams are available, run the remaining five in parallel. Otherwise, run everything sequentially.
+Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining seven domains sequentially.
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ Check for vitest.config.ts OR a `test` script in package.json. If found, run **v
 
 Run in sequence:
 
-1. `npm test -- --run`
+1. `npm test` (add `-- --run` for vitest, `-- --watchAll=false` for jest)
 2. If Playwright configured: `npx playwright test`
 3. `npx tsc --noEmit`
 
@@ -57,7 +57,39 @@ Read `reference/review-security-guide.md` for the full security audit checklist.
 
 ---
 
-## 3. Strategy
+## 3. Build Quality
+
+Severity: blocking on security posture, advisory on design.
+
+Read `reference/build-principles.md`. Apply to the existing codebase:
+
+### Minimal Surface
+- Are there screens, endpoints, tables, or components that don't trace to the EIID mapping? Flag each.
+- Are there screens doing two things that should be one? Settings split across multiple pages? Redundant views?
+- Are there tables that aren't queried, endpoints that aren't called, components that aren't rendered?
+- Count: how many screens, tables, API routes. Compare against the EIID mapping. If the ratio feels heavy, flag it.
+
+### Design Through the Stack
+- Does the schema reflect the IA's core objects, or is it over-modeled?
+- Do visual surfaces carry the design direction's character, or do they feel generic?
+- Is the signature element present and visible?
+- Do user-facing messages (errors, notifications, agent responses) match the design direction's tone?
+
+### Security Posture
+- If the product has users: single auth middleware, not scattered checks. Blocking.
+- If the product has a database with user data: RLS enabled. Blocking.
+- Secrets in env, validated at startup, never in code. Blocking.
+- Input validation at boundaries (user input, webhooks, API responses). Blocking on critical paths.
+
+### Intelligence Transparency (if LLM/agent components exist)
+- Are prompts in discoverable locations, not inline in business logic?
+- Do LLM calls have schema-validated output?
+- If user-facing: can the user see what the system is prompted to do?
+- Are graduation markers present in code comments?
+
+---
+
+## 4. Strategy
 
 Read CLAUDE.md EIID mapping. For each source file:
 1. Which EIID layer does it support? (enrichment / inference / interpretation / delivery / none)
@@ -87,7 +119,37 @@ Run the opportunity scan:
 
 ---
 
-## 4. Design
+## 5. Experience
+
+Severity: advisory, but high-impact findings can block.
+
+Read CLAUDE.md for the target feeling. Read `.superskills/design-system.md` for experience patterns. If neither exists, skip.
+
+### Experience Alignment
+
+For each touchpoint the user perceives — screens, agent responses, notifications, prompts, CLI output, workflow messages, emails:
+1. **First impression test:** what sensation does this touchpoint produce? Does it match the target feeling?
+2. **Absence audit:** for each element the user perceives (visual or textual), would the target feeling survive without it? Flag candidates for removal.
+3. **Noise audit:** is there clutter that undermines the feeling? Visual: competing animations, toast storms. Conversational: explanation dumps, unnecessary follow-up questions. Prompts: clauses that don't change output. Workflows: notifications for routine steps.
+
+### Experience Pattern Compliance
+
+If `.superskills/design-system.md` has an Experience Patterns section:
+1. **Feedback:** does every user action get acknowledgment appropriate to its modality? Visual: animation/state change. Conversational: status message. CLI: progress indicator. Workflow: step update.
+2. **Pacing:** does the rhythm match the target feeling? Fast and precise, or gentle and spacious? Check across all modalities — an agent that dumps a wall of text breaks pacing even if the dashboard is clean.
+3. **Voice consistency:** does the product speak with one voice? Same tone, same terminology across dashboard, agent responses, error messages, notifications, emails, CLI output. Flag divergences.
+4. **Gratification:** are meaningful completions marked with proportional feedback in each modality? Is mundane interaction appropriately quiet?
+5. **Restraint:** are there touchpoints that could be removed or simplified? Confirmation dialogs where undo works. Agent explanations nobody asked for. Workflow notifications for routine completions. Prompt clauses that add no value.
+
+### Cross-Modality Coherence
+
+1. **Same product test:** if a user interacts via dashboard, then via WhatsApp, then reads an email — do all three feel like the same product?
+2. **Terminology match:** same terms, same framing, same units across all surfaces.
+3. **If visual surfaces exist:** touch targets 44x44px minimum, experience survives across breakpoints, hover patterns have touch equivalents.
+
+---
+
+## 6. Design
 
 Read CLAUDE.md and `.superskills/design-system.md` for context. Read `reference/design-critique.md` for the full critique framework. Work through all six layers (0 through 5).
 
@@ -151,7 +213,7 @@ Compare across all component files:
 
 ### Framework Rules
 
-- **shadcn + Tailwind:** utility classes only, `gap-*` for containers, semantic tokens only, `data-slot` attributes, CVA for variants, spacing matches style preset
+- **shadcn + Tailwind:** semantic tokens only (no raw hex/rgb), `gap-*` for containers, `data-slot` attributes, CVA for variants, spacing matches style preset, search registries before building custom
 - **Chakra/MUI/Mantine:** all styling through framework APIs, theme overrides in theme file
 - **Tailwind only:** utility classes only, no arbitrary values
 
@@ -161,7 +223,7 @@ Apply all six critique layers from `reference/design-critique.md`, evaluating cr
 
 ---
 
-## 5. Performance
+## 7. Performance
 
 Severity: blocking on regressions beyond budget, advisory otherwise.
 
@@ -169,7 +231,7 @@ Read `reference/review-performance-guide.md` for the full performance audit chec
 
 ---
 
-## 6. Agent Architecture
+## 8. Agent Architecture
 
 Skip this section entirely if no EIID component uses agent, workflow, or LLM call.
 
@@ -222,7 +284,9 @@ Write all findings to `.superskills/`:
 
 - Test results → **replace** Test Report section in `.superskills/report.md` (keep last 3 runs)
 - Security findings → **replace** Security Findings section in `.superskills/report.md`
+- Build quality findings → **replace** Build Quality section in `.superskills/report.md`
 - Strategy findings → **append** to `.superskills/decisions.md`
+- Experience findings → **replace** Experience section in `.superskills/report.md`
 - Design findings → **replace** Design Findings section in `.superskills/report.md`
 - Performance findings → **replace** Performance Budget section in `.superskills/report.md`
 - Agent architecture findings → **replace** Agent Architecture section in `.superskills/report.md`
@@ -238,7 +302,9 @@ Print a summary at the end:
 
 Tests:        [passed/failed/skipped]
 Security:     [blocking count] blocking, [high count] high
+Build:        [surface count] excess, [security count] security issues
 Strategy:     [scope-creep count] scope creep, [opportunity count] opportunities
+Experience:   [alignment issues] alignment, [pattern issues] patterns, [coherence issues] coherence
 Design:       [violation count] violations
 Performance:  [issue count] issues
 Agent:        [issue count] issues (or "skipped — no agent components")

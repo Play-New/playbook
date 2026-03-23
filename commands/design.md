@@ -1,5 +1,5 @@
 ---
-description: Design system from modality assessment through tokens. First run determines what needs a visual surface, defines IA, direction, typography, layout, composition, tokens, and interaction patterns for all channels. With a target, redesigns it.
+description: Design system from EIID mapping through execution. First run determines what needs what surface, defines experience patterns for all modalities, then visual execution for layers that need it. With a target, redesigns it.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebFetch, WebSearch
 ---
 
@@ -19,7 +19,7 @@ Framework config files alone (`components.json`, `tailwind.config.ts`, `globals.
 **2. Route:**
 - **No documented design system** → run **init mode**
 - **Documented design system exists + user provided a target** (file path, screenshot, URL, or description of a specific screen or component) → run **redesign mode**
-- **Documented design system exists + no target** → tell the user: "Design system already exists. Provide a target screen or component to redesign. Run `/review` for a full design audit."
+- **Documented design system exists + no target** → tell the user: "Design system already exists. Provide a target screen or component to redesign. Run `/super:review` for a full design audit."
 
 ---
 
@@ -27,16 +27,56 @@ Framework config files alone (`components.json`, `tailwind.config.ts`, `globals.
 
 Read `reference/design-init-guide.md` for detailed execution of each step. Read `reference/design-craft.md` for craft principles. Read `reference/examples/design-system-saas.md` for tone and level of specificity.
 
+**Steps 1-5 are problem-solving. They apply to ALL products — visual, conversational, CLI, agent, workflow. Every product gets steps 1-5.**
+
+**Step 6 detects the UI framework. Non-visual products skip it and jump to step 13.**
+
+**Steps 7-12 are visual execution. They apply ONLY to products with layers mapped to a visual modality.**
+
 ### 1. Interface Modality Assessment
 
 Follow the Interface Modality Assessment section in `reference/design-init-guide.md`. Read CLAUDE.md for the EIID mapping. For each EIID layer, determine whether it needs a visual surface, conversational delivery, notification, or embedded interface. Produce the EIID Interface Map table.
 
-- If no layers need a visual surface: write the design system with EIID Interface Map, message structure patterns, channel formatting, and agent interaction patterns (if any EIID component has a user-facing agent). Apply `reference/design-craft.md` Conversational and Notification Craft and Agent Interaction Craft sections. Write to `.superskills/design-system.md`. Done. Skip all remaining steps.
-- If some or all layers need a visual surface: proceed with the remaining steps, scoped to visual layers only.
+### 2. Explore the Product's World
 
-### 2. Detect UI Framework
+Follow `reference/design-init-guide.md` — Explore section. This applies to ALL products, not just visual ones. A WhatsApp-only product has a world, a voice, a signature. Produce domain concepts, signature, defaults to reject. For visual products, also produce color world.
 
-Only execute if the modality assessment identified layers requiring a visual surface.
+### 3. Direction Assessment
+
+Read `.superskills/decisions.md` for research reference seeds from `/super:strategy` (type: `research`). These are starting points — present them to the user alongside the collection step.
+
+Follow `reference/design-init-guide.md` — Direction Assessment section. Collect references, anti-references, existing assets, constraints. References can be non-visual too: "the tone of Stripe's error messages", "the pacing of GitHub Copilot's suggestions." Process all inputs and produce a reference summary.
+
+### 4. Define Experience Patterns
+
+**This is the core design step.** It comes before any visual decisions because experience patterns shape everything that follows. Do not skip this for any product.
+
+Translate the target feeling (from CLAUDE.md strategy) into concrete, observable behaviors for EVERY modality in the EIID Interface Map. These patterns make the feeling executable — an AI can verify their presence or absence.
+
+Read the target feeling from CLAUDE.md. Read the EIID Interface Map from step 1. For each modality the product uses, define:
+
+- **Feedback:** how the system acknowledges user actions. Visual surfaces: timing, animation, states. Conversational channels: typing indicators, progress messages. Agents: transparency about what they're doing. CLI: progress bars, status lines. Workflows: step-by-step updates. Email/notifications: delivery confirmation, subject lines that confirm the action.
+- **Pacing:** the rhythm of the experience. A precise tool is fast — answer first, detail on demand. A warm product is gentle — context then decision. In agents: lead with insight, offer reasoning on request. In workflows: status at meaningful steps, not just at completion. In prompts: the prompt structure shapes the response rhythm.
+- **Voice and tone:** how the product speaks — consistently, across all text surfaces. Prompts, error messages, agent responses, notifications, empty states, CLI output, email subjects. Same personality everywhere. Define it once, apply it to all modalities.
+- **Gratification:** proportional to achievement, per modality. Visual: animation on milestone. Agent: warmer response on meaningful completion. CLI: summary showing improvement. Notification: subject line IS the win.
+- **Restraint:** what you deliberately don't do, per modality. Visual: no confirmation dialogs for reversible actions. Conversational: no "Is there anything else?" Agent: no explanation dump. Prompts: no clause that doesn't change the output. Workflow: no notification for routine steps.
+- **The absence test:** for every element the user perceives — a screen element, a message, a prompt clause, a workflow notification — try removing it. If the target feeling survives, remove it.
+
+Write to `.superskills/design-system.md` under Experience Patterns section.
+
+### 5. Define Interaction Patterns for Non-Visual Layers
+
+For EIID layers mapped to conversational, notification, or embedded modality in the Interface Map:
+
+Apply `reference/design-craft.md` — Conversational and Notification Craft section. Define message structure, information density per channel, interaction patterns, formatting hierarchy, timing, cross-channel coherence.
+
+If any EIID component has a user-facing agent, apply `reference/design-craft.md` — Agent Interaction Craft section. Define patterns for: transparency, progressive disclosure, clarification with defaults, handoff to visual surface, tool use visibility, error communication. These are design decisions, not implementation details.
+
+Read `reference/examples/design-system-consumer.md` for tone.
+
+### 6. Detect UI Framework
+
+Only execute if the modality assessment identified layers requiring a visual surface. If no visual layers, write the design system with steps 1-5 complete and skip to step 13.
 
 Read package.json. Identify the UI framework:
 
@@ -49,19 +89,15 @@ Read package.json. Identify the UI framework:
 | Tailwind only | `tailwindcss` without component library |
 | None detected | no UI deps |
 
-If none detected, ask the user what UI framework they prefer. For projects without constraints, shadcn + Tailwind is a strong option with broad AI coding support and accessible defaults.
+If none detected, ask the user what UI framework they prefer.
 
-### 3. Explore the Product's World
+---
 
-Follow `reference/design-init-guide.md` — Explore section. Produce domain concepts, color world, signature, defaults to reject. Do not propose a direction until all four are produced.
+**Steps 7-12: Visual execution. Only for products with visual layers.**
 
-### 4. Direction Assessment
+### 7. Define Information Architecture
 
-Follow `reference/design-init-guide.md` — Direction Assessment section. Collect references (URLs, screenshots, Figma, brand names, designers, studios), anti-references, existing assets, constraints. Process all inputs and produce a reference summary.
-
-### 5. Define Information Architecture
-
-Before any visual decisions, define the structure. For layers mapped to a visual modality, define the information architecture. People feed data through their existing channels. The visual surface handles what those channels cannot:
+Before any visual styling, define the structure. People feed data through their existing channels. The visual surface handles what those channels cannot:
 
 1. **Visualizations** that don't fit in a message: charts, maps, timelines, trend comparisons, spatial views
 2. **Configuration** (the control plane for the invisible layer): enrichment sources, inference prompts, delivery rules, user management, cron schedules
@@ -76,37 +112,29 @@ Define: core objects (3-6), navigation budget (5-8 sidebar / 3-5 top bar), scree
 
 Do not proceed to style direction until IA is defined and confirmed.
 
-### 6. Choose Style Direction
+### 8. Choose Style Direction
 
 Follow `reference/design-init-guide.md` — Style Direction section. Three dimensions: density, shape, weight.
 
-### 7. Define Typography Scale
+### 9. Define Typography Scale
 
-Follow `reference/design-init-guide.md` — Typography Scale section. Brand fonts first. If none, pick display + body pairing that matches the direction. Then expand to full scale: all levels from Display through Mono with size, weight, line height, tracking, and usage.
+Follow `reference/design-init-guide.md` — Typography Scale section. Brand fonts first. If none, choose based on the product's character. Expand to full scale.
 
-### 8. Define Layout Architecture
+### 10. Define Layout Architecture
 
 Follow `reference/design-init-guide.md` — Layout Architecture section. Grid, breakpoints, container strategy, page patterns. Decisions flow from IA.
 
-### 9. Define Composition Rules
+### 11. Define Composition Rules
 
-Follow `reference/design-init-guide.md` — Composition Rules section. Hierarchy, density map, section rhythm, proportion, whitespace. These bridge layout and tokens.
+Follow `reference/design-init-guide.md` — Composition Rules section. Hierarchy, density map, section rhythm, proportion, whitespace.
 
-### 10. Generate Token Layer
+### 12. Generate Token Layer
 
-Follow `reference/design-init-guide.md` — Token Generation section. Extract before propose: scan existing code for repeated values, formalize the most common ones. Framework-specific instructions in the guide.
+Follow `reference/design-init-guide.md` — Token Generation section. Extract before propose: scan existing code for repeated values, formalize the most common ones.
 
-### 11. Define Interaction Patterns for Non-Visual Layers
+---
 
-For EIID layers mapped to conversational, notification, or embedded modality in the Interface Map:
-
-Apply `reference/design-craft.md` — Conversational and Notification Craft section. Define message structure, information density per channel, interaction patterns, formatting hierarchy, timing, cross-channel coherence.
-
-If any EIID component has a user-facing agent, apply `reference/design-craft.md` — Agent Interaction Craft section. Define patterns for: transparency, progressive disclosure, clarification with defaults, handoff to visual surface, tool use visibility, error communication. These are design decisions, not implementation details.
-
-Read `reference/examples/design-system-consumer.md` for tone: the Conversational Patterns and Agent Interaction Patterns sections show the level of specificity.
-
-### 12. Write Design Configuration
+### 13. Write Design Configuration
 
 Follow `reference/design-system-template.md` for structure. Read `reference/examples/design-system-saas.md` for tone.
 
@@ -114,7 +142,7 @@ Write to two places:
 
 **CLAUDE.md** — Design System section (framework, style, token source, direction, navigation, typography, color character, signature).
 
-**`.superskills/design-system.md`** — full design decisions: EIID Interface Map, direction, references, information architecture, layout, typography scale, composition, tokens, component patterns, conversational patterns, agent interaction patterns, decisions log. Include the EIID Interface Map section from step 1.
+**`.superskills/design-system.md`** — full design decisions: EIID Interface Map, direction, experience patterns, references, information architecture, layout, typography scale, composition, tokens, component patterns, conversational patterns, agent interaction patterns, decisions log. Include the EIID Interface Map section from step 1.
 
 ---
 
@@ -128,7 +156,7 @@ Read the EIID Interface Map from `.superskills/design-system.md` (or extract fro
 
 Read whatever design context exists, in priority order:
 
-**If `.superskills/design-system.md` exists** (SuperSkills-managed): read it for direction, references, information architecture, layout, typography scale, composition, tokens, component patterns. Full context available.
+**If `.superskills/design-system.md` exists** (SuperSkills-managed): read it for direction, experience patterns, references, information architecture, layout, typography scale, composition, tokens, component patterns. Full context available.
 
 **If not, extract from code:** scan globals.css / theme.ts / tailwind.config / components.json for the existing token set. Scan 5-10 component files for repeated values (spacing, colors, radius, heights). Build a working picture of the current design system from code evidence.
 
@@ -158,19 +186,19 @@ For each reference provided:
 - Figma URLs: get design context, extract relevant patterns
 - Designers or design studios: research their approach to this type of screen or problem. Apply their perspective, not just their aesthetic.
 
-**Priority:** What matters most — visual identity, usability, density, craft, or structure?
+**Priority:** What matters most — experience, usability, density, craft, or structure?
 
 Skip questions the user already answered in their initial request.
 
 ### 4. Critique
 
-Apply the critique layers from `reference/design-critique.md` to the target screen. If CLAUDE.md with an EIID mapping exists, apply all six layers. If no strategic context, skip layer 0 and focus on layers 1-5.
+Apply the critique layers from `reference/design-critique.md` to the target. If CLAUDE.md with an EIID mapping exists, apply all layers. If no strategic context, skip layer 0 and focus on the remaining layers.
 
 Score each layer: **strong**, **adequate**, **weak**. Prioritize based on the user's stated priority.
 
 ### 5. Propose
 
-The critique identified what's weak. Now apply `reference/design-craft.md` to generate improvements. Apply all four craft dimensions from `reference/design-craft.md` for each weak or adequate layer. If the design system documents layout, typography scale, or composition rules, proposals use those values.
+The critique identified what's weak. Now apply `reference/design-craft.md` to generate improvements — experience craft first, then visual craft for visual targets. If the design system documents layout, typography scale, or composition rules, proposals use those values.
 
 For each proposed change:
 
@@ -191,9 +219,9 @@ After implementation: update `.superskills/design-system.md` component patterns 
 
 ### Redesign Rules
 
-- One screen at a time. No scope creep into adjacent screens.
+- One target at a time. No scope creep into adjacent screens or flows.
 - Propose before implementing. The user approves changes.
 - Use existing tokens. Do not create new tokens without flagging it.
 - If the redesign reveals a design system gap, fix it in the design system, not with a local workaround.
 - Keep what works. Respect what the user said to preserve.
-- Tie every change to strategy or craft. "This looks better" is not a rationale.
+- Tie every change to feeling, strategy, or craft. "This looks better" is not a rationale.

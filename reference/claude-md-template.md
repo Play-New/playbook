@@ -14,6 +14,7 @@ The plugin generates this file via `/super:strategy`. It contains stable project
 ## User
 **End user:** [role, daily context]
 **Need:** [outcome, not feature]
+**Target feeling:** [the emotional state when the product works perfectly — e.g. "calm control", "warm discovery", "precise confidence"]
 
 ## Stack
 [detected or recommended, with rationale]
@@ -48,14 +49,12 @@ The plugin generates this file via `/super:strategy`. It contains stable project
 [detected constraints, one per line: "Use X, NOT Y, Z."]
 
 ## Code Architecture
-- Split files by responsibility, not by line count. If a file does two things, split it. If it does one thing in 300 lines, leave it.
-- One component per file. One utility per file.
-- Colocation: tests next to source, types next to usage.
-- Prefer composition over inheritance.
-- If a module has two distinct modes, split into separate files.
-- Prefer isolated code over shared abstractions. Each module used in one place has zero side effects when a coding agent edits it. Duplication is cheaper to maintain than coupling.
-- The full source should be comprehensible in a single AI session. If the project outgrows what a coding agent can hold in context, split into independently understandable modules.
-- Scripts and processes should output minimal status to stdout. Full output goes to log files. Clean context makes AI-assisted work faster and cheaper.
+[Derive from the EIID mapping and stack. What matters for THIS project's structure? Examples of project-specific decisions:
+- A CLI tool: single entry point, no routing, output to stdout
+- A visual SaaS: page-per-route, server components for data, client components for interaction
+- A WhatsApp-first product: message handlers organized by intent, shared formatting layer
+- A multi-agent system: one directory per agent, shared tool registry, isolated state per agent
+Write 3-5 architectural decisions specific to this project. Do not include generic coding advice.]
 
 If EIID mapping includes components via agent, workflow, or LLM call:
 - **Parity:** every action available in the UI is also available as an atomic tool for agents.

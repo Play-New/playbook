@@ -7,6 +7,7 @@
 ## User
 **End user:** Home cook, 25-45, photographs groceries on the go, interacts primarily through WhatsApp
 **Need:** Know what to cook with what's available, not browse recipe databases after a long day
+**Target feeling:** Warm relief — "oh, I can make this!" The product feels like a friend who knows your kitchen, not a search engine.
 
 ## Stack
 Next.js (web archive), Supabase (auth + database + row-level security), Resend (email summaries), WhatsApp Business API (primary interaction channel)
