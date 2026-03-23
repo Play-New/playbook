@@ -1,7 +1,7 @@
 # Design System
 
 ## Direction
-**Feel:** Warm kitchen table. The product should feel like a knowledgeable friend who cooks, not a database of recipes.
+**Target feeling:** Warm kitchen table. The product should feel like a knowledgeable friend who cooks, not a database of recipes.
 **Domain concepts:** Pantry, ingredient, meal plan, prep time, grocery receipt, collection, availability match
 **Color world:** Cream linen, terracotta clay, olive oil, toasted bread, fresh herb green. The palette of a weekend farmers market.
 **Signature:** The availability percentage on every recipe card. "You have 8 of 10 ingredients" tells you this recipe is within reach. No other recipe tool leads with what you already own.

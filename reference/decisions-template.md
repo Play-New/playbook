@@ -26,7 +26,7 @@ Each entry follows this format:
 
 ```markdown
 ### [Date] — [Title]
-**Type:** decision | alignment-check | drift-warning | opportunity | build
+**Type:** decision | alignment-check | drift-warning | opportunity | build | research
 **Status:** active | archived
 **Summary:** one sentence
 **EIID Layer:** enrichment | inference | interpretation | delivery | none

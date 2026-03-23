@@ -90,13 +90,55 @@ Revise the direction based on assessment answers. If the user provided nothing, 
 
 Store the reference summary in `.superskills/design-system.md` under a References section.
 
+## Experience Patterns
+
+Read the target feeling from CLAUDE.md. Translate it into concrete, observable, executable behaviors across every modality this product uses.
+
+For each pattern, define per-modality behavior. Not every product has every modality — define only for modalities present in the EIID Interface Map.
+
+**Feedback:** what happens when the user acts? Visual: animation timing and type. Conversational: typing indicators, status messages. CLI: progress bars, counters. Notification: delivery confirmation. Every action gets acknowledgment — the form varies by channel.
+
+**Pacing:** what's the rhythm? Fast and answer-first (operational tools) or gentle with context-before-decision (reflective products)? Define per-channel: how quickly does the dashboard respond? How does the agent structure its replies? How does the CLI present results?
+
+**Voice and tone:** how does the product speak? One personality across all text surfaces — prompts, error messages, agent responses, notifications, empty states, confirmations. The same warmth (or terseness) in a WhatsApp reply and a web UI label.
+
+**Gratification:** what happens when something meaningful completes? Proportional to achievement — routine saves are subtle, meaningful milestones are moments. Per-modality: visual celebration, conversational warmth, CLI summary with delta.
+
+**Restraint:** what is deliberately absent? Per-modality: no confirmation dialogs for reversible actions (visual), no "Is there anything else?" after every answer (conversational), no notification for routine completions (workflow). Deliberate quiet.
+
+**The absence test:** for every element the user perceives — a screen element, a message, a prompt clause, a workflow step, a notification — try removing it. If the target feeling survives, remove it.
+
+Read `reference/design-craft.md` Part 1 for the principles behind each pattern. Read `reference/design-system-template.md` Experience Patterns section for the output format.
+
+## Interaction Patterns for Non-Visual Layers
+
+For each non-visual layer in the EIID Interface Map, define structured interaction patterns.
+
+**Conversational patterns:** message templates per channel (WhatsApp, Slack, email, SMS). Each template: channel, structure, example, anti-example. Read `reference/design-craft.md` — Conversational and Notification Craft section. Read `reference/examples/design-system-consumer.md` for tone.
+
+**Agent interaction patterns:** if the product has an agent or workflow with user-facing LLM calls, define: transparency in processing, clarification with defaults, handoff to visual surface, error with recovery. Each pattern: situation, correct behavior, example, anti-example. Read `reference/design-craft.md` — Agent Interaction Craft section.
+
+Non-visual products complete their design system at this step (plus step 13 to write it). Steps 6-12 are skipped.
+
 ---
 
 ## Visual Execution Steps (7-12)
 
 > These steps apply only to layers mapped to a visual modality. Skip all for non-visual products. The problem-solving is done — steps 1-5 defined what the product needs, how it should feel, and how it speaks. These steps define how it looks.
 
-## Style Direction
+### Information Architecture
+
+Define the structure of the visual interface. Start from the EIID Interface Map — which layers need a visual surface, and what do users need from each?
+
+**Core objects:** what are the nouns of this product? Vehicles, recipes, dependencies, invoices. List them. Each core object typically gets a list view and a detail view.
+
+**Navigation budget:** how many top-level destinations? Fewer is better. The EIID mapping tells you which layers need persistent access vs. drill-down. Settings, integrations, and profile almost always go inside other navigation items.
+
+**Screen map:** for each screen, define: focal point (what the user looks at first), above-the-fold content, one-click-away content, deep content. Use the table format from the design system template.
+
+**Content depth rules:** what surfaces at the top level (interpretation visualizations, key metrics), what's one click away (context, history, detail), what's deep (configuration, settings, admin).
+
+### Style Direction
 
 For shadcn projects, run `npx shadcn@latest init` to see available styles. Pick the one that matches the product's character. Present the recommendation to the user with reasoning.
 
@@ -107,7 +149,7 @@ Three dimensions to decide:
 
 For non-shadcn projects, skip this step — the equivalent decisions are encoded directly in the theme file.
 
-## Typography Scale
+### Typography Scale
 
 Ask the user if they have brand fonts first. If they do, use those.
 
@@ -117,7 +159,7 @@ Determine how many type voices this product needs. Some products need one font a
 
 Expand from font choice to a full type scale. Define every level from Display through Mono: size, weight, line height, tracking, and usage. Apply the hierarchy test: strip color. If hierarchy collapses, add more size or weight contrast.
 
-## Layout Architecture
+### Layout Architecture
 
 Define the spatial structure. Decisions flow from IA.
 
@@ -126,7 +168,7 @@ Define the spatial structure. Decisions flow from IA.
 **Container:** max-width strategy for different screen types.
 **Page patterns:** 3-5 recurring layout structures, each mapped to screen types from the IA.
 
-## Composition Rules
+### Composition Rules
 
 Five decisions between layout and tokens:
 
@@ -136,7 +178,7 @@ Five decisions between layout and tokens:
 **Proportion:** focal point vs supporting content size.
 **Whitespace:** page margins, breathing room, grouping vs separating gaps.
 
-## Token Generation
+### Token Generation
 
 All aesthetic choices become design tokens. No creative decision lives in component code.
 

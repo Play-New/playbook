@@ -12,8 +12,6 @@ Read CLAUDE.md and `.superskills/design-system.md` before applying anything belo
 
 These sections apply to every product — visual, conversational, CLI, agent, workflow. Experience is not UI.
 
-### Experience Craft
-
 The difference between a product that works and a product that feels right. AI-generated products are functionally correct and experientially dead at every layer, not just the UI.
 
 Experience craft is the WHY behind every behavior pattern. A prompt that leads with the answer exists because the product should feel respectful of the user's time. A loading message that says "Matching recipes from your pantry..." exists because the product should feel like it's working for you, not processing you.

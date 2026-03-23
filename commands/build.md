@@ -116,7 +116,7 @@ Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop.
 
 ### 5. Report
 
-After all pieces:
+After all pieces, present the report to the user and write the Build Progress section to `.superskills/report.md` (append or replace the existing Build Progress section):
 
 ```
 ## Build Report

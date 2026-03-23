@@ -1,7 +1,7 @@
 # Design System
 
 ## Direction
-**Feel:** Senior teammate who flags what matters and stays quiet otherwise. Terse, scannable, actionable.
+**Target feeling:** Senior teammate who flags what matters and stays quiet otherwise. Terse, scannable, actionable.
 **Domain concepts:** Breaking change, migration complexity, risk level, affected repos, semver, dependency tree, production vs dev dependency
 **Signature:** The risk bar. Three filled/empty squares (filled squares = higher risk) next to every dependency in CLI output. Visible at a glance, no color dependency.
 **Rejected defaults:** Web dashboard with charts, color-coded dependency trees, interactive upgrade wizards
