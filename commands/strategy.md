@@ -41,19 +41,19 @@ The folder scan already answered some of these. Ask only what's still missing. R
 
 ### 3. Research
 
-Research depth adapts to the input. A raw idea needs broad exploration. A detailed pitch needs targeted validation. An existing codebase needs market positioning.
+Research does not confirm the brief. It tests it. Search for what would make the brief wrong.
 
-At minimum, three angles:
+**Validate the market.** The brief says the market exists. Search for evidence. If the client claims "PA needs visual communication," search for PA visual communication procurement, budgets, existing solutions in that specific market. Concrete: "pubblica amministrazione comunicazione visiva accessibile" not "visual translation AI tool."
 
-**How this problem gets solved today.** What products, workflows, and solutions exist? What's good, what's broken?
+**Find who else is close.** Not direct competitors — adjacent solutions. Who is solving a related problem? What do their users complain about? Where did they stop? Search around the brief, not inside it.
 
-**Who does it well.** The 2-3 best existing solutions. Their approach, pricing, limitations, user complaints. Where do they fall short?
+**Check the assumptions.** The brief claims something is unique, scarce, or new. Verify. If "no one has structured creative reasoning data," search for creative reasoning datasets, design decision corpora, tacit knowledge capture tools. Look for evidence the claim is wrong.
 
-**What changed recently.** What was custom six months ago that's now a service? What services shut down? This prevents building what's already commodity.
+**Validate the asset.** If the brief claims a unique dataset, resource, or relationship: how large is it really? How diverse? Is it accessible? What would it take to structure it? Search for the specific asset, not the category.
 
-Go deeper when the input demands it. A brief that mentions specific data sources: research those sources, their APIs, their pricing. A pitch that claims a unique dataset: verify the claim, search for competitors with similar data. A codebase with integrations: check if those integrations are still the best option.
+**What changed in the last 6 months.** What was custom that is now a service? What new tools exist that the brief doesn't account for? This prevents building what's already commodity.
 
-Use the research to classify each node's evolution in step 4.
+The goal is not 3 generic searches. It is 3-5 targeted searches that could change the decomposition. Every search should be specific enough that the results teach you something the brief didn't say.
 
 ### 4. Decompose into Nodes
 
@@ -81,27 +81,31 @@ This is the most important step. For each node and for the decomposition as a wh
 - **Enrichment/Inference node without autoresearch.** "This node has a clean metric. Why not optimize it automatically?"
 - **No genesis nodes.** "Everything here is commodity or product. Where are you creating new value? Without genesis, there's no product — just integration."
 - **Brief that's really a feature list.** "These are outputs. What is the input? Where does the data come from? What patterns do you detect? Start from enrichment."
+- **Unvalidated market.** "The brief lists 7 markets. Which one has the most urgent need AND where your asset gives the strongest signal? Pick one."
+- **Asset that doesn't exist yet.** "The brief says the corpus is unique. But it isn't structured. The moat is the structured knowledge, not the raw material."
 
 The challenge is not hostile. It sharpens the strategy. Acknowledge what's strong, then point to what's missing or misplaced.
 
-### 6. Context Engineering Check
+### 6. Write
 
-Before writing, verify: if an AI agent reads this CLAUDE.md tomorrow with zero context, does it know:
-- Where the value is (which nodes are genesis, which are commodity)?
-- What to build first (the nodes with clearest value and highest risk)?
-- What to measure (every node has a metric or signal)?
-- When to change approach (graduation triggers)?
-- Which nodes can be optimized automatically (loop field)?
+Strategy produces two outputs: one for the people deciding, one for the agents building.
 
-If any of these are unclear, the context is not ready. Rewrite until it is.
+**For the people: Strategic Assessment.** Present to the user before writing any file:
 
-### 7. Write
+1. **What this product is** — one paragraph that restates the value in clearer terms than the brief.
+2. **Where the value is** — which node is genesis, why it matters, what makes it defensible.
+3. **Where the risk is** — which node is the weakest, what breaks if it fails.
+4. **What to do first** — the first concrete milestone, not the full roadmap. What validates the riskiest assumption with the least investment.
+5. **What not to do** — what the brief proposes that should be delayed, cut, or bought instead.
+6. **Open questions** — what the research couldn't answer, what needs human judgment.
 
-**Show the user the full CLAUDE.md before writing.** Use `reference/claude-md-template.md` for structure. Ask for confirmation. Incorporate feedback. Only write after approval.
+This is the challenge translated into action. The user reads this and knows what to do next.
 
-Create CLAUDE.md. If there are non-obvious choices worth logging, append them to `.eiid/report.md` under a Decisions section with date, reasoning, and which node they affect.
+**For the agents: CLAUDE.md.** Use `reference/claude-md-template.md` for structure. Show the user the full CLAUDE.md. Ask for confirmation. Only write after approval.
 
-### 8. What's Next
+If there are non-obvious choices worth logging, append them to `.eiid/report.md` under a Decisions section with date, reasoning, and which node they affect.
+
+### 7. What's Next
 
 Tell the user: run `/eiid:build` to start constructing from the strategy, or `/eiid:review` to measure an existing product against the mapping.
 
@@ -121,7 +125,7 @@ Show the user the current strategy (key elements: client, value expected, EIID m
 
 ### 3. Research
 
-Search the web focused on what changed. Same approach as init step 3, scoped to the delta.
+Search the web focused on what changed. Same approach as init step 3: search for what would make the current strategy wrong, not for confirmation.
 
 ### 4. Update Mapping
 
@@ -137,7 +141,7 @@ Check autoresearch results: have optimized nodes converged? Should they graduate
 
 ### 5. Write
 
-Show updated CLAUDE.md. Highlight what changed. Ask for confirmation. Write.
+Show updated strategic assessment. Highlight what changed. Then show updated CLAUDE.md. Ask for confirmation. Write.
 
 Log the refresh in `.eiid/report.md`.
 
@@ -149,5 +153,7 @@ Log the refresh in `.eiid/report.md`.
 - Concrete items: "Gmail inbox" not "email data."
 - Uncertain items get a question mark. The user refines later.
 - Mark inferences as inferences.
+- Research tests the brief, it does not confirm it. Search for what would make the strategy wrong.
+- Two outputs: strategic assessment (for people) and CLAUDE.md (for agents). Both serve the same decomposition, different audiences.
 - CLAUDE.md is strategic context (stable). `.eiid/report.md` is operational state (volatile). Don't duplicate between them.
 - The user answers questions or confirms inferences. The decomposition, evolution classification, and challenge — you bring those from research and analysis.

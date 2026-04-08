@@ -55,7 +55,7 @@ Value expected
 
 Then it challenges what it finds. A pitch that says "we'll build a RAG system" gets the question: RAG is how, what is the what? A brief with six features but no inference layer gets: where are the patterns? A commodity node built custom gets: this exists as a service, buy it.
 
-The output is a CLAUDE.md that any AI agent can read and know exactly where to invest effort.
+Two outputs. A strategic assessment for the people deciding: where the value is, where the risk is, what to do first, what not to do. And a CLAUDE.md for the agents building: structured context that says exactly where to invest effort.
 
 ## How it works
 
@@ -63,7 +63,7 @@ Give it anything: a raw brief, a pitch deck, an idea in conversation, an existin
 
 | Command | What it does |
 |---------|------|
-| `/eiid:strategy` | Decomposes the product into nodes. Challenges assumptions. Identifies which nodes can be automatically optimized. Outputs CLAUDE.md. |
+| `/eiid:strategy` | Decomposes the product into nodes. Challenges assumptions. Two outputs: strategic assessment (for people deciding) and CLAUDE.md (for agents building). |
 | `/eiid:build` | Vision conversation, tests that encode it, autonomous construction. Sets up optimization loops for eligible nodes. |
 | `/eiid:review` | Measures each node against its metric. Checks whether the CLAUDE.md still reflects reality. |
 
