@@ -28,9 +28,21 @@
 
 A Claude Code plugin that decomposes intelligence-era products into a value chain, identifies where the real value sits, and produces structured context that tells both people and agents where to invest effort.
 
+### Install
+
 ```bash
+# 1. Register the marketplace (once)
 claude plugin marketplace add Play-New/playbook
+
+# 2. Install the plugin
+claude plugin install playbook@playbook
+
+# 3. Verify
+claude plugin list
+# should show: playbook@playbook — Status: ✔ enabled
 ```
+
+Restart Claude Code after installing. Three commands become available: `/playbook:strategy`, `/playbook:build`, `/playbook:review`.
 
 ---
 
