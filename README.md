@@ -29,7 +29,7 @@
 A Claude Code plugin that answers one question: **where is the value in your product?**
 
 ```bash
-claude plugin marketplace add Play-New/EIID
+claude plugin marketplace add Play-New/playbook
 ```
 
 ---
@@ -128,7 +128,7 @@ Wardley (value chain evolution), Choudary (platform dynamics, AI-driven restruct
 ## Install
 
 ```bash
-claude plugin marketplace add Play-New/EIID
+claude plugin marketplace add Play-New/playbook
 ```
 
 Update: `claude plugin marketplace update playbook`

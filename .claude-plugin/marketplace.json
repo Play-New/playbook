@@ -9,7 +9,7 @@
       "name": "playbook",
       "source": {
         "source": "url",
-        "url": "https://github.com/Play-New/EIID.git"
+        "url": "https://github.com/Play-New/playbook.git"
       },
       "description": "The real game is to change the game. Value chain decomposition for intelligence-era products. Context engineering, autoresearch, graduation."
     }

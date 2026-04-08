@@ -168,10 +168,10 @@ name=$(grep '"name"' .claude-plugin/plugin.json 2>/dev/null | head -1)
 check "plugin.json name is 'playbook'" "$( echo "$name" | grep -q '"playbook"' && echo 0 || echo 1 )"
 
 repo=$(grep '"repository"' .claude-plugin/plugin.json 2>/dev/null)
-check "plugin.json repo points to Play-New/EIID" "$( echo "$repo" | grep -q 'Play-New/EIID' && echo 0 || echo 1 )"
+check "plugin.json repo points to Play-New/playbook" "$( echo "$repo" | grep -q 'Play-New/playbook' && echo 0 || echo 1 )"
 
 url=$(grep '"url"' .claude-plugin/marketplace.json 2>/dev/null | grep -v "github.com/Play-New\"")
-check "marketplace.json source URL points to Play-New/EIID" "$( echo "$url" | grep -q 'Play-New/EIID' && echo 0 || echo 1 )"
+check "marketplace.json source URL points to Play-New/playbook" "$( echo "$url" | grep -q 'Play-New/playbook' && echo 0 || echo 1 )"
 
 mkt_name=$(grep '"name"' .claude-plugin/marketplace.json 2>/dev/null | head -1)
 check "marketplace.json name is 'playbook'" "$( echo "$mkt_name" | grep -q '"playbook"' && echo 0 || echo 1 )"

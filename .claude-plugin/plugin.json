@@ -1,13 +1,13 @@
 {
   "name": "playbook",
-  "version": "2026.4.8.2043",
+  "version": "2026.4.8.2044",
   "description": "The real game is to change the game. Value chain decomposition for intelligence-era products. Context engineering, autoresearch, graduation.",
   "author": {
     "name": "Play New",
     "url": "https://github.com/Play-New"
   },
-  "repository": "https://github.com/Play-New/EIID",
-  "homepage": "https://github.com/Play-New/EIID#readme",
+  "repository": "https://github.com/Play-New/playbook",
+  "homepage": "https://github.com/Play-New/playbook#readme",
   "license": "MIT",
   "keywords": ["playbook", "eiid", "strategy", "context-engineering", "autoresearch", "value-chain", "wardley"]
 }
