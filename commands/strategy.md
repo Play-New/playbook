@@ -9,7 +9,7 @@ Read `reference/concepts.md` for canonical definitions. Read `reference/example.
 
 ## Detect Mode
 
-**1. Does a strategy exist?** Check for CLAUDE.md with an playbook mapping table.
+**1. Does a strategy exist?** Check for CLAUDE.md with a playbook mapping table.
 
 **2. Route:**
 - **No playbook mapping** -> run **init mode**

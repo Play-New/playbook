@@ -9,7 +9,7 @@ Read `reference/concepts.md` for the four layers, graduation, and autoresearch d
 
 ## Detect Mode
 
-**1. Does a strategy exist?** Check for CLAUDE.md with an playbook mapping table.
+**1. Does a strategy exist?** Check for CLAUDE.md with a playbook mapping table.
 
 **2. Route:**
 - **No playbook mapping** -> stop. "No strategy found. Run `/playbook:strategy` first."

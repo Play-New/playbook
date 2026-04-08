@@ -15,7 +15,7 @@
     │   ██████╔╝╚██████╔╝╚██████╔╝██║  ██╗         │
     │   ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝         │
     │                                               │
-    │   the real game is to change the game         │
+    │   the real game is changing the game         │
     │                                               │
     │   enrichment ── inference ──┐                  │
     │                             │                  │
@@ -109,19 +109,57 @@ Nothing in the mapping is permanent. Nodes evolve in both directions:
 
 Each node documents both the condition ("when accuracy exceeds 95% for 2 weeks") and the direction ("replace with deterministic rules"). A trigger without a direction is incomplete.
 
-## 4. Example
+## 4. Examples
 
-A pricing intelligence tool for e-commerce sellers. Full decomposition in `reference/example.md`.
+Three decompositions across different domains (full detail in `reference/example.md`).
+
+### 4.1 PriceScope — pricing intelligence for e-commerce
 
 | Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
 |------|-------|-----------|-----------------|------------|------|
 | Price scraper | Enrichment | commodity | coverage 80%+ | if coverage drops, build custom | N/A (buy) |
-| Product matcher | Enrichment | custom | accuracy on test set | >95% stable: switch to rules | autoresearch |
-| Anomaly detector | Inference | custom | precision + recall | >10K SKUs: rules for known patterns | autoresearch |
-| Price recommendation | Interpretation | genesis | acceptance rate | patterns repeat: auto-rules per category | manual review |
-| Alert dispatcher | Delivery | product | fatigue rate <40% | fatigue >40%: reduce frequency | manual review |
+| Product matcher | Enrichment | custom | accuracy on test set | >95% stable → rules | autoresearch |
+| Anomaly detector | Inference | custom | precision + recall | >10K SKUs → rules for known patterns | autoresearch |
+| Price recommendation | Interpretation | **genesis** | acceptance rate | patterns repeat → auto-rules per category | manual review |
+| Alert dispatcher | Delivery | product | fatigue rate <40% | fatigue >40% → reduce frequency | manual review |
 
-The genesis node — price recommendation — is where the product creates value that doesn't exist elsewhere. Two nodes (product matcher, anomaly detector) have clean metrics and fast feedback: autoresearch applies directly. One node (price scraper) is commodity: dozens of services exist, building it is waste. The mapping makes these distinctions explicit and actionable.
+Genesis is in Interpretation. Autoresearch applies to two Enrichment/Inference nodes with fast feedback. Enrichment is commodity — buy it.
+
+### 4.2 TalentVoice — AI-augmented recruiting language
+
+| Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
+|------|-------|-----------|-----------------|------------|------|
+| Document ingester | Enrichment | commodity | ingestion success rate | new ATS breaks it → custom parser | N/A (buy) |
+| Outcome linker | Enrichment | custom | linkage rate | >95% for an ATS → freeze connector | autoresearch |
+| Bias pattern detector | Inference | custom | precision + recall | pattern universally known → blocklist | autoresearch |
+| Rewrite recommendation | Interpretation | **genesis** | acceptance rate + outcome delta (30-90d) | >90% acceptance → auto-apply | manual review |
+| Editor overlay | Delivery | product | time to action, dismissal rate | >50% auto-accepted → auto-apply | manual review |
+
+Genesis is in Interpretation, but feedback is structurally slow (30-90 days). The real moat is in Enrichment — the outcome linker is a data asset. Autoresearch can't help the genesis node where it matters most.
+
+### 4.3 BrandLens — content governance and brand voice
+
+| Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
+|------|-------|-----------|-----------------|------------|------|
+| Content collector | Enrichment | commodity | coverage, freshness | no API → custom scraper | N/A (buy) |
+| Style guide encoder | Enrichment | custom | rule coverage, conflict rate | conflicts at zero → stable | manual review |
+| Compliance scorer | Inference | product | accuracy vs experts, FP rate | FP >15% → simplify rules | autoresearch |
+| Consistency analyzer | Inference | **genesis** | cross-channel variance, drift latency | stable 6mo → reduce monitoring | autoresearch (weekly) |
+| Writer guidance | Delivery | product | time to correction, acceptance rate | pass rate >95% → advisory mode | manual review |
+
+Genesis is in Inference, not Interpretation. The value is in detecting brand drift — the detection itself is the insight. Two autoresearch loops at different speeds.
+
+### What the three examples show together
+
+| Pattern | PriceScope | TalentVoice | BrandLens |
+|---------|-----------|-------------|-----------|
+| Genesis layer | Interpretation | Interpretation | Inference |
+| Feedback speed | days | 30-90 days | weekly |
+| Enrichment | commodity | **strategic asset** | mixed |
+| Autoresearch nodes | 2 (both fast) | 2 (not the genesis) | 2 (different speeds) |
+| Where the moat is | interpretation quality | enrichment data | inference detection |
+
+The genesis node is not always in the same layer. The moat is not always where you'd expect. Autoresearch helps where feedback is fast, but the most valuable node often has the slowest feedback.
 
 ## 5. References
 

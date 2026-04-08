@@ -1,5 +1,5 @@
 ---
-description: Measures the product against the playbook mapping. Metrics per node, autoresearch convergence, context fidelity, security basics.
+description: Measures the product against the playbook mapping. Metrics per node, autoresearch convergence, context fidelity.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
@@ -74,28 +74,6 @@ If context has drifted, suggest: "CLAUDE.md is stale. Run `/playbook:strategy` w
 
 ---
 
-## 5. Security
-
-Compact security check. Report findings, do not fix.
-
-### Secrets
-- Hardcoded API keys, passwords, tokens in source files
-- `.env` files in .gitignore?
-- Secrets in git history (common patterns: `sk-`, `AKIA`, `ghp_`, `password =`)
-
-### OWASP Basics
-Scan source files for the most common vulnerabilities:
-1. API routes without auth checks
-2. Unsanitized user input in queries or templates
-3. Unescaped user content rendered as HTML
-4. Missing input validation on user-facing endpoints
-5. Debug mode or overly permissive CORS in production config
-
-### Blocking Rules
-**Block** on: credentials in source code, SQL/NoSQL injection, XSS, auth bypass on protected routes. Everything else: severity level in the report.
-
----
-
 ## Output
 
 Write findings to `.playbook/report.md`:
@@ -117,11 +95,6 @@ Write findings to `.playbook/report.md`:
 ### Context Fidelity
 [mismatches between CLAUDE.md and actual codebase]
 
-### Security
-| Severity | File:line | Issue | Fix |
-|----------|-----------|-------|-----|
-| ... | ... | ... | ... |
-
 ### Recommendations
 [what to do next: graduate nodes, update context, set up autoresearch, fix security]
 ```
@@ -131,5 +104,4 @@ Print a summary at the end:
 Tests:      [passed/failed/skipped]
 Nodes:      [measured/total] measured, [graduated] ready for graduation
 Context:    [fidelity status]
-Security:   [blocking count] blocking
 ```

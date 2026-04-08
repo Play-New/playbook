@@ -198,6 +198,22 @@ check "README uses Metric/Signal (not just Metric)" "$( [ "$has_signal" -ge 2 ] 
 count=$(grep -rn "autoresearch/manual/" --include="*.md" . 2>/dev/null | grep -v "manual review" | grep -v test.sh | wc -l | tr -d ' ')
 check "Loop field uses 'manual review' not 'manual'" "$count"
 
+# "an playbook" grammar error (should be "a playbook")
+count=$(grep -r "an playbook" --include="*.md" . 2>/dev/null | grep -v test.sh | wc -l | tr -d ' ')
+check "no 'an playbook' grammar errors" "$count"
+
+# "four four" duplication
+count=$(grep -r "four four" --include="*.md" . 2>/dev/null | grep -v test.sh | wc -l | tr -d ' ')
+check "no 'four four' duplication" "$count"
+
+# Security section should not be in review (it's commodity, not playbook's value)
+count=$(grep -c "## 5. Security\|### OWASP\|### Secrets\|### Blocking Rules" commands/review.md 2>/dev/null)
+check "review.md has no security section" "$count"
+
+# Examples must cover at least 3 domains
+example_count=$(grep -c "^# Example" reference/example.md 2>/dev/null)
+check "example.md has 3+ examples ($example_count found)" "$( [ "$example_count" -ge 3 ] && echo 0 || echo 1 )"
+
 echo ""
 
 # --- Summary ---
