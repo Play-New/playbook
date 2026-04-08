@@ -55,7 +55,7 @@ test('API returns 200 with price array')
 
 For nodes with metrics, tests verify the metric: `test('product matcher accuracy exceeds 90% on test set')`.
 
-Run the tests. They should all fail (the product doesn't exist yet) but be syntactically valid. Write the test plan to `.eiid/build-plan.md`.
+Run the tests. They should all fail (the product doesn't exist yet) but be syntactically valid.
 
 ### 3. Build Loop
 
@@ -67,8 +67,8 @@ For each piece:
 1. Re-read CLAUDE.md before starting (context drifts on long builds).
 2. Build with full context: EIID mapping, target feeling, vision.
 3. Run the full test suite. Track which tests flip from failing to passing.
-4. On regression: revert, analyze, try differently. Maximum 5 attempts per piece.
-5. On stuck after 5 iterations: log what was tried, skip, continue.
+4. On regression: revert, analyze, try differently.
+5. When iterations stop producing new approaches: log what was tried, skip, continue.
 
 For Interpretation/Delivery nodes with visual surfaces: make design decisions here, guided by the target feeling. Typography, color, layout, tokens — these emerge from what the node needs to communicate, not from a separate design phase.
 
@@ -79,19 +79,18 @@ For nodes marked "autoresearch" in the EIID mapping:
 1. **Define what changes** — the prompt, embedding approach, parameters, detection logic. Scope it to one variable at a time.
 2. **Define what you measure** — the node's metric from the mapping. Must be computable automatically.
 3. **Define keep/discard** — commit if the metric improves, revert if not.
-4. **Run the loop** — change, measure, keep or discard. Log each experiment to `.eiid/decisions.md`.
+4. **Run the loop** — change, measure, keep or discard. Log experiments to `.eiid/report.md`.
 
 This is the bridge between strategy and continuous optimization. The strategy identified the node as autoresearch-eligible. Build makes it real.
 
 ### 5. Report
 
-Present results and write to `.eiid/report.md`:
+Write results to `.eiid/report.md`:
 - Tests: passed / total / skipped (with reasons)
 - EIID coverage: which layers are implemented
 - Autoresearch: which loops are set up, baseline metrics
 - Skipped pieces: what failed, what was tried
-
-Update `.eiid/decisions.md` with what was learned during build.
+- Decisions: non-obvious choices made during build
 
 ---
 
@@ -109,7 +108,7 @@ Write new tests encoding the change. Run the full existing suite first to confir
 Same autonomous loop. New tests pass, old tests don't break.
 
 ### 4. Report
-Full test results. Log to decisions.md.
+Full test results. Log to `.eiid/report.md`.
 
 ---
 
@@ -119,6 +118,6 @@ Full test results. Log to decisions.md.
 - Tests are the plan. They encode the vision, track progress, and gate quality.
 - Autonomous after vision approval. Log, don't ask.
 - All tests pass or skip with reason. Not "mostly pass."
-- Five iterations max per piece, then skip and report.
+- When iterations stop producing new approaches, skip and report.
 - The strategy is truth. If what you're building contradicts CLAUDE.md, stop and report.
 - Context drift is real. On builds with 5+ pieces, re-read CLAUDE.md before each piece.

@@ -42,13 +42,17 @@ The folder scan already answered some of these. Ask only what's still missing. R
 
 ### 3. Research
 
-Search the web close to the user's problem. Three focused searches:
+Research depth adapts to the input. A raw idea needs broad exploration. A detailed pitch needs targeted validation. An existing codebase needs market positioning.
 
-**Search 1 — How this problem gets solved today.** What products, workflows, and solutions exist? What's good, what's broken?
+At minimum, three angles:
 
-**Search 2 — Who does it well.** From search 1, the 2-3 best existing solutions. Their approach, pricing, limitations, user complaints. Where do they fall short?
+**How this problem gets solved today.** What products, workflows, and solutions exist? What's good, what's broken?
 
-**Search 3 — What changed recently.** What was custom six months ago that's now a service? What services shut down? This prevents building what's already commodity.
+**Who does it well.** The 2-3 best existing solutions. Their approach, pricing, limitations, user complaints. Where do they fall short?
+
+**What changed recently.** What was custom six months ago that's now a service? What services shut down? This prevents building what's already commodity.
+
+Go deeper when the input demands it. A brief that mentions specific data sources: research those sources, their APIs, their pricing. A pitch that claims a unique dataset: verify the claim, search for competitors with similar data. A codebase with integrations: check if those integrations are still the best option.
 
 Use the research to classify each node's evolution in step 4.
 
@@ -96,7 +100,7 @@ If any of these are unclear, the context is not ready. Rewrite until it is.
 
 **Show the user the full CLAUDE.md before writing.** Use `reference/claude-md-template.md` for structure. Ask for confirmation. Incorporate feedback. Only write after approval.
 
-Create CLAUDE.md and `.eiid/decisions.md` (log non-obvious choices with date, reasoning, and which node they affect).
+Create CLAUDE.md. If there are non-obvious choices worth logging, append them to `.eiid/report.md` under a Decisions section with date, reasoning, and which node they affect.
 
 ### 8. What's Next
 
@@ -110,7 +114,7 @@ The mapping exists but something changed: business pivot, new users, new data so
 
 ### 1. Load Context
 
-Read CLAUDE.md, `.eiid/decisions.md`, `.eiid/report.md` (if they exist).
+Read CLAUDE.md, `.eiid/report.md`, `.eiid/report.md` (if they exist).
 
 ### 2. Change Assessment
 
@@ -136,7 +140,7 @@ Check autoresearch results: have optimized nodes converged? Should they graduate
 
 Show updated CLAUDE.md. Highlight what changed. Ask for confirmation. Write.
 
-Log the refresh in `.eiid/decisions.md`.
+Log the refresh in `.eiid/report.md`.
 
 ---
 
@@ -146,5 +150,5 @@ Log the refresh in `.eiid/decisions.md`.
 - Concrete items: "Gmail inbox" not "email data."
 - Uncertain items get a question mark. The user refines later.
 - Mark inferences as inferences.
-- CLAUDE.md is strategic context. `.eiid/` is operational findings. Keep them separate.
+- CLAUDE.md is strategic context (stable). `.eiid/report.md` is operational state (volatile). Don't duplicate between them.
 - The user answers questions or confirms inferences. The decomposition, evolution classification, and challenge — you bring those from research and analysis.

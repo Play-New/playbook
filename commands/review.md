@@ -48,10 +48,11 @@ Read the EIID mapping table from CLAUDE.md. For each node:
 
 For nodes marked "autoresearch" in the mapping:
 
-- **Is the loop running?** Check for experiment logs in `.eiid/decisions.md`.
+- **Is the loop running?** Check for experiment logs in `.eiid/report.md`.
 - **Convergence.** Are improvements getting smaller? If the last 10 experiments produced less than 1% improvement, the loop is converging. Suggest graduation.
 - **Divergence.** Are results getting worse or unstable? Flag and suggest reviewing the optimization target.
 - **Not started.** If the node is marked autoresearch but no loop exists: "Node [X] is autoresearch-eligible but no loop is set up. Run `/eiid:build` to create it."
+- **Trigger a cycle.** If the loop exists and the metric is below target, run one autoresearch cycle: change, measure, keep or discard. The system improves itself, not just reports.
 
 ---
 
