@@ -122,3 +122,4 @@ Full test results. Log to `.eiid/report.md`.
 - When iterations stop producing new approaches, skip and report.
 - The strategy is truth. If what you're building contradicts CLAUDE.md, stop and report.
 - Context drift is real. On builds with 5+ nodes, re-read CLAUDE.md before each node.
+- Every defect found manually becomes an automated test. If you catch it by hand twice, the process is broken. This applies to the product code, to the tests themselves, and to the EIID mapping. The system catches its own mistakes or it doesn't work.
