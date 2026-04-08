@@ -101,7 +101,7 @@ Strategy produces two outputs: one for the people deciding, one for the agents b
 
 This is the challenge translated into action. The user reads this and knows what to do next.
 
-**For the agents: CLAUDE.md.** Use `reference/claude-md-template.md` for structure. Show the user the full CLAUDE.md. Ask for confirmation. Only write after approval.
+**For the agents: CLAUDE.md.** Use `reference/claude-md-template.md` for structure. Before showing the user, verify: if an AI agent reads this CLAUDE.md tomorrow with zero context, does it know where the value is (which nodes are genesis), what to build first, what to measure (every node has a metric or signal), when to change approach (graduation triggers), and which nodes can be optimized automatically (loop field)? If any of these are unclear, rewrite until they are. Then show the user. Ask for confirmation. Only write after approval.
 
 If there are non-obvious choices worth logging, append them to `.eiid/report.md` under a Decisions section with date, reasoning, and which node they affect.
 
