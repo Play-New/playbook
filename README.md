@@ -60,9 +60,9 @@ Playbook decomposes a product into **nodes**, each belonging to exactly one laye
 | Field | What it captures |
 |-------|-----------------|
 | **Layer** | Enrichment, inference, interpretation, or delivery |
-| **Evolution** | Where the node sits on the Wardley axis: genesis (new, uncertain — invest here), custom (understood but not standardized), product (multiple approaches exist), commodity (buy it) |
+| **Evolution** | Where the node sits: genesis (new, uncertain — invest here), custom (understood but not standardized), product (multiple approaches exist), commodity (buy it) |
 | **Metric / Signal** | What you measure and the target. Metric for things with fast, automatic feedback (accuracy, precision, latency). Signal for things requiring human observation (acceptance rate, fatigue, time to action) |
-| **Graduation** | When to change approach AND what to change to. Both the condition and the direction. "Accuracy >95% for 2 weeks: replace with deterministic rules" is complete. "Accuracy >95%" is not — it says when but not where to go |
+| **Graduation** | Two parts: *when* to change approach (the trigger) and *what* to change to (the direction). "Accuracy >95% for 2 weeks → replace with deterministic rules" is complete. "Accuracy >95%" alone is not — you know when to act but not what to do |
 | **Loop** | Whether the node can be optimized automatically (autoresearch), requires human judgment (manual review), or is commodity (N/A) |
 
 The decomposition is then challenged. A pitch that says "we'll build a RAG system" gets: RAG is how, what is the what? A brief with six features but no inference layer gets: where are the patterns? A commodity node built custom gets: this exists as a service, buy it. No genesis nodes gets: where are you creating new value?
