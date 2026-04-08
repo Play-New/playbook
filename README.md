@@ -83,7 +83,7 @@ Two skills fire automatically during work. **EIID awareness** catches misalignme
 
 **Context engineering.** Every output of this plugin is structured context for AI agents. When an agent reads the CLAUDE.md, it knows which nodes are genesis (invest here), which are commodity (buy, don't build), what to measure, and when to change approach. Stale context is worse than no context, so review checks fidelity: does the document still match the product?
 
-**Autoresearch.** Some nodes have clean metrics and fast feedback. An Enrichment node matching products to SKUs can run 12 experiments per hour: change the prompt, measure accuracy, keep or discard. An Interpretation node generating pricing recommendations cannot, because the signal (did the seller accept it?) takes days. The plugin marks each node with its loop type so you know where automated optimization works and where it doesn't.
+**Autoresearch.** Based on Karpathy's framework: one mutable file, one metric, fixed time budget per experiment, git as keep/discard mechanism. An Enrichment node matching products to SKUs can run 12 experiments per hour: the agent changes the prompt file, measures accuracy against a test set, commits if it improves, reverts if it doesn't. No human in the loop. An Interpretation node generating pricing recommendations cannot do this, because the signal (did the seller accept it?) takes days. The plugin marks each node with its loop type so you know where automated optimization works and where it doesn't.
 
 **Graduation.** Nothing is permanent. A node that started as a quick experiment graduates to a robust system when volume demands it. A node that started complex graduates down to simple rules when patterns stabilize. Each node documents the trigger that says when.
 

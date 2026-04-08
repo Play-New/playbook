@@ -45,11 +45,19 @@ Every node has one or the other. A node with neither metric nor signal is flying
 
 ## Autoresearch
 
-For nodes with a clear metric and fast feedback: the automated optimization loop. Change the implementation (prompt, parameters, logic), measure the metric, keep if improved, discard if not. Repeat.
+Automated optimization loop for nodes with a clear metric and fast feedback. Based on Karpathy's autoresearch framework.
 
-Works well on Enrichment and Inference nodes. Partially applicable to Interpretation (prompt clarity optimization). Not applicable to Delivery (feedback too slow, quality multi-dimensional).
+The mechanism has five fixed parts:
 
-The strategy identifies which nodes are autoresearch candidates. Build sets up the loop. Review evaluates convergence and triggers optimization cycles when a node is below target.
+1. **One mutable file.** The agent can only change one file per node: the prompt, the config, or the logic file. Everything else is frozen. This prevents the agent from changing the evaluation to make the metric look better.
+2. **One metric.** The node's metric from the EIID mapping, computed automatically against an evaluation set. One number, no ambiguity.
+3. **Fixed time budget.** Each experiment must complete within a fixed time (evaluation included). This makes experiments comparable regardless of what the agent changed.
+4. **Git as keep/discard.** `git commit` when the metric improves (new baseline). `git reset --hard` when it doesn't (clean revert). Improvements accumulate. Failures vanish.
+5. **Autonomous loop.** The agent reads the code, forms a hypothesis, makes one change, measures, keeps or discards. No human in the loop. Runs until convergence or budget exhausted.
+
+Works well on Enrichment and Inference nodes (clean metrics, fast evaluation). Partially applicable to Interpretation (prompt clarity, measurable against evaluation set). Not applicable to Delivery (feedback too slow, quality multi-dimensional).
+
+The strategy identifies which nodes are autoresearch candidates. Build sets up the loop: creates the evaluation set, designates the mutable file, configures the metric. Review evaluates convergence and triggers cycles when a node is below target.
 
 ## Graduation
 

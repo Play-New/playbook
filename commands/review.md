@@ -50,11 +50,10 @@ Nodes where the mapping defines a human-observable signal (acceptance rate, fati
 
 For nodes marked "autoresearch" in the mapping:
 
-- **Is the loop running?** Check for experiment logs in `.eiid/report.md`.
-- **Convergence.** Are improvements getting smaller? If the last 10 experiments produced less than 1% improvement, the loop is converging. Suggest graduation.
-- **Divergence.** Are results getting worse or unstable? Flag and suggest reviewing the optimization target.
-- **Not started.** If the node is marked autoresearch but no loop exists: "Node [X] is autoresearch-eligible but no loop is set up. Run `/eiid:build` to create it."
-- **Trigger a cycle.** If the loop exists and the metric is below target, run one autoresearch cycle: change, measure, keep or discard. The system improves itself, not just reports.
+- **Is the loop set up?** Check: is there a designated mutable file, an evaluation set, and a metric? If any is missing: "Node [X] is autoresearch-eligible but the loop is incomplete. Run `/eiid:build` to set it up."
+- **Convergence.** Read experiment logs in `.eiid/report.md`. Are improvements getting smaller? If the last 10 experiments produced less than 1% improvement, the loop is converging. Suggest graduation.
+- **Divergence.** Are results getting worse or unstable? Flag and suggest reviewing the mutable file scope or evaluation set quality.
+- **Below target.** If the loop exists and the metric is below target, run an autoresearch cycle: read the mutable file, form a hypothesis based on previous experiments, make one change, evaluate, `git commit` or `git reset --hard`. Log the experiment. The system improves itself, not just reports.
 
 ---
 

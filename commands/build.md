@@ -74,15 +74,15 @@ For Interpretation/Delivery nodes with visual surfaces: make design decisions he
 
 ### 4. Autoresearch Setup
 
-For nodes marked "autoresearch" in the EIID mapping:
+For nodes marked "autoresearch" in the EIID mapping, set up the loop per the Karpathy framework (see `reference/concepts.md`):
 
-1. **Evaluation data first.** The loop needs something to measure against. A product matcher needs labeled correct matches. An anomaly detector needs labeled anomalies. If no evaluation set exists, creating it is the first step. Start small (50-100 labeled examples), expand as the loop runs.
-2. **Define what changes** — the prompt, embedding approach, parameters, detection logic. One variable at a time.
-3. **Define what you measure** — the node's metric from the mapping, computed against the evaluation set.
-4. **Define keep/discard** — commit if the metric improves, revert if not.
-5. **Run the loop** — change, measure, keep or discard. Log experiments to `.eiid/report.md`.
+1. **Evaluation set.** The loop needs labeled data to measure against. A product matcher needs correct matches. An anomaly detector needs labeled anomalies. If no evaluation set exists, creating it is the first step. Start small (50-100 labeled examples), expand as the loop runs.
+2. **Mutable file.** Designate exactly one file the agent can change for this node: the prompt file, the config, or the logic file. Everything else is frozen.
+3. **Metric.** The node's metric from the mapping, computed automatically against the evaluation set. One number.
+4. **Time budget.** Set a fixed time per experiment (evaluation included). Short enough to run many experiments, long enough to produce a real measurement.
+5. **Run the loop.** The agent reads the mutable file, forms a hypothesis, makes one change, runs the evaluation. `git commit` if the metric improves. `git reset --hard` if it doesn't. No human in the loop. Log each experiment (hypothesis, change, result) to `.eiid/report.md`.
 
-This is the bridge between strategy and continuous optimization. The strategy identified the node as autoresearch-eligible. Build makes it real.
+The loop runs autonomously until convergence (improvements < 1% over 10 experiments) or until the time budget for the session is exhausted.
 
 ### 5. Report
 
