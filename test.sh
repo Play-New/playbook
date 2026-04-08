@@ -166,6 +166,28 @@ check "marketplace.json source URL points to EIID" "$( echo "$url" | grep -q 'Pl
 
 echo ""
 
+# --- Textual coherence ---
+echo "Textual coherence:"
+
+# "piece" should not appear as a term for node in commands
+# "piece" as a synonym for node (ignore "missing pieces" which is English idiom)
+count=$(grep "piece\b" commands/build.md 2>/dev/null | grep -v "Missing pieces" | wc -l | tr -d ' ')
+check "build.md uses 'node' not 'piece'" "$count"
+
+# Graduation field definition must say "condition + direction" not just "condition"
+has_direction=$(grep "Graduation" reference/concepts.md 2>/dev/null | head -1 | grep -c "direction")
+check "concepts.md Graduation field says condition + direction" "$( [ "$has_direction" -gt 0 ] && echo 0 || echo 1 )"
+
+# README tree diagram uses Metric/Signal not just Metric
+has_signal=$(grep "Metric/Signal\|Metric / Signal" README.md 2>/dev/null | wc -l | tr -d ' ')
+check "README uses Metric/Signal (not just Metric)" "$( [ "$has_signal" -ge 2 ] && echo 0 || echo 1 )"
+
+# Loop values use "manual review" not just "manual"
+count=$(grep -rn "autoresearch/manual/" --include="*.md" . 2>/dev/null | grep -v "manual review" | grep -v test.sh | wc -l | tr -d ' ')
+check "Loop field uses 'manual review' not 'manual'" "$count"
+
+echo ""
+
 # --- Summary ---
 TOTAL=$((PASS + FAIL))
 echo "====================="

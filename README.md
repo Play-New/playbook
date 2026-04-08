@@ -52,8 +52,8 @@ Value expected
   +-- Node
   |     |-- Layer           enrichment / inference / interpretation / delivery
   |     |-- Evolution       genesis / custom / product / commodity
-  |     |-- Metric          what you measure, what the target is
-  |     |-- Graduation      when to change approach
+  |     |-- Metric/Signal    what you measure, what the target is
+  |     |-- Graduation      when and how to change approach
   |     +-- Loop            autoresearch / manual review / N/A
   |
   +-- Node
@@ -102,7 +102,7 @@ Two files. CLAUDE.md is the strategy. Report is the current state. No duplicatio
 
 A pricing intelligence tool for e-commerce sellers (full example in `reference/example.md`):
 
-| Node | Layer | Evolution | Metric | Graduation | Loop |
+| Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
 |------|-------|-----------|--------|------------|------|
 | Price scraper | Enrichment | commodity | coverage 80%+ | if coverage drops, build custom | N/A (buy) |
 | Product matcher | Enrichment | custom | accuracy on test set | >95% stable: switch to rules | autoresearch |

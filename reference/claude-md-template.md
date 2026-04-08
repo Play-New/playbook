@@ -15,7 +15,7 @@ Strategy generates this file. It is the strategic context document of the produc
 
 | Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
 |------|-------|-----------|-----------------|------------|------|
-| [name] | Enrichment | [genesis/custom/product/commodity] | [what you measure, target] | [condition + direction] | [autoresearch/manual/N/A] |
+| [name] | Enrichment | [genesis/custom/product/commodity] | [what you measure, target] | [condition + direction] | [autoresearch/manual review/N/A] |
 | ... | ... | ... | ... | ... | ... |
 
 Multiple nodes per layer is normal. A product might have 3 Enrichment nodes and 2 Delivery nodes. Every node gets its own row.

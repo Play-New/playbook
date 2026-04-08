@@ -63,12 +63,12 @@ Autonomous until all tests pass.
 
 **Order:** Start from commodity nodes (low risk, clear implementation), then custom, then genesis. Infrastructure before intelligence before surfaces.
 
-For each piece:
+For each node:
 1. Re-read CLAUDE.md before starting (context drifts on long builds).
 2. Build with full context: EIID mapping, value expected, vision.
 3. Run the full test suite. Track which tests flip from failing to passing.
 4. On regression: revert, analyze, try differently.
-5. When iterations stop producing new approaches: log what was tried, skip, continue.
+5. When iterations stop producing new approaches: log what was tried, skip the node, continue.
 
 For Interpretation/Delivery nodes with visual surfaces: make design decisions here, guided by the value expected. What the node needs to communicate determines the visual choices.
 
@@ -90,14 +90,14 @@ Write results to `.eiid/report.md`:
 - Tests: passed / total / skipped (with reasons)
 - EIID coverage: which layers are implemented
 - Autoresearch: which loops are set up, baseline metrics
-- Skipped pieces: what failed, what was tried
+- Skipped nodes: what failed, what was tried
 - Decisions: non-obvious choices made during build
 
 ---
 
 ## Extend Mode
 
-Add a feature or build a piece on top of existing code.
+Add a feature or build a node on top of existing code.
 
 ### 1. Vision
 Same conversation, scoped to the change. What does the user experience today, and what should change?
@@ -121,4 +121,4 @@ Full test results. Log to `.eiid/report.md`.
 - All tests pass or skip with reason. Not "mostly pass."
 - When iterations stop producing new approaches, skip and report.
 - The strategy is truth. If what you're building contradicts CLAUDE.md, stop and report.
-- Context drift is real. On builds with 5+ pieces, re-read CLAUDE.md before each piece.
+- Context drift is real. On builds with 5+ nodes, re-read CLAUDE.md before each node.

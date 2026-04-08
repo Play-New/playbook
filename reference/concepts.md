@@ -23,7 +23,7 @@ A component of the product that belongs to exactly one EIID layer. The unit of d
 - **Layer** — which EIID layer it serves
 - **Evolution** — where it sits on the Wardley axis (genesis, custom, product, commodity)
 - **Metric / signal** — what you measure and the target value
-- **Graduation** — when to change approach (trigger condition)
+- **Graduation** — when to change approach and what to change to (condition + direction)
 - **Loop** — whether the node is optimizable automatically or requires human judgment
 
 ## Evolution
