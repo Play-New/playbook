@@ -30,19 +30,25 @@ A Claude Code plugin that decomposes intelligence-era products into a value chai
 
 ### Install
 
+1. Register the marketplace (once):
+
 ```bash
-# 1. Register the marketplace (once)
 claude plugin marketplace add Play-New/playbook
-
-# 2. Install the plugin
-claude plugin install playbook@playbook
-
-# 3. Verify
-claude plugin list
-# should show: playbook@playbook — Status: ✔ enabled
 ```
 
-Restart Claude Code after installing. Three commands become available: `/playbook:strategy`, `/playbook:build`, `/playbook:review`.
+2. Install the plugin:
+
+```bash
+claude plugin install playbook@playbook
+```
+
+3. Verify:
+
+```bash
+claude plugin list
+```
+
+You should see `playbook@playbook — Status: ✔ enabled`. Restart Claude Code after installing. Three commands become available: `/playbook:strategy`, `/playbook:build`, `/playbook:review`.
 
 ---
 
