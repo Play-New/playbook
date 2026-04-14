@@ -14,17 +14,18 @@ Four layers that structure every intelligence-era product. Value flows from raw 
 
 **Interpretation** — turns raw inference into something a person can act on. "Anomaly score 0.87" means nothing. "Orders dropped 30%, likely due to budget freeze, renewal in 45 days" is an insight. Context, comparison, explanation, recommended action.
 
-**Delivery** — returns results through the channels people already use. Triggered by conditions: threshold crossed, schedule, event, user request. The critical design choice is timing. The web interface, when one exists, serves what messages cannot: visualizations that need space and configuration of the invisible layer. It is not the primary input surface.
+**Delivery** — returns results through the channels people already use AND captures signal from how people respond. Triggered by conditions: threshold crossed, schedule, event, user request. The critical design choice is timing. Every delivery surface is also a sensor: what the user accepts, ignores, modifies, or asks for that doesn't exist is signal that feeds back into other layers. A conversational interface that composes itself from capabilities in real time captures richer signal than a static navigation — and creates a compound loop where every interaction makes the product more intelligent.
 
 ## Node
 
-A component of the product that belongs to exactly one layer. The unit of decomposition, analysis, and measurement. Each node carries five fields:
+A component of the product that belongs to exactly one layer. The unit of decomposition, analysis, and measurement. Each node carries six fields:
 
 - **Layer** — which layer it serves
 - **Evolution** — where it sits on the Wardley axis (genesis, custom, product, commodity)
 - **Metric / signal** — what you measure and the target value
 - **Graduation** — when to change approach and what to change to (condition + direction)
 - **Loop** — whether the node is optimizable automatically or requires human judgment
+- **Feeds** — which other nodes this node enriches through use, and with what signal. Every Delivery node should declare this. Enrichment and Inference nodes may also feed each other. A node with no feeds is terminal — value flows out but nothing comes back. A node that feeds others creates a compound loop where the product improves from use.
 
 ## Evolution
 
@@ -55,7 +56,9 @@ The mechanism has five fixed parts:
 4. **Git as keep/discard.** `git commit` when the metric improves (new baseline). `git reset --hard` when it doesn't (clean revert). Improvements accumulate. Failures vanish.
 5. **Autonomous loop.** The agent reads the code, forms a hypothesis, makes one change, measures, keeps or discards. No human in the loop. Runs until convergence or budget exhausted.
 
-Works well on Enrichment and Inference nodes (clean metrics, fast evaluation). Partially applicable to Interpretation (prompt clarity, measurable against evaluation set). Not applicable to Delivery (feedback too slow, quality multi-dimensional).
+Works well on Enrichment and Inference nodes (clean metrics, fast evaluation). Partially applicable to Interpretation (prompt clarity, measurable against evaluation set).
+
+A second form of autoresearch operates in production through Delivery. When an interface captures user behavior — what they accept, ignore, modify, or request — that signal flows back to other nodes and optimizes them continuously. The customer is the agent, the interface is the mutable surface, the usage is the measurement. This is not a sandbox experiment — it is the product improving itself through use. Delivery nodes that feed other nodes are running autoresearch at the speed of customer interaction.
 
 The strategy identifies which nodes are autoresearch candidates. Build sets up the loop: creates the evaluation set, designates the mutable file, configures the metric. Review evaluates convergence and triggers cycles when a node is below target.
 
