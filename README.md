@@ -71,19 +71,34 @@ Every intelligence-era product moves data from raw input to user value through f
 | **Enrichment** | Where data enters. Normalizes inputs from every channel the user already uses. | Price scraping, document parsing, voice transcription |
 | **Inference** | Pattern detection, prediction, anomaly flagging. The compute is cheap; knowing what questions to ask is not. | Anomaly detection, matching, classification |
 | **Interpretation** | Turns raw inference into something a person can act on. "Anomaly score 0.87" means nothing. "Orders dropped 30%, likely budget freeze, renewal in 45 days" is an insight. | Recommendations, explanations, suggested actions |
-| **Delivery** | Returns the right insight through the right channel at the right moment. The critical design choice is timing. | Push notifications, digests, dashboards, agent responses |
+| **Delivery** | Returns the right insight through the right channel at the right moment AND captures signal from how people respond. Every delivery surface is also a sensor. | Push notifications, digests, dashboards, conversational interfaces |
 
-Playbook decomposes a product into **nodes**, each belonging to exactly one layer. Every node carries five fields:
+The value flow is not a pipeline — it is a cycle:
+
+```
+    Enrichment → Inference → Interpretation → Delivery
+        ↑                                        │
+        └──────── Feeds (backward signal) ────────┘
+```
+
+What the user accepts, ignores, modifies, or asks for and doesn't get flows back as signal to the earlier layers. A dashboard where users search for a competitor not tracked feeds signal back to Enrichment (coverage gap). An alert consistently ignored feeds signal back to Inference (precision is wrong). A recommendation edited before acceptance feeds signal back to Interpretation (the system got it partially wrong — the edit shows what).
+
+This applies to products and to organizations. An organization's delivery surfaces — client reports, internal dashboards, team communications — are sensors too. What people ask for that the system can't answer is the roadmap.
+
+The compound loop is the moat. Every capability in isolation is replicable — card processing, lending, document parsing, notification routing. What is not replicable is the accumulated understanding of customers built from every interaction. This is the world model: a living intelligence that gets deeper with every use. The product with the richest Feeds builds the deepest world model. The deepest world model composes the best responses. The best responses generate more use. The cycle compounds. A competitor can copy the capabilities. They cannot copy the world model — it only exists because of the history of interactions that built it.
+
+Playbook decomposes a product into **nodes**, each belonging to exactly one layer. Every node carries six fields:
 
 | Field | What it captures |
 |-------|-----------------|
 | **Layer** | Enrichment, inference, interpretation, or delivery |
-| **Evolution** | Where the node sits: genesis (new, uncertain — invest here), custom (understood but not standardized), product (multiple approaches exist), commodity (buy it) |
+| **Evolution** | Where the node sits: genesis (new, uncertain — invest here), custom (understood but not standardized), product (multiple approaches exist), commodity (buy it). A static dashboard is product. A conversational interface that composes itself from capabilities is genesis — it accumulates a world model and creates a compound moat |
 | **Metric / Signal** | What you measure and the target. Metric for things with fast, automatic feedback (accuracy, precision, latency). Signal for things requiring human observation (acceptance rate, fatigue, time to action) |
 | **Graduation** | Two parts: *when* to change approach (the trigger) and *what* to change to (the direction). "Accuracy >95% for 2 weeks → replace with deterministic rules" is complete. "Accuracy >95%" alone is not — you know when to act but not what to do |
 | **Loop** | Whether the node can be optimized automatically (autoresearch), requires human judgment (manual review), or is commodity (N/A) |
+| **Feeds** | Which nodes this enriches through use, against the normal EIID direction, and with what signal. A node with no backward signal is terminal (`—`). Every Delivery node should declare this |
 
-The decomposition is then challenged. A pitch that says "we'll build a RAG system" gets: RAG is how, what is the what? A brief with six features but no inference layer gets: where are the patterns? A commodity node built custom gets: this exists as a service, buy it. No genesis nodes gets: where are you creating new value?
+The decomposition is then challenged. A pitch that says "we'll build a RAG system" gets: RAG is how, what is the what? A brief with six features but no inference layer gets: where are the patterns? A commodity node built custom gets: this exists as a service, buy it. No genesis nodes gets: where are you creating new value? A Delivery node with no Feeds gets: your product doesn't learn from use.
 
 ## 3. The method
 
@@ -110,6 +125,28 @@ For nodes marked "autoresearch" in the mapping, build sets up an automated optim
 
 An Enrichment node matching products to SKUs can run 12 experiments per hour this way. An Interpretation node generating pricing recommendations cannot — the signal (did the seller accept it?) takes days. The mapping captures this distinction explicitly.
 
+A second form of autoresearch operates in production through Delivery:
+
+```
+    Sandbox autoresearch          Production autoresearch
+    (Karpathy)                    (through Delivery)
+
+    agent changes file            customer uses interface
+         │                              │
+    run evaluation                system composes response
+         │                              │
+    metric improves?              customer got what they wanted?
+      ┌───┴───┐                     ┌───┴───┐
+     yes     no                    yes     no
+   commit   reset               signal    signal
+                              (reinforce) (gap → roadmap)
+         │                              │
+    converge                    feeds back to
+    or stop                     other nodes
+```
+
+The customer is the agent, the interface is the mutable surface, the usage is the measurement. The product improves itself through use. This applies to products (a dashboard that reveals coverage gaps) and to organizations (a team communication channel that reveals where information doesn't flow).
+
 ### 3.3 Review (`/playbook:review`)
 
 Measures the product against the mapping. For each node: is the metric above, at, or below target? Has a graduation trigger fired? For autoresearch nodes: is the loop converging, diverging, or not set up? For the mapping as a whole: does it still match the product?
@@ -133,39 +170,39 @@ Three decompositions across different domains (full detail in `reference/example
 
 ### 4.1 PriceScope — pricing intelligence for e-commerce
 
-| Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
-|------|-------|-----------|-----------------|------------|------|
-| Price scraper | Enrichment | commodity | coverage 80%+ | if coverage drops, build custom | N/A (buy) |
-| Product matcher | Enrichment | custom | accuracy on test set | >95% stable → rules | autoresearch |
-| Anomaly detector | Inference | custom | precision + recall | >10K SKUs → rules for known patterns | autoresearch |
-| Price recommendation | Interpretation | **genesis** | acceptance rate | patterns repeat → auto-rules per category | manual review |
-| Alert dispatcher | Delivery | product | fatigue rate <40% | fatigue >40% → reduce frequency | manual review |
+| Node | Layer | Evolution | Metric / Signal | Graduation | Loop | Feeds |
+|------|-------|-----------|-----------------|------------|------|-------|
+| Price scraper | Enrichment | commodity | coverage 80%+ | if coverage drops, build custom | N/A (buy) | — |
+| Product matcher | Enrichment | custom | accuracy on test set | >95% stable → rules | autoresearch | — |
+| Anomaly detector | Inference | custom | precision + recall | >10K SKUs → rules for known patterns | autoresearch | — |
+| Price recommendation | Interpretation | **genesis** | acceptance rate | patterns repeat → auto-rules per category | manual review | — |
+| Alert dispatcher | Delivery | product | fatigue rate <40% | fatigue >40% → reduce frequency | manual review | ignored alerts → anomaly detector, action timing → routing rules |
 
-Genesis is in Interpretation. Autoresearch applies to two Enrichment/Inference nodes with fast feedback. Enrichment is commodity — buy it.
+Genesis is in Interpretation. Autoresearch applies to two Enrichment/Inference nodes with fast feedback. Enrichment is commodity — buy it. The alert dispatcher feeds signal back to Inference — ignored alerts mean the anomaly wasn't worth flagging.
 
 ### 4.2 TalentVoice — AI-augmented recruiting language
 
-| Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
-|------|-------|-----------|-----------------|------------|------|
-| Document ingester | Enrichment | commodity | ingestion success rate | new ATS breaks it → custom parser | N/A (buy) |
-| Outcome linker | Enrichment | custom | linkage rate | >95% for an ATS → freeze connector | autoresearch |
-| Bias pattern detector | Inference | custom | precision + recall | pattern universally known → blocklist | autoresearch |
-| Rewrite recommendation | Interpretation | **genesis** | acceptance rate + outcome delta (30-90d) | >90% acceptance → auto-apply | manual review |
-| Editor overlay | Delivery | product | time to action, dismissal rate | >50% auto-accepted → auto-apply | manual review |
+| Node | Layer | Evolution | Metric / Signal | Graduation | Loop | Feeds |
+|------|-------|-----------|-----------------|------------|------|-------|
+| Document ingester | Enrichment | commodity | ingestion success rate | new ATS breaks it → custom parser | N/A (buy) | — |
+| Outcome linker | Enrichment | custom | linkage rate | >95% for an ATS → freeze connector | autoresearch | — |
+| Bias pattern detector | Inference | custom | precision + recall | pattern universally known → blocklist | autoresearch | — |
+| Rewrite recommendation | Interpretation | **genesis** | acceptance rate + outcome delta (30-90d) | >90% acceptance → auto-apply | manual review | — |
+| Editor overlay | Delivery | product | time to action, dismissal rate | >50% auto-accepted → auto-apply | manual review | edits before accepting → rewrite recommendation, dismissed suggestions → bias detector |
 
-Genesis is in Interpretation, but feedback is structurally slow (30-90 days). The real moat is in Enrichment — the outcome linker is a data asset. Autoresearch can't help the genesis node where it matters most.
+Genesis is in Interpretation, but feedback is structurally slow (30-90 days). The real moat is in Enrichment — the outcome linker is a data asset. The editor overlay is the hidden training loop: when a recruiter edits a rewrite before accepting, the edit shows exactly what the recommendation got wrong.
 
 ### 4.3 BrandLens — content governance and brand voice
 
-| Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
-|------|-------|-----------|-----------------|------------|------|
-| Content collector | Enrichment | commodity | coverage, freshness | no API → custom scraper | N/A (buy) |
-| Style guide encoder | Enrichment | custom | rule coverage, conflict rate | conflicts at zero → stable | manual review |
-| Compliance scorer | Inference | product | accuracy vs experts, FP rate | FP >15% → simplify rules | autoresearch |
-| Consistency analyzer | Inference | **genesis** | cross-channel variance, drift latency | stable 6mo → reduce monitoring | autoresearch (weekly) |
-| Writer guidance | Delivery | product | time to correction, acceptance rate | pass rate >95% → advisory mode | manual review |
+| Node | Layer | Evolution | Metric / Signal | Graduation | Loop | Feeds |
+|------|-------|-----------|-----------------|------------|------|-------|
+| Content collector | Enrichment | commodity | coverage, freshness | no API → custom scraper | N/A (buy) | — |
+| Style guide encoder | Enrichment | custom | rule coverage, conflict rate | conflicts at zero → stable | manual review | — |
+| Compliance scorer | Inference | product | accuracy vs experts, FP rate | FP >15% → simplify rules | autoresearch | — |
+| Consistency analyzer | Inference | **genesis** | cross-channel variance, drift latency | stable 6mo → reduce monitoring | autoresearch (weekly) | — |
+| Writer guidance | Delivery | product | time to correction, acceptance rate | pass rate >95% → advisory mode | manual review | corrections before flags → compliance scorer, rejected suggestions → style guide encoder, new compliant patterns → consistency analyzer |
 
-Genesis is in Inference, not Interpretation. The value is in detecting brand drift — the detection itself is the insight. Two autoresearch loops at different speeds.
+Genesis is in Inference, not Interpretation. The value is in detecting brand drift — the detection itself is the insight. Two autoresearch loops at different speeds. Writer guidance is the densest sensor — it feeds three nodes despite being product-stage.
 
 ### What the three examples show together
 
@@ -176,8 +213,9 @@ Genesis is in Inference, not Interpretation. The value is in detecting brand dri
 | Enrichment | commodity | **strategic asset** | mixed |
 | Autoresearch nodes | 2 (both fast) | 2 (not the genesis) | 2 (different speeds) |
 | Where the moat is | interpretation quality | enrichment data | inference detection |
+| Delivery feeds | 1 node (anomaly detector) | 2 nodes (rewrite rec, bias detector) | **3 nodes** (scorer, encoder, analyzer) |
 
-The genesis node is not always in the same layer. The moat is not always where you'd expect. Autoresearch helps where feedback is fast, but the most valuable node often has the slowest feedback.
+The genesis node is not always in the same layer. The moat is not always where you'd expect. Autoresearch helps where feedback is fast, but the most valuable node often has the slowest feedback. The Delivery layer — even when product-stage — is often the richest sensor in the system. A product where Delivery feeds no other node doesn't learn from use.
 
 ## 5. References
 
