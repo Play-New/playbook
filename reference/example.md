@@ -33,6 +33,7 @@ Collects competitor prices from marketplaces and websites. Normalizes formats, c
 | Metric | coverage (% competitors tracked), freshness (age of latest price in minutes) |
 | Graduation | if coverage drops below 80% on a marketplace, build a custom scraper for it |
 | Loop | N/A — buy the service, monitor the metric |
+| Feeds | — |
 
 ### Product matcher — Enrichment
 
@@ -45,6 +46,7 @@ Matches competitor products to your SKUs. Handles variants, bundles, different n
 | Metric | accuracy (% correct matches on test set) |
 | Graduation | when accuracy stable above 95% for 2 weeks on mature categories, replace with deterministic rules for those categories |
 | Loop | autoresearch — change prompt/embedding approach, measure accuracy, keep or discard. 12 experiments/hour. |
+| Feeds | — |
 
 ### Anomaly detector — Inference
 
@@ -57,6 +59,7 @@ Detects unusual price changes: a competitor dropping 40%, an upward trend across
 | Metric | precision (% flagged anomalies that are real), recall (% real anomalies caught) |
 | Graduation | when volume exceeds 10K monitored SKUs, move recurring patterns to rules and keep the model for novel cases only |
 | Loop | autoresearch — change detection logic, measure against labeled anomaly dataset. Fast feedback. |
+| Feeds | — |
 
 ### Price recommendation — Interpretation
 
@@ -69,6 +72,7 @@ Transforms "competitor X dropped 15%" into "lower to 24.90, maintain ranking, ma
 | Signal | recommendation acceptance rate, revenue delta at 7 days post-adoption |
 | Graduation | when recommendations for a category follow the same pattern consistently, convert to automatic rules for that category |
 | Loop | manual review — optimize prompt for clarity (measurable), but revenue impact requires human judgment (monthly) |
+| Feeds | — |
 
 ### Alert dispatcher — Delivery
 
@@ -81,6 +85,7 @@ Sends the right insight through the right channel at the right time. Competitor 
 | Signal | time from alert to first user action, % alerts ignored (fatigue) |
 | Graduation | when a channel exceeds 40% fatigue rate, revisit frequency and thresholds for that channel |
 | Loop | manual review — observe fatigue and response signals, adjust routing rules |
+| Feeds | accepted/ignored alerts → anomaly detector (precision tuning), action timing → alert dispatcher (routing rules) |
 
 ### Dashboard — Delivery
 
@@ -93,6 +98,7 @@ Overview of the price landscape, active recommendations, history, past decision 
 | Signal | usage frequency, average time to find the information sought |
 | Graduation | if 80% of users use only 2 views, the others are not earning their place |
 | Loop | N/A |
+| Feeds | searches without results → price scraper (coverage gaps), recommendation outcomes viewed → price recommendation (quality signal) |
 
 ---
 

@@ -13,10 +13,10 @@ Strategy generates this file. It is the strategic context document of the produc
 
 ## Playbook
 
-| Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
-|------|-------|-----------|-----------------|------------|------|
-| [name] | Enrichment | [genesis/custom/product/commodity] | [what you measure, target] | [condition + direction] | [autoresearch/manual review/N/A] |
-| ... | ... | ... | ... | ... | ... |
+| Node | Layer | Evolution | Metric / Signal | Graduation | Loop | Feeds |
+|------|-------|-----------|-----------------|------------|------|-------|
+| [name] | Enrichment | [genesis/custom/product/commodity] | [what you measure, target] | [condition + direction] | [autoresearch/manual review/N/A] | [which nodes this enriches through use, and with what signal — or "—" if terminal] |
+| ... | ... | ... | ... | ... | ... | ... |
 
 Multiple nodes per layer is normal. A product might have 3 Enrichment nodes and 2 Delivery nodes. Every node gets its own row.
 

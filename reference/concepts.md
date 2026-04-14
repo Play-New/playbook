@@ -25,7 +25,7 @@ A component of the product that belongs to exactly one layer. The unit of decomp
 - **Metric / signal** — what you measure and the target value
 - **Graduation** — when to change approach and what to change to (condition + direction)
 - **Loop** — whether the node is optimizable automatically or requires human judgment
-- **Feeds** — which other nodes this node enriches through use, and with what signal. Every Delivery node should declare this. Enrichment and Inference nodes may also feed each other. A node with no feeds is terminal — value flows out but nothing comes back. A node that feeds others creates a compound loop where the product improves from use.
+- **Feeds** — signal that flows BACK from this node to other nodes, against the normal EIID direction. Not the forward pipeline (enrichment → inference is the pipeline, not a feed). A Delivery node where users ignore alerts feeds signal back to Inference (precision is wrong). A Dashboard where users search for missing data feeds signal back to Enrichment (coverage gap). Every Delivery node should declare this. A node with no backward signal is terminal — `—`.
 
 ## Evolution
 
