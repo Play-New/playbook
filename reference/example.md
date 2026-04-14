@@ -121,6 +121,7 @@ If an AI agent reads the CLAUDE.md generated from this decomposition tomorrow wi
 - One node (price scraper) is commodity — buy, don't build
 - Each node has a metric or signal with a target
 - Each node has a graduation trigger that says when to change approach
+- The Delivery layer feeds signal back: ignored alerts tune Inference, missing searches reveal Enrichment gaps
 
 ---
 
@@ -347,4 +348,4 @@ If an AI agent reads the CLAUDE.md generated from this decomposition:
 - The genesis node is in Inference (cross-channel consistency), not Interpretation — invest detection quality, not recommendation quality
 - One Enrichment node (style guide encoder) will always need human input — budget for it
 - Two autoresearch loops at different speeds: compliance scorer (minutes), consistency analyzer (weekly)
-- No genesis in Delivery — the entire presentation layer is replaceable
+- No genesis in Delivery — the presentation layer is replaceable, but it is the densest sensor (writer guidance feeds 3 nodes)

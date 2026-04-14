@@ -21,7 +21,7 @@
     │                             │                  │
     │              interpretation ─── delivery       │
     │                                               │
-    │   data in ·········· value out                │
+    │   data in ·· value out ·· signal back          │
     │                                               │
     └───────────────────────────────────────────────┘
 ```
