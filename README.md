@@ -96,7 +96,7 @@ Playbook decomposes a product into **nodes**, each belonging to exactly one laye
 | **Metric / Signal** | What you measure and the target. Metric for things with fast, automatic feedback (accuracy, precision, latency). Signal for things requiring human observation (acceptance rate, fatigue, time to action) |
 | **Graduation** | Two parts: *when* to change approach (the trigger) and *what* to change to (the direction). "Accuracy >95% for 2 weeks → replace with deterministic rules" is complete. "Accuracy >95%" alone is not — you know when to act but not what to do |
 | **Loop** | Whether the node can be optimized automatically (autoresearch), requires human judgment (manual review), or is commodity (N/A) |
-| **Feeds** | Which nodes this enriches through use, against the normal EIID direction, and with what signal. A node with no backward signal is terminal (`—`). Every Delivery node should declare this |
+| **Feeds** | Which nodes this enriches through use, against the normal EIID direction, and with what signal. A node with no backward signal is terminal (`—`). Every node that touches humans should declare this — Delivery always, but also Enrichment where users submit data and Interpretation where users edit recommendations |
 
 The decomposition is then challenged. A pitch that says "we'll build a RAG system" gets: RAG is how, what is the what? A brief with six features but no inference layer gets: where are the patterns? A commodity node built custom gets: this exists as a service, buy it. No genesis nodes gets: where are you creating new value? A Delivery node with no Feeds gets: your product doesn't learn from use.
 
