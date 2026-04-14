@@ -215,6 +215,8 @@ Real-time sidebar in the authoring tool. Shows a score, highlights flagged phras
 
 **Most value is in Enrichment, not Interpretation.** The outcome linker is the hidden strategic node. Without reliable linkage between language and outcomes, the entire system is guessing. The real moat is linked outcome data — an Enrichment asset, not an Inference asset. PriceScope's Enrichment is commodity; TalentVoice's is where the data advantage lives.
 
+**The editor overlay is the hidden training loop.** When a recruiter accepts a rewrite but edits it first, the edit is the richest signal in the system — it shows exactly what the recommendation got wrong. Dismissed suggestions feed back to the bias pattern detector as false positive signal. The Delivery node is product-stage infrastructure, but the signal it captures is what makes the genesis node (rewrite recommendation) improvable.
+
 ---
 
 ## Context engineering check
@@ -334,6 +336,8 @@ Executive view: content quality trends across channels, compliance rates by team
 **Two-speed autoresearch.** Both Inference nodes are autoresearch-eligible, but at different speeds. The compliance scorer runs experiments in minutes (change weights, score test set). The consistency analyzer runs experiments weekly (need enough content across channels to measure drift). PriceScope's two autoresearch nodes both run at similar speeds.
 
 **No genesis in Interpretation or Delivery.** The entire Delivery layer is product-stage. Differentiation is purely in detection quality. A competitor could replicate the delivery layer trivially; the moat is in Enrichment (encoded brand rules) and Inference (cross-channel detection).
+
+**The Delivery layer is the densest sensor.** Writer guidance feeds three nodes: compliance scorer (corrections before flags mean the system is late), style guide encoder (rejected suggestions mean the rule is wrong), consistency analyzer (new compliant patterns to learn). The governance dashboard feeds two more. Despite being product-stage, Delivery is where the system learns fastest — it runs production autoresearch at the speed of every writer's keystroke.
 
 ---
 
