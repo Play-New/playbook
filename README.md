@@ -18,8 +18,8 @@
     │   the real game is changing the game         │
     │                                               │
     │   enrichment ── inference ──┐                  │
-    │                             │                  │
-    │              interpretation ─── delivery       │
+    │        ↑                    │                  │
+    │        └── interpretation ─── delivery         │
     │                                               │
     │   data in ·· value out ·· signal back          │
     │                                               │
@@ -54,13 +54,14 @@ You should see `playbook@playbook — Status: ✔ enabled`. Restart Claude Code 
 
 ## 1. The problem
 
-The architecture of most software products does not reflect that intelligence is now a commodity input. Teams ship dashboards, CRUD, and forms — the same things they shipped a decade ago, just faster. The question "how do I build this?" has a cheap answer. The question "where does the intelligence go, and what is it worth?" does not.
+Writing code is cheap. The question "how do I build this?" has a commodity answer. The question that matters is: **what shape should this product have, and does it get smarter from use?**
 
-Three failure modes recur:
+Four failure modes recur:
 
 1. **Building commodity as custom.** Teams invest engineering effort in components that exist as services. Embedding search, document parsing, notification routing — these are solved problems. Building them is waste.
 2. **No inference layer.** The product collects data and presents it, but never asks what patterns, predictions, or anomalies live inside it. The intelligence layer is absent.
 3. **No way to know if it works.** The most valuable component — the one that creates the product's reason to exist — has no metric, no signal, no way to tell if it is improving or degrading.
+4. **Terminal delivery.** The product pushes value to the user but captures nothing back. No signal on what was useful, what was ignored, what was asked for and didn't exist. The product ships v1 and never learns from the people using it.
 
 ## 2. The model
 
@@ -68,12 +69,14 @@ Every intelligence-era product moves data from raw input to user value through f
 
 | Layer | Role | Example |
 |-------|------|---------|
-| **Enrichment** | Where data enters. Normalizes inputs from every channel the user already uses. | Price scraping, document parsing, voice transcription |
-| **Inference** | Pattern detection, prediction, anomaly flagging. The compute is cheap; knowing what questions to ask is not. | Anomaly detection, matching, classification |
+| **Enrichment** | Where data enters. Normalizes inputs from every channel the user already uses. | Price scraping, document parsing, voice transcription, user-submitted reports |
+| **Inference** | Pattern detection, prediction, anomaly flagging. The compute is cheap; knowing what questions to ask is not. | Anomaly detection, matching, classification, gap detection |
 | **Interpretation** | Turns raw inference into something a person can act on. "Anomaly score 0.87" means nothing. "Orders dropped 30%, likely budget freeze, renewal in 45 days" is an insight. | Recommendations, explanations, suggested actions |
 | **Delivery** | Returns the right insight through the right channel at the right moment AND captures signal from how people respond. Every delivery surface is also a sensor. | Push notifications, digests, dashboards, conversational interfaces |
 
-The value flow is not a pipeline — it is a cycle:
+### The cycle
+
+The value flow is not a pipeline. It is a cycle.
 
 ```
     Enrichment → Inference → Interpretation → Delivery
@@ -83,32 +86,51 @@ The value flow is not a pipeline — it is a cycle:
 
 What the user accepts, ignores, modifies, or asks for and doesn't get flows back as signal to the earlier layers. A dashboard where users search for a competitor not tracked feeds signal back to Enrichment (coverage gap). An alert consistently ignored feeds signal back to Inference (precision is wrong). A recommendation edited before acceptance feeds signal back to Interpretation (the system got it partially wrong — the edit shows what).
 
-This applies to products and to organizations. An organization's delivery surfaces — client reports, internal dashboards, team communications — are sensors too. What people ask for that the system can't answer is the roadmap.
+### The world model
 
-The compound loop is the moat. Every capability in isolation is replicable — card processing, lending, document parsing, notification routing. What is not replicable is the accumulated understanding of customers built from every interaction. This is the world model: a living intelligence that gets deeper with every use. The product with the richest Feeds builds the deepest world model. The deepest world model composes the best responses. The best responses generate more use. The cycle compounds. A competitor can copy the capabilities. They cannot copy the world model — it only exists because of the history of interactions that built it.
+The cycle compounds. Every interaction makes the product more intelligent. The accumulated understanding of users built from every interaction is the **world model** — a living intelligence that gets deeper with every use.
+
+Every capability in isolation is replicable — card processing, lending, document parsing, notification routing. What is not replicable is the world model. A competitor can copy the capabilities. They cannot copy the history of interactions that built the intelligence. The product with the richest feedback loop builds the deepest world model. The deepest world model composes the best responses. The best responses generate more use. The cycle compounds. This is the moat.
+
+### The interface question
+
+The first design question for any product is not "does it need a UI?" It is: **does the interface learn?**
+
+A static dashboard is product-stage Delivery — well understood, replaceable. A conversational interface that composes itself from capabilities in real time is genesis-stage Delivery — it accumulates a world model and creates a compound moat. The difference matters: one is a screen, the other is a relationship.
+
+When a customer asks for something that doesn't exist and the system can't compose it from its capabilities, that gap is the roadmap. The human judgment is not "should we build this?" but "does building this align with what we want to be?" The capabilities are commodity. The judgment is the moat. The interface is where the judgment gets tested against real demand, continuously.
+
+### Nodes
 
 Playbook decomposes a product into **nodes**, each belonging to exactly one layer. Every node carries six fields:
 
 | Field | What it captures |
 |-------|-----------------|
 | **Layer** | Enrichment, inference, interpretation, or delivery |
-| **Evolution** | Where the node sits: genesis (new, uncertain — invest here), custom (understood but not standardized), product (multiple approaches exist), commodity (buy it). A static dashboard is product. A conversational interface that composes itself from capabilities is genesis — it accumulates a world model and creates a compound moat |
+| **Evolution** | Where the node sits: genesis (new, uncertain — invest here), custom (understood but not standardized), product (multiple approaches exist), commodity (buy it) |
 | **Metric / Signal** | What you measure and the target. Metric for things with fast, automatic feedback (accuracy, precision, latency). Signal for things requiring human observation (acceptance rate, fatigue, time to action) |
 | **Graduation** | Two parts: *when* to change approach (the trigger) and *what* to change to (the direction). "Accuracy >95% for 2 weeks → replace with deterministic rules" is complete. "Accuracy >95%" alone is not — you know when to act but not what to do |
 | **Loop** | Whether the node can be optimized automatically (autoresearch), requires human judgment (manual review), or is commodity (N/A) |
-| **Feeds** | Which nodes this enriches through use, against the normal EIID direction, and with what signal. A node with no backward signal is terminal (`—`). Every node that touches humans should declare this — Delivery always, but also Enrichment where users submit data and Interpretation where users edit recommendations |
+| **Feeds** | Which nodes this enriches through use, against the normal EIID direction, and with what signal. Every node that touches humans should declare this — Delivery always, but also Enrichment where users submit data and Interpretation where users edit recommendations. A node with no backward signal is terminal (`—`) |
 
-The decomposition is then challenged. A pitch that says "we'll build a RAG system" gets: RAG is how, what is the what? A brief with six features but no inference layer gets: where are the patterns? A commodity node built custom gets: this exists as a service, buy it. No genesis nodes gets: where are you creating new value? A Delivery node with no Feeds gets: your product doesn't learn from use.
+The decomposition is then challenged:
+
+- "We'll build a RAG system" → RAG is how, what is the what?
+- Six features but no inference layer → where are the patterns?
+- A commodity node built custom → this exists as a service, buy it
+- No genesis nodes → where are you creating new value?
+- A Delivery node with no Feeds → your product doesn't learn from use
+- All capabilities but no world model → what compounds?
 
 ## 3. The method
 
-Playbook operates in three phases. Each is a command; together they form a cycle.
+Playbook operates in three phases. Each is a command; together they form a cycle that builds the world model.
 
 ### 3.1 Strategy (`/playbook:strategy`)
 
 Takes any input — a raw brief, a pitch deck, an idea in conversation, an existing codebase. Reads what exists, researches the problem space (searching for what would make the brief *wrong*, not for confirmation), and produces the decomposition.
 
-Two outputs. A **strategic assessment** for the people deciding: where the value is, where the risk is, what to do first, what not to do. And a **CLAUDE.md** for the agents building: structured context that says exactly which nodes are genesis (invest here), which are commodity (buy, don't build), what to measure, and when to change approach.
+Two outputs. A **strategic assessment** for the people deciding: where the value is, where the risk is, what to do first, what not to do. And a **CLAUDE.md** for the agents building: structured context that says exactly which nodes are genesis (invest here), which are commodity (buy, don't build), what to measure, when to change approach, and what signal flows back from Delivery to the rest of the system.
 
 This is context engineering. If an AI agent reads the CLAUDE.md tomorrow with zero prior knowledge, it knows where to invest effort and where not to. Stale context is worse than no context, so the document is treated as a living artifact, not a one-time deliverable.
 
@@ -145,7 +167,7 @@ A second form of autoresearch operates in production through Delivery:
     or stop                     other nodes
 ```
 
-The customer is the agent, the interface is the mutable surface, the usage is the measurement. The product improves itself through use. This applies to products (a dashboard that reveals coverage gaps) and to organizations (a team communication channel that reveals where information doesn't flow).
+The customer is the agent, the interface is the mutable surface, the usage is the measurement. The product improves itself through use. A dashboard that reveals coverage gaps. An SMS reply from a farmer confirming a crop disease prediction. A recruiter editing a suggested rewrite before accepting it. Every human interaction with the product is an experiment the product learns from.
 
 ### 3.3 Review (`/playbook:review`)
 
@@ -213,7 +235,7 @@ Genesis is in Inference, not Interpretation. The value is in detecting brand dri
 | Enrichment | commodity | **strategic asset** | mixed |
 | Autoresearch nodes | 2 (both fast) | 2 (not the genesis) | 2 (different speeds) |
 | Where the moat is | interpretation quality | enrichment data | inference detection |
-| Delivery feeds | 1 node (anomaly detector) | 2 nodes (rewrite rec, bias detector) | **3 nodes** (scorer, encoder, analyzer) |
+| Delivery feeds | 1 node | 2 nodes | **3 nodes** |
 
 The genesis node is not always in the same layer. The moat is not always where you'd expect. Autoresearch helps where feedback is fast, but the most valuable node often has the slowest feedback. The Delivery layer — even when product-stage — is often the richest sensor in the system. A product where Delivery feeds no other node doesn't learn from use.
 
@@ -222,6 +244,7 @@ The genesis node is not always in the same layer. The moat is not always where y
 - **Wardley, S.** Value chain mapping and evolution. The foundation for positioning components on the genesis-to-commodity axis and making build-vs-buy decisions based on evolutionary stage rather than intuition.
 - **Choudary, S. P.** Platform dynamics and AI-driven industry restructuring. The lens for understanding how intelligence as a commodity input changes where value accumulates in a product.
 - **Karpathy, A.** Autoresearch: automated experimentation with one mutable file, one metric, fixed time budget, and git as keep/discard mechanism. The operational model for nodes with clean metrics and fast feedback.
+- **Dorsey, J.** From hierarchy to intelligence. The company as an intelligence: capabilities, interfaces, proactive intelligence, world model. The compound loop where every interaction deepens understanding and the product's limiting factor is its own roadmap.
 
 ## License
 
