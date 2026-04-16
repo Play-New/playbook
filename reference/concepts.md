@@ -14,18 +14,17 @@ Four layers that structure every intelligence-era product. Value flows from raw 
 
 **Interpretation** — turns raw inference into something a person can act on. "Anomaly score 0.87" means nothing. "Orders dropped 30%, likely due to budget freeze, renewal in 45 days" is an insight. Context, comparison, explanation, recommended action.
 
-**Delivery** — returns results through the channels people already use AND captures signal from how people respond. Triggered by conditions: threshold crossed, schedule, event, user request. The critical design choice is timing. Every delivery surface is also a sensor: what the user accepts, ignores, modifies, or asks for that doesn't exist is signal that feeds back into other layers. A conversational interface that composes itself from capabilities in real time captures richer signal than a static navigation — and creates a compound loop where every interaction makes the product more intelligent.
+**Delivery** — returns results through the channels people already use. Triggered by conditions: threshold crossed, schedule, event, user request. The critical design choice is timing.
 
 ## Node
 
-A component of the product that belongs to exactly one layer. The unit of decomposition, analysis, and measurement. Each node carries six fields:
+A component of the product that belongs to exactly one layer. The unit of decomposition, analysis, and measurement. Each node carries five fields:
 
 - **Layer** — which layer it serves
 - **Evolution** — where it sits on the Wardley axis (genesis, custom, product, commodity)
 - **Metric / signal** — what you measure and the target value
 - **Graduation** — when to change approach and what to change to (condition + direction)
 - **Loop** — whether the node is optimizable automatically or requires human judgment
-- **Feeds** — signal that flows BACK from this node to other nodes, against the normal EIID direction. Not the forward pipeline (enrichment → inference is the pipeline, not a feed). A Delivery node where users ignore alerts feeds signal back to Inference (precision is wrong). A Dashboard where users search for missing data feeds signal back to Enrichment (coverage gap). Every node that touches humans should declare this — Delivery nodes always, but also Enrichment nodes where users submit data (their submissions reveal what the system doesn't cover) and Interpretation nodes where users edit recommendations (their edits reveal what the system got wrong). A node with no backward signal is terminal — `—`.
 
 ## Evolution
 
@@ -35,8 +34,6 @@ Four stages on the Wardley axis. Each carries strategic meaning for the node.
 - **Custom** — understood in your domain but not standardized. Build it, but expect it to evolve.
 - **Product** — well-understood, multiple approaches exist. Use existing solutions, adapt to your context.
 - **Commodity** — standardized, many providers. Buy it. Building commodity is waste.
-
-Evolution applies to every layer, including Delivery. A static dashboard is product. A conversational interface that composes itself from capabilities in real time — where the customer asks for something that doesn't exist and the system assembles it — is genesis. The difference matters: a product-stage interface is replaceable, a genesis-stage interface that accumulates a world model from every interaction is a compound moat.
 
 ## Metric vs Signal
 
@@ -48,21 +45,43 @@ Every node has one or the other. A node with neither metric nor signal is flying
 
 ## Autoresearch
 
-Automated optimization loop for nodes with a clear metric and fast feedback. Based on Karpathy's autoresearch framework.
+Automated optimization loop for nodes with a clear metric and fast feedback. Based on Karpathy's autoresearch framework, extended by Shopify (Cortés, Lütke).
 
-The mechanism has five fixed parts:
+Autoresearch does not do human work faster. It explores optimization spaces too large and tedious for humans to attempt. Small improvements of 1% compound over hundreds of iterations into results no human would find. Shopify found a 65% build speedup and 300x faster unit tests this way — optimizations that nobody would have searched for manually.
+
+The mechanism:
 
 1. **One mutable file.** The agent can only change one file per node: the prompt, the config, or the logic file. Everything else is frozen. This prevents the agent from changing the evaluation to make the metric look better.
 2. **One metric.** The node's metric from the playbook mapping, computed automatically against an evaluation set. One number, no ambiguity.
 3. **Fixed time budget.** Each experiment must complete within a fixed time (evaluation included). This makes experiments comparable regardless of what the agent changed.
-4. **Git as keep/discard.** `git commit` when the metric improves (new baseline). `git reset --hard` when it doesn't (clean revert). Improvements accumulate. Failures vanish.
-5. **Autonomous loop.** The agent reads the code, forms a hypothesis, makes one change, measures, keeps or discards. No human in the loop. Runs until convergence or budget exhausted.
+4. **Confidence scoring.** A single improvement means nothing. Each experiment runs 3+ times. Improvement is accepted only if statistically significant — Median Absolute Deviation separates real gains from noise.
+5. **Backpressure checks.** After a benchmark passes, run correctness checks (tests, types, lint). If correctness breaks, reject the improvement even if the metric improved. The metric gets better AND the system stays correct.
+6. **Git as keep/discard.** `git commit` when the improvement is both real (confidence) and correct (backpressure). `git reset --hard` when it isn't. Improvements accumulate. Failures vanish.
+7. **Autonomous loop.** The agent reads the code, forms a hypothesis, makes one change, measures, validates, keeps or discards. No human in the loop. Runs until convergence (improvements < 1% over 10 experiments) or budget exhausted.
 
 Works well on Enrichment and Inference nodes (clean metrics, fast evaluation). Partially applicable to Interpretation (prompt clarity, measurable against evaluation set).
 
-A second form of autoresearch operates in production through Delivery. When an interface captures user behavior — what they accept, ignore, modify, or request — that signal flows back to other nodes and optimizes them continuously. The customer is the agent, the interface is the mutable surface, the usage is the measurement. This is not a sandbox experiment — it is the product improving itself through use. Delivery nodes that feed other nodes are running autoresearch at the speed of customer interaction.
-
 The strategy identifies which nodes are autoresearch candidates. Build sets up the loop: creates the evaluation set, designates the mutable file, configures the metric. Review evaluates convergence and triggers cycles when a node is below target.
+
+## Interface
+
+The Interface is where Enrichment and Delivery coincide. It is not a layer. It is not a node. It is the surface where the product touches the user.
+
+Every interaction through the Interface is simultaneously delivery (the product responds) and enrichment (the product learns). A recruiter editing a rewrite before accepting it is receiving value and generating the richest training signal in the system. A dashboard where a user searches for a competitor not yet tracked is delivering what exists and revealing what is missing.
+
+When the Interface captures what users accept, ignore, modify, and ask for that doesn't exist, every interaction feeds Enrichment and Inference. When the Interface captures nothing, the product is blind to its own users.
+
+When the Interface is both sensor and surface, autoresearch happens naturally at the speed of customer interaction. The customer uses the product, the product observes the response, the observation feeds earlier layers. This is not a separate mechanism from sandbox autoresearch — it is the same loop (change, measure, keep or discard) operating through use rather than through controlled experiment.
+
+A static dashboard is product-stage — replaceable. A conversational interface that composes responses from capabilities in real time is genesis-stage — it accumulates a world model. When a customer asks for something the system can't compose from its capabilities, that gap is the roadmap. The judgment is whether filling it aligns with what the product should be.
+
+## World Model
+
+The World Model is the accumulated understanding of users built from every interaction that passes through the Interface. It is not a layer. It is not a field. It is the state that the product accumulates over time.
+
+Every capability in isolation is replicable — document parsing, scoring, notification routing. The World Model is not. It exists only because of the specific history of interactions that built it. The product with the richest Interface builds the deepest World Model. The deepest World Model produces better responses. Better responses generate more use. The loop compounds.
+
+The strategic question is not about individual nodes. It is: does this product build a World Model? A product where every interaction deepens understanding has a compound advantage. A product that pushes value out and captures nothing back is replicable regardless of how sophisticated its inference is.
 
 ## Graduation
 

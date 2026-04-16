@@ -64,13 +64,12 @@ The CLAUDE.md must reflect the actual product. Check:
 - **Nodes vs code.** Every node in the mapping should have corresponding source files. Every significant source file should trace to a node. Flag mismatches.
 - **Evolution accuracy.** Has a genesis node become commodity (competitors launched similar solutions)? Has a commodity node required custom work? Flag stale evolution classifications.
 - **Stack match.** Does the Stack section in CLAUDE.md match the actual dependencies in package.json?
-- **Feeds check.** For every node that touches humans (Delivery always, Enrichment and Interpretation where users interact): does the mapping declare Feeds? If yes, is the backward signal actually being captured in the code? A node that declares `ignored alerts → anomaly detector` but has no tracking of alert responses is a gap. Flag nodes with no Feeds that should have them (terminal delivery).
+- **Interface check.** For every node that touches humans: does the product capture signal from the interaction? What users accept, ignore, modify, or request that doesn't exist should be observable. Flag delivery surfaces that push value out but capture nothing — the product cannot build a World Model from those surfaces.
 - **Staleness indicators:**
   - Dependencies in package.json not reflected in CLAUDE.md (3+ untracked)
   - Source files that don't map to any node (5+ unmapped files)
   - Nodes documented but empty in the codebase
   - Graduation triggers that have fired but the approach hasn't changed
-  - Feeds declared but not implemented in code
 
 If context has drifted, suggest: "CLAUDE.md is stale. Run `/playbook:strategy` with context about what changed."
 
@@ -87,9 +86,9 @@ Write findings to `.playbook/report.md`:
 [passed/failed/skipped]
 
 ### Node Metrics
-| Node | Layer | Metric/Signal | Target | Actual | Status | Loop | Feeds |
-|------|-------|---------------|--------|--------|--------|------|-------|
-| ... | ... | ... | ... | ... | on track / below / needs setup / graduated | autoresearch / manual / N/A | declared / not declared / declared but not implemented |
+| Node | Layer | Metric/Signal | Target | Actual | Status | Loop |
+|------|-------|---------------|--------|--------|--------|------|
+| ... | ... | ... | ... | ... | on track / below / needs setup / graduated | autoresearch / manual / N/A |
 
 ### Autoresearch
 [convergence status per node, experiments run, improvement trend]
@@ -97,8 +96,8 @@ Write findings to `.playbook/report.md`:
 ### Context Fidelity
 [mismatches between CLAUDE.md and actual codebase]
 
-### Feeds Status
-[for each human-facing node: Feeds declared? Signal being captured? Backward signal flowing to declared targets?]
+### Interface & World Model
+[for each human-facing surface: what signal is captured? Is it flowing back to earlier layers? Is a World Model accumulating?]
 
 ### Plugin Learning
 [log signals for future strategy runs:
@@ -108,7 +107,7 @@ Write findings to `.playbook/report.md`:
 - context drift patterns (what drifted and why — informs future CLAUDE.md generation)]
 
 ### Recommendations
-[what to do next: graduate nodes, update context, set up autoresearch, implement Feeds, fix terminal delivery]
+[what to do next: graduate nodes, update context, set up autoresearch, capture interface signal, build world model]
 ```
 
 Print a summary at the end:

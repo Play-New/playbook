@@ -15,6 +15,6 @@ If CLAUDE.md doesn't exist, stop. No context to check against.
 5. **Graduation check:** has a graduation trigger fired? If a node's metric has consistently exceeded its target, suggest revisiting the approach.
 6. **Autoresearch opportunity:** if the change touches an Enrichment or Inference node with a clean metric and no autoresearch loop, flag the opportunity.
 7. **Context fidelity:** does the change mean CLAUDE.md needs updating? New nodes, changed evolution, fired graduation triggers?
-8. **Feeds check:** if the change touches a human-facing node (Delivery, or Enrichment/Interpretation with user interaction), does it declare Feeds? If a new delivery surface is proposed, what signal flows back and to which nodes? A Delivery node with no Feeds is terminal — the product doesn't learn from that surface.
+8. **Interface check:** if the change touches a human-facing node, does the Interface capture signal from the interaction? If a new delivery surface is proposed, what does the product learn from use? A surface that pushes value out but captures nothing back cannot contribute to the World Model.
 
 One line per observation. Only when relevant. Not blocking. Brief.

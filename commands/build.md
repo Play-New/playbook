@@ -5,7 +5,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebSearch, WebFetch
 
 # Build
 
-Read `reference/concepts.md` for the four layers, graduation, autoresearch, and Feeds definitions.
+Read `reference/concepts.md` for the four layers, graduation, autoresearch, Interface, and World Model definitions.
 
 ## Detect Mode
 
@@ -80,9 +80,11 @@ For nodes marked "autoresearch" in the playbook mapping, set up the loop per the
 2. **Mutable file.** Designate exactly one file the agent can change for this node: the prompt file, the config, or the logic file. Everything else is frozen.
 3. **Metric.** The node's metric from the mapping, computed automatically against the evaluation set. One number.
 4. **Time budget.** Set a fixed time per experiment (evaluation included). Short enough to run many experiments, long enough to produce a real measurement.
-5. **Run the loop.** The agent reads the mutable file, forms a hypothesis, makes one change, runs the evaluation. `git commit` if the metric improves. `git reset --hard` if it doesn't. No human in the loop. Log each experiment (hypothesis, change, result) to `.playbook/report.md`.
+5. **Run the loop.** The agent reads the mutable file, forms a hypothesis, makes one change, runs the evaluation. Each experiment runs 3+ times — a single improvement means nothing. Accept only if statistically significant (Median Absolute Deviation separates real gains from noise).
+6. **Backpressure.** After a benchmark passes, run correctness checks (tests, types, lint). If correctness breaks, reject the improvement even if the metric improved. The metric gets better AND the system stays correct.
+7. **Keep or discard.** `git commit` when the improvement is both real (confidence) and correct (backpressure). `git reset --hard` when it isn't. No human in the loop. Log each experiment (hypothesis, change, result, confidence score) to `.playbook/report.md`.
 
-The loop runs autonomously until convergence (improvements < 1% over 10 experiments) or until the time budget for the session is exhausted.
+The loop runs autonomously until convergence (improvements < 1% over 10 experiments) or until the time budget for the session is exhausted. Small 1% gains compound over hundreds of iterations into results no human would find.
 
 ### 5. Report
 
