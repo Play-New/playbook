@@ -57,7 +57,23 @@ Four failure modes:
 3. **No way to know if it works.** The most valuable component has no metric, no signal, no way to tell if it is improving or degrading.
 4. **No world model.** The product pushes value out but accumulates nothing from use. Every interaction could deepen understanding; instead it evaporates.
 
-## 2. The model
+## 2. What it looks like
+
+Before the theory, a concrete decomposition. PriceScope is a pricing intelligence tool for e-commerce sellers:
+
+| Node | Layer | Evolution | What it does |
+|------|-------|-----------|-------------|
+| Price scraper | Enrichment | commodity | Collects competitor prices. Dozens of services exist. Buy it. |
+| Product matcher | Enrichment | custom | Matches competitors to your SKUs. Specific to your catalog. Autoresearch: 12 experiments/hour. |
+| Anomaly detector | Inference | custom | Flags unusual price changes. Autoresearch against labeled dataset. |
+| Price recommendation | Interpretation | **genesis** | "Lower to 24.90, margin impact -2%, recovery in 3 days." Nobody does this. Invest here. |
+| Alert dispatcher | Delivery | product | Sends the right insight at the right time. Ignored alerts = wrong threshold. |
+
+One commodity node (buy it), two autoresearch nodes (optimize automatically), one genesis node (the reason the product exists), one delivery node where the Interface captures signal (ignored alerts tune the anomaly detector).
+
+This is what Playbook produces. Now the theory behind it.
+
+## 3. The model
 
 Four layers. Value flows from raw data to user outcome and signal flows back.
 
@@ -84,13 +100,11 @@ The Interface is where Enrichment and Delivery coincide. It is not a layer. It i
 
 Every interaction through the Interface is simultaneously delivery (the product responds) and enrichment (the product learns). A recruiter editing a rewrite before accepting it is receiving value and generating the richest training signal in the system. A dashboard where users search for something not yet tracked is delivering what exists and revealing what is missing.
 
-Not "does it need a UI?" but **does the interface learn?** A static dashboard is product-stage — replaceable. A conversational interface that composes responses from capabilities in real time is genesis-stage — it accumulates a world model. When a customer asks for something the system can't compose from its capabilities, that gap is the roadmap. The judgment is whether filling it aligns with what the product should be.
+Not "does it need a UI?" but **does the interface learn?** A static dashboard is product-stage — replaceable. A chatbot is also product-stage — Intercom, Drift, Zendesk prove it. What makes an interface genesis is not the form but the composition: an interface that assembles responses from capabilities in real time, where no two interactions follow the same path, accumulates a world model that a fixed-navigation interface cannot. When a customer asks for something the system can't compose, that gap is the roadmap. The judgment is whether filling it aligns with what the product should be.
 
 ### The world model
 
-The accumulated understanding of users built from every interaction that passes through the Interface. Every capability in isolation is replicable — card processing, document parsing, notification routing. The world model is not. It exists only because of the history of interactions that built it.
-
-The product with the richest Interface builds the deepest world model. The deepest world model produces better responses. Better responses generate more use. The loop compounds.
+The accumulated understanding of users built from every interaction that passes through the Interface. Every capability in isolation is replicable — card processing, document parsing, notification routing. The world model is not. It exists only because of the history of interactions that built it. Richer Interface → deeper world model → better responses → more use. The loop compounds.
 
 ### Nodes
 
@@ -113,18 +127,18 @@ Challenges during decomposition:
 - No world model → every interaction could teach the product something; does the Interface capture it?
 - Clean metric, no experiments → autoresearch explores spaces too large for humans; is there an optimization nobody looked for?
 
-## 3. The method
+## 4. The method
 
 Three commands. Together they form a cycle.
 
-### 3.1 Strategy (`/playbook:strategy`)
+### 4.1 Strategy (`/playbook:strategy`)
 
 Takes any input — brief, pitch, idea, codebase. Researches the problem space (searching for what would make the brief *wrong*, not for confirmation). Produces two outputs:
 
 - **Strategic assessment** for people: where the value is, where the risk is, what to do first, what not to do.
 - **CLAUDE.md** for agents: structured context — which nodes are genesis, which are commodity, what to measure, when to change approach.
 
-### 3.2 Build (`/playbook:build`)
+### 4.2 Build (`/playbook:build`)
 
 Vision conversation first: what does the user experience when this product is perfect? Then tests that encode the vision before any product code. The test suite is the plan.
 
@@ -132,15 +146,15 @@ Autoresearch optimizes nodes with clean metrics and fast feedback. It does not d
 
 The mechanism: one mutable file, one metric, fixed time budget. Each experiment runs 3+ times — a single improvement means nothing. Confidence scoring (Median Absolute Deviation) separates real gains from noise. Backpressure checks (tests, types, lint) ensure the improvement doesn't break correctness. `git commit` when the gain is both real and correct. `git reset --hard` when it isn't.
 
-When the Interface captures user behavior, the same dynamic operates naturally through use — every interaction is an experiment, every user response is a measurement. This is not a separate mechanism. It is the same loop operating through the product rather than through a sandbox.
+When the Interface captures user behavior, it generates signal at the speed of customer interaction. This shares the principle of autoresearch (observe, hypothesize, change, measure) but not its rigor — Interface signal is observational, not controlled. Sandbox autoresearch produces proof. Interface signal produces direction. Both are valuable. They are not the same thing.
 
-### 3.3 Review (`/playbook:review`)
+### 4.3 Review (`/playbook:review`)
 
 Measures the product against the mapping. For each node: metric above, at, or below target? Graduation trigger fired? Autoresearch converging or diverging? Interface capturing signal? Context still faithful to the actual product?
 
 When a node is below target and has an autoresearch loop, review runs an optimization cycle directly.
 
-### 3.4 Graduation
+### 4.4 Graduation
 
 Nodes evolve in both directions:
 
@@ -149,11 +163,11 @@ Nodes evolve in both directions:
 
 Each node documents both the condition and the direction. "Accuracy >95% for 2 weeks → replace with deterministic rules" is complete. "Accuracy >95%" alone is not.
 
-## 4. Examples
+## 5. Examples
 
 Three decompositions. Full detail in `reference/example.md`.
 
-### 4.1 PriceScope — pricing intelligence for e-commerce
+### 5.1 PriceScope — pricing intelligence for e-commerce
 
 | Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
 |------|-------|-----------|-----------------|------------|------|
@@ -166,7 +180,7 @@ Three decompositions. Full detail in `reference/example.md`.
 
 Genesis is in Interpretation. Two autoresearch nodes (product matcher, anomaly detector). The Interface captures signal through two surfaces: ignored alerts tune Inference, missing searches reveal Enrichment gaps.
 
-### 4.2 TalentVoice — AI-augmented recruiting language
+### 5.2 TalentVoice — AI-augmented recruiting language
 
 | Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
 |------|-------|-----------|-----------------|------------|------|
@@ -178,7 +192,7 @@ Genesis is in Interpretation. Two autoresearch nodes (product matcher, anomaly d
 
 Genesis is in Interpretation. Feedback is structurally slow (30-90 days). The moat is in Enrichment — the outcome linker is a data asset. The recruiter's edit before accepting a rewrite is the richest training signal in the system.
 
-### 4.3 BrandLens — content governance and brand voice
+### 5.3 BrandLens — content governance and brand voice
 
 | Node | Layer | Evolution | Metric / Signal | Graduation | Loop |
 |------|-------|-----------|-----------------|------------|------|
@@ -203,7 +217,7 @@ Genesis is in Inference. Two autoresearch loops at different speeds. The Interfa
 
 Genesis is not always in the same layer. Autoresearch helps where feedback is fast, but the most valuable node often has the slowest feedback. A product whose Interface captures no signal builds no World Model.
 
-## 5. References
+## 6. References
 
 - **Wardley, S.** Value chain mapping and evolution. Genesis-to-commodity axis, build-vs-buy decisions.
 - **Choudary, S. P.** Platform dynamics and AI-driven industry restructuring. Where value accumulates when intelligence is a commodity input.

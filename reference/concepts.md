@@ -47,7 +47,7 @@ Every node has one or the other. A node with neither metric nor signal is flying
 
 Automated optimization loop for nodes with a clear metric and fast feedback. Based on Karpathy's autoresearch framework, extended by Shopify (Cortés, Lütke).
 
-Autoresearch does not do human work faster. It explores optimization spaces too large and tedious for humans to attempt. Small improvements of 1% compound over hundreds of iterations into results no human would find. Shopify found a 65% build speedup and 300x faster unit tests this way — optimizations that nobody would have searched for manually.
+Autoresearch does not do human work faster. It explores optimization spaces too large and tedious for humans to attempt. Small improvements of 1% compound over hundreds of iterations into results no human would find. Shopify tracked 40+ metrics across engineering teams and documented a 65% build speedup and 300x faster unit tests — optimizations that nobody would have searched for manually (see [shopify.engineering/autoresearch](https://shopify.engineering/autoresearch) and [github.com/davebcn87/pi-autoresearch](https://github.com/davebcn87/pi-autoresearch)).
 
 The mechanism:
 
@@ -71,17 +71,19 @@ Every interaction through the Interface is simultaneously delivery (the product 
 
 When the Interface captures what users accept, ignore, modify, and ask for that doesn't exist, every interaction feeds Enrichment and Inference. When the Interface captures nothing, the product is blind to its own users.
 
-When the Interface is both sensor and surface, autoresearch happens naturally at the speed of customer interaction. The customer uses the product, the product observes the response, the observation feeds earlier layers. This is not a separate mechanism from sandbox autoresearch — it is the same loop (change, measure, keep or discard) operating through use rather than through controlled experiment.
+When the Interface is both sensor and surface, it generates signal at the speed of customer interaction. The customer uses the product, the product observes the response, the observation feeds earlier layers. This shares the principle of autoresearch (observe, hypothesize, change, measure) but not its rigor. Sandbox autoresearch is controlled experimentation: one variable, confidence scoring, backpressure. Interface signal is observational: confounded variables, no controlled conditions, correlation not causation. Both are valuable. They are not the same thing. Sandbox autoresearch produces proof. Interface signal produces direction.
 
-A static dashboard is product-stage — replaceable. A conversational interface that composes responses from capabilities in real time is genesis-stage — it accumulates a world model. When a customer asks for something the system can't compose from its capabilities, that gap is the roadmap. The judgment is whether filling it aligns with what the product should be.
+A static dashboard is product-stage — replaceable. A chatbot is also product-stage — Intercom, Drift, Zendesk prove it. What makes an interface genesis is not the form (visual, conversational, voice) but the composition: an interface that assembles responses from capabilities in real time, where no two interactions follow the same path, accumulates a World Model that a fixed-navigation interface cannot. When a customer asks for something the system can't compose from its capabilities, that gap is the roadmap. The judgment is whether filling it aligns with what the product should be.
 
 ## World Model
 
 The World Model is the accumulated understanding of users built from every interaction that passes through the Interface. It is not a layer. It is not a field. It is the state that the product accumulates over time.
 
-Every capability in isolation is replicable — document parsing, scoring, notification routing. The World Model is not. It exists only because of the specific history of interactions that built it. The product with the richest Interface builds the deepest World Model. The deepest World Model produces better responses. Better responses generate more use. The loop compounds.
+Concretely: in PriceScope, the World Model is the set of learned weights in the anomaly detector (tuned by which alerts got acted on), the coverage map in the price scraper (expanded by which searches returned nothing), and the category-specific recommendation patterns (refined by which suggestions sellers modified before accepting). No single table or model — it is distributed across nodes, accumulated from use. A competitor can replicate every node. They cannot replicate the state those nodes reached through 10,000 seller interactions.
 
-The strategic question is not about individual nodes. It is: does this product build a World Model? A product where every interaction deepens understanding has a compound advantage. A product that pushes value out and captures nothing back is replicable regardless of how sophisticated its inference is.
+Every capability in isolation is replicable. The World Model is not. It exists only because of the specific history of interactions that built it.
+
+The strategic question is: does this product build a World Model? A product where every interaction deepens understanding compounds. A product that pushes value out and captures nothing back is replicable regardless of how sophisticated its inference is.
 
 ## Graduation
 
@@ -100,11 +102,15 @@ Context must stay faithful to reality (context fidelity). When the product evolv
 
 ## Plugin Learning
 
-The plugin applies its own framework to itself. Every interaction with a user is signal:
+The plugin logs its own performance. This is not autoresearch — there is no controlled loop, no confidence scoring, no keep/discard. It is structured journaling that makes the next run better informed.
 
-- **User overrides a classification** → the node classifier was wrong. Log the override and the reasoning to `.playbook/report.md`. Over time, these overrides reveal which archetypes are stable ("document ingester" is always commodity Enrichment) and which require judgment.
-- **A challenge changes the user's plan** → the challenge worked. Log which challenge pattern fired and what changed. Over time, the most effective challenges surface.
-- **Review finds stale context** → the CLAUDE.md generator or the strategy missed something. Log what drifted and why. Over time, the template and research improve.
-- **A research lens produces no useful signal** → the lens was wrong for this domain. Log which lens failed and what the domain was. Over time, research adapts to domain.
+What gets logged to `.playbook/report.md`:
 
-These signals persist in `.playbook/report.md` within each project. The plugin reads prior reports when running strategy refresh or review, learning from its own history. The compound loop is: strategy → build → review → strategy, and each cycle through it makes the mapping more faithful and the challenges sharper.
+- **Classification overrides** — user changed a node's evolution, layer, or loop. The override and the reasoning are recorded. Pattern: if "document ingester" is overridden to commodity in 10 consecutive projects, future runs should default to commodity for that archetype.
+- **Challenge outcomes** — which challenge changed the user's plan, which was dismissed. Pattern: if "no inference layer" fires in 60% of projects and changes the plan 80% of the time, it is a high-value challenge.
+- **Research failures** — which lens produced no useful signal for this domain. Pattern: if "graduation precedent" consistently fails for creative domains, skip it there.
+- **Context drift** — what CLAUDE.md said versus what review found. Pattern: which types of nodes drift fastest.
+
+The metric for plugin learning: **override rate**. If the user overrides fewer classifications over time within a project (strategy → review → strategy cycles), the plugin is getting better. If override rate stays flat, the logging is not producing useful signal.
+
+The plugin reads prior reports when running strategy refresh or review. The compound loop is: strategy → build → review → strategy.
