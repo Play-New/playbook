@@ -20,7 +20,7 @@
     └───────────────────────────────────────────────┘
 ```
 
-Value chain decomposition for intelligence-era products. A Claude Code plugin.
+Designs intelligence into products. Takes any input — a landing page, a SaaS, a pitch, a codebase — and shows where the intelligence should go, what to measure, and when to change approach. A Claude Code plugin.
 
 ### Install
 
