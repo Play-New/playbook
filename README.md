@@ -50,13 +50,12 @@ You should see `playbook@playbook — Status: ✔ enabled`. Restart Claude Code 
 
 Writing code is cheap. The question "how do I build this?" has a commodity answer. The questions that matter are: what shape should this product have, and do user and product build understanding together with every interaction?
 
-Five failure modes:
+Four failure modes:
 
 1. **Building commodity as custom.** The component exists as a service. Building it is waste.
 2. **No inference layer.** The product collects data and presents it but never detects patterns, predictions, or anomalies.
 3. **No way to know if it works.** The most valuable component has no metric, no signal, no way to tell if it is improving or degrading.
 4. **No World Model.** The product pushes value out but accumulates nothing from use. Every interaction could deepen understanding; instead it evaporates.
-5. **Compliance discovered at launch.** For EU-facing products, AI Act tier and GDPR basis are design choices, not paperwork. Finding out the product is Annex III high-risk — or that the World Model accumulates without a lawful basis — after building is the most expensive failure mode.
 
 ## 2. What it looks like
 
@@ -127,8 +126,8 @@ Challenges during decomposition (strategy.md carries the full list):
 - No World Model → does the Interface capture what users accept, ignore, modify, request?
 - Missing learning loop → rich experience, but signal evaporates after each interaction
 - Incumbent closes the genesis → is the adjacent incumbent moving toward your claimed genesis in 6-12 months?
-- Prohibited practice hard stop → AI Act Art 5 (emotion recognition workplace, social scoring, biometric categorisation) = redesign or don't build, not a tier upgrade
-- Regulatory tier / accumulation without basis → Annex III high-risk? GDPR Art 6 basis for the World Model?
+
+For EU-facing products, additional regulatory challenges apply (role provider/deployer, AI Act tier, GDPR basis for the World Model, prohibited practices hard stop). They are listed in `commands/strategy.md` and feed the Regulatory Annex (see §4.1).
 
 ## 4. The method
 
@@ -136,11 +135,13 @@ Three commands form a compound loop: **strategy → build → review → strateg
 
 ### 4.1 Strategy (`/playbook:strategy`)
 
-Takes any input — brief, pitch, idea, codebase. Researches the problem space (searching for what would make the brief *wrong*, not for confirmation). Produces three outputs:
+Takes any input — brief, pitch, idea, codebase. Researches the problem space (searching for what would make the brief *wrong*, not for confirmation).
 
-- **Strategic assessment** for people: where the value is, where the challenge is, where learning happens, regulatory posture, what to do first, what not to do.
-- **CLAUDE.md** for agents: structured context — which nodes are genesis, which are commodity, what the product accumulates from use, regulatory posture, what to measure, when to change approach.
-- **Regulatory Annex** for lawyers (when EU-facing or personal data is processed): lawyer-readable analysis citing GDPR and AI Act articles, grounded in specific research, with confidence levels and open questions. Template in `reference/regulatory-annex-template.md`.
+Produces two human-readable documents — one strategic, one regulatory — plus a technical context file for downstream agents. Different audiences, different deliverables:
+
+- **Strategic Assessment** — for the human deciding. Where the value is, where the challenge is, where learning happens, regulatory posture summary, what to do first, what not to do, open questions.
+- **Regulatory Annex** — for the lawyer reviewing. Lawyer-readable analysis citing GDPR (Regulation (EU) 2016/679) and AI Act (Regulation (EU) 2024/1689) articles, with role determination (provider/deployer; controller/processor), tier classification, lawful basis, Art 22 analysis, DPIA determination, dated research citations, confidence levels, open regulatory questions. Produced when EU-facing or personal data is processed; skipped with reasoning otherwise. Template in `reference/regulatory-annex-template.md`.
+- **CLAUDE.md** — technical context for agents. Structured for `/playbook:build` and `/playbook:review` to operate on: which nodes are genesis vs commodity, what the product accumulates, regulatory posture, what to measure, when to change approach. Not a report; a downstream tool.
 
 ### 4.2 Build (`/playbook:build`)
 

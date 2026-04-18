@@ -424,13 +424,13 @@ check "build.md Build Loop context includes regulatory posture" "$( [ "$build_re
 review_reg_drift=$(grep -c "Regulatory drift" commands/review.md 2>/dev/null)
 check "review.md Interface & WM section has 'Regulatory drift' bullet" "$( [ "$review_reg_drift" -gt 0 ] && echo 0 || echo 1 )"
 
-# README declares 3 outputs including Regulatory Annex
-readme_three=$(grep -c "three outputs" README.md 2>/dev/null)
+# README declares 2 human-readable docs + CLAUDE.md technical context
+readme_two_docs=$(grep -c "two human-readable documents" README.md 2>/dev/null)
 readme_annex=$(grep -c "Regulatory Annex" README.md 2>/dev/null)
-if [ "$readme_three" -gt 0 ] && [ "$readme_annex" -gt 0 ]; then
-  check "README declares 3 outputs including Regulatory Annex" 0
+if [ "$readme_two_docs" -gt 0 ] && [ "$readme_annex" -gt 0 ]; then
+  check "README declares 2 human-readable docs (strategic + regulatory) + CLAUDE.md" 0
 else
-  check "README declares 3 outputs including Regulatory Annex" 1
+  check "README declares 2 human-readable docs (strategic + regulatory) + CLAUDE.md" 1
 fi
 
 # Annex template has dedicated Role section (provider vs deployer)
@@ -496,23 +496,18 @@ check "strategy.md challenge list includes 'Incumbent closes the genesis'" "$( [
 
 # README strategic alignment (post real-run pass):
 
-# README has 5 failure modes (incl. compliance)
-readme_five=$(grep -c "^Five failure modes:" README.md 2>/dev/null)
-readme_compliance=$(grep -c "Compliance discovered at launch" README.md 2>/dev/null)
-if [ "$readme_five" -gt 0 ] && [ "$readme_compliance" -gt 0 ]; then
-  check "README has 5 failure modes incl. 'Compliance discovered at launch'" 0
-else
-  check "README has 5 failure modes incl. 'Compliance discovered at launch'" 1
-fi
+# README §1 has 4 strategic failure modes (regulatory is not a failure mode, separate dimension)
+readme_four=$(grep -c "^Four failure modes:" README.md 2>/dev/null)
+check "README §1 has 4 strategic failure modes" "$( [ "$readme_four" -gt 0 ] && echo 0 || echo 1 )"
 
-# README challenges list surfaces strategic additions
+# README challenges list surfaces strategic additions (regulatory referenced separately)
 readme_ch_loop=$(grep -c "Missing learning loop" README.md 2>/dev/null)
-readme_ch_hard=$(grep -c "Prohibited practice hard stop" README.md 2>/dev/null)
 readme_ch_incumbent=$(grep -c "Incumbent closes the genesis" README.md 2>/dev/null)
-if [ "$readme_ch_loop" -gt 0 ] && [ "$readme_ch_hard" -gt 0 ] && [ "$readme_ch_incumbent" -gt 0 ]; then
-  check "README challenges list surfaces learning loop, hard stop, incumbent" 0
+readme_reg_pointer=$(grep -c "additional regulatory challenges apply" README.md 2>/dev/null)
+if [ "$readme_ch_loop" -gt 0 ] && [ "$readme_ch_incumbent" -gt 0 ] && [ "$readme_reg_pointer" -gt 0 ]; then
+  check "README challenges list: strategic items + pointer to regulatory in strategy.md" 0
 else
-  check "README challenges list surfaces learning loop, hard stop, incumbent" 1
+  check "README challenges list: strategic items + pointer to regulatory in strategy.md" 1
 fi
 
 # README declares compound loop explicitly
